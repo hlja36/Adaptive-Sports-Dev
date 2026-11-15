@@ -149,7 +149,10 @@
             <input type="text" id="instructorName" placeholder="請填寫施測師資姓名" required>
           </div>
         </div>
-
+        <!-- 列印按鈕 -->
+        <button type="button" onclick="window.print()" class="no-print" style="margin-top: 10px; width: 100%; background-color: #6c757d; color: white; padding: 12px; border-radius: 5px; border: none; cursor: pointer; font-size: 16px; font-weight: bold;">
+        🖨️ 列印本頁結果 / 儲存為 PDF
+        </button>
         <button type="submit" id="gasSubmitBtn" class="btn btn-primary" style="width:100%;padding:13px;font-size:1.05rem;">☁️ 確認送出檢測紀錄至 Google Sheets 雲端</button>
         <p id="gasStatusMsg" style="margin-top:10px;font-weight:700;text-align:center;"></p>
       </form>
