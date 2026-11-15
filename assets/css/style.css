@@ -361,10 +361,47 @@ footer {
 footer h4 { color: #fff; margin-bottom: 10px; font-size: 1.05rem; }
 footer a { color: #a7f3d0; }
 
-@media (max-width: 860px) {
-  .hero { grid-template-columns: 1fr; padding: 28px 22px; }
-  .menu-toggle { display: block; }
-  nav { width: 100%; display: none; }
-  nav.open { display: block; }
-  nav ul { flex-direction: column; }
+/* =========================================
+   單獨列印指定區塊專用樣式 (A4 尺寸)
+   ========================================= */
+@media print {
+  /* 1. 強制設定印表機使用 A4 紙張與直式排版，並設定邊距 */
+  @page {
+    size: A4 portrait;
+    margin: 1.5cm;
+  }
+
+  /* 2. 隱藏網頁上所有的元素 */
+  body * {
+    visibility: hidden;
+  }
+
+  /* 3. 唯獨顯示我們指定的雷達圖區塊，以及它裡面的所有內容 */
+  #radar-print-section, #radar-print-section * {
+    visibility: visible;
+  }
+
+  /* 4. 將該指定區塊絕對定位到紙張的最左上角，撐滿 A4 寬度 */
+  #radar-print-section {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-shadow: none !important; /* 去除卡片陰影讓列印更乾淨 */
+    border: none !important;
+  }
+
+  /* 5. 確保表格與標題的背景底色能正常被印出 (如：淺紅/淺綠背景) */
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    background-color: white;
+  }
+
+  /* 6. 防止圖表與表格在列印時被切斷到第二頁 */
+  canvas, table, .chart-container {
+    page-break-inside: avoid !important;
+  }
 }
