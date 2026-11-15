@@ -368,7 +368,7 @@ footer a { color: #a7f3d0; }
   /* 1. 強制設定印表機使用 A4 紙張與直式排版，並設定邊距 */
   @page {
     size: A4 portrait;
-    margin: 1.5cm;
+    margin: 2cm 1.5cm; /* 上下 2 公分，左右 1.5 公分 */
   }
 
   /* 2. 隱藏網頁上所有的元素 */
