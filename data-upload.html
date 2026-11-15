@@ -149,11 +149,6 @@
             <input type="text" id="instructorName" placeholder="請填寫施測師資姓名" required>
           </div>
         </div>
-
-        <!-- 列印按鈕 -->
-        <button type="button" onclick="window.print()" class="no-print" style="margin-top: 10px; width: 100%; background-color: #6c757d; color: white; padding: 12px; border-radius: 5px; border: none; cursor: pointer; font-size: 16px; font-weight: bold;">
-        🖨️ 單獨列印雷達圖與表格 (A4)
-        </button>
         <button type="submit" id="gasSubmitBtn" class="btn btn-primary" style="width:100%;padding:13px;font-size:1.05rem;">☁️ 確認送出檢測紀錄至 Google Sheets 雲端</button>
         <p id="gasStatusMsg" style="margin-top:10px;font-weight:700;text-align:center;"></p>
       </form>
@@ -186,6 +181,11 @@
           <tbody id="radarSummaryBody"></tbody>
         </table>
       </div>
+      <!-- 👇 請將列印按鈕加在這裡 👇 -->
+      <button type="button" onclick="window.print()" class="no-print" style="margin-top: 20px; width: 100%; background-color: #6c757d; color: white; padding: 12px; border-radius: 5px; border: none; cursor: pointer; font-size: 16px; font-weight: bold;">
+        🖨️ 單獨列印雷達圖與表格 (A4尺寸)
+      </button>
+      <!-- 👆 列印按鈕結束 👆 -->
     </div>
   </div>
 </div>
