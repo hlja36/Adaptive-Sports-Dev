@@ -149,9 +149,10 @@
             <input type="text" id="instructorName" placeholder="請填寫施測師資姓名" required>
           </div>
         </div>
+
         <!-- 列印按鈕 -->
         <button type="button" onclick="window.print()" class="no-print" style="margin-top: 10px; width: 100%; background-color: #6c757d; color: white; padding: 12px; border-radius: 5px; border: none; cursor: pointer; font-size: 16px; font-weight: bold;">
-        🖨️ 列印本頁結果 / 儲存為 PDF
+        🖨️ 單獨列印雷達圖與表格 (A4)
         </button>
         <button type="submit" id="gasSubmitBtn" class="btn btn-primary" style="width:100%;padding:13px;font-size:1.05rem;">☁️ 確認送出檢測紀錄至 Google Sheets 雲端</button>
         <p id="gasStatusMsg" style="margin-top:10px;font-weight:700;text-align:center;"></p>
@@ -159,7 +160,7 @@
     </div>
 
     <!-- 右側：前後測重疊雷達圖與五級分即時診斷表 -->
-    <div class="card">
+    <div class="card" id="radar-print-section">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
         <h3 style="margin:0;">🕸️ 個人體能評估雷達圖（前後測重疊對比）</h3>
         <span id="totalScoreBadge" class="badge badge-blue" style="font-size:0.95rem;">目前階段總點數：-- / 25 分</span>
