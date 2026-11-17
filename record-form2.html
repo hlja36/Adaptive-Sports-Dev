@@ -238,19 +238,19 @@ a { color: inherit; }
             </div>
             <div class="field-grid">
               <div class="field full-width">
-                <label for="participantId">受試者編號／姓名 <span class="required">*</span></label>
-                <input id="participantId" name="participantId" type="text" placeholder="例如：973-02-001" pattern=".{3,}" required />
-                <span class="field-hint">輸入格式：973-02-001（3碼-2碼-3碼，不足碼請填 0）</span>
+                <label for="participantId">姓名 </label>
+                <input id="participantId" name="participantId" type="text" placeholder="例如：王大明" pattern=".{3,}" required />
+                <span class="field-hint">請填寫受測長者姓名</span>
               </div>
               <fieldset class="field half-width">
-                <legend>性別</legend>
+                <legend>性別 <span class="required">*</span></legend>
                 <div class="option-list inline-options">
                   <label class="choice"><input type="radio" name="gender" value="男" /><span class="choice-mark"></span><span>男</span></label>
                   <label class="choice"><input type="radio" name="gender" value="女" /><span class="choice-mark"></span><span>女</span></label>
                 </div>
               </fieldset>
               <div class="field half-width">
-                <label for="age">年齡</label>
+                <label for="age">年齡 <span class="required">*</span></label>
                 <div class="input-suffix"><input id="age" name="age" type="number" min="1" max="120" placeholder="例如：46" /><span>歲</span></div>
                 <span class="field-hint">請輸入數字，例如「46 歲」請填入 46。</span>
               </div>
