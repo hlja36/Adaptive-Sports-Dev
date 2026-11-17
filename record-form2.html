@@ -475,22 +475,38 @@ form.addEventListener('submit', async (event) => {
   const payload = buildPayload();
   submitButton.disabled = true;
   submitButton.innerHTML = '傳送中…';
+  
   try {
     if (!scriptUrl) {
       showSuccess(payload, true);
       return;
     }
-    await fetch(scriptUrl, {
+    
+    // 移除 mode: 'no-cors'，確保我們能接收後端回傳的 JSON 與錯誤訊息
+    const response = await fetch(scriptUrl, {
       method: 'POST',
-      mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload),
     });
+
+    const result = await response.json();
+
+    // 如果後端回傳 ok: false，拋出錯誤讓 catch 捕捉
+    if (!result.ok) {
+      throw new Error(result.error || '未知的後端錯誤');
+    }
+
     showSuccess(payload, false);
   } catch (error) {
     submitButton.disabled = false;
     submitButton.innerHTML = '確認送出 <span>↗</span>';
-    alert('目前無法連線到回覆服務，請稍後再試，或確認 Apps Script Web App URL 是否正確。');
+    
+    // 判斷是否為 CORS 或權限錯誤
+    let msg = error.message;
+    if (msg === 'Failed to fetch' || msg.includes('NetworkError')) {
+      msg = '無法連線。請確認 Apps Script 已部署，且「誰可以存取」已設為「所有人 (Anyone)」。';
+    }
+    alert('傳送失敗：\n' + msg);
   }
 });
 document.querySelector('#newResponseButton').addEventListener('click', () => window.location.reload());
