@@ -177,12 +177,27 @@ nav a:hover, nav a.active {
 .btn-outline { background: #fff; color: var(--primary); border: 2px solid var(--primary); }
 .btn-outline:hover { background: var(--primary-light); }
 
-/* 數據 KPI 卡片列 */
+/* KPI 資訊框：每排 4 個，共 2 排 */
 .kpi-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 18px;
-  margin-bottom: 32px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    width: 100%;
+    margin: 24px 0;
+}
+
+/* 平板：每排 2 個 */
+@media (max-width: 768px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* 手機：每排 1 個 */
+@media (max-width: 480px) {
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .kpi-card {
