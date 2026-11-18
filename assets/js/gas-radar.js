@@ -249,19 +249,32 @@ function loadDemoOverlap() {
   recalculateAll();
 }
 
-// 串接 GAS：從雲端載入該學員前測資料 (GET)
+ // 串接 GAS：從雲端載入該學員前測資料 (GET)
 async function loadStudentFromGAS() {
+
+  // ① 取得據點、姓名及編號
+  const siteName = document.getElementById('siteName').value.trim();
   const studentId = document.getElementById('studentId').value.trim();
+  const participantCode = document.getElementById('participantCode')
+    .value.trim().toUpperCase();
+
   const statusEl = document.getElementById('gasStatusMsg');
-  if (!studentId) {
-    alert("請先輸入「受試者編號 / 姓名」再查詢！");
+
+  // ② 檢查必要資料
+  if (!siteName || !studentId || !participantCode) {
+    alert("請先輸入「所屬據點名稱、受試者姓名及編號」再查詢！");
     return;
   }
+
+  // ③ 檢查 GAS 網址是否設定
   if (GAS_WEB_APP_URL.includes("YOUR_DEPLOYED_SCRIPT_ID")) {
     statusEl.style.color = "#d97706";
-    statusEl.textContent = "⚠️ 尚未設定您的 GAS 部署網址（請於 assets/js/gas-radar.js 填入 Web App URL）。";
+    statusEl.textContent =
+      "⚠️ 尚未設定您的 GAS 部署網址。";
     return;
   }
+
+  // 後面保留原本的查詢與雷達圖更新程式
   statusEl.style.color = "#0284c7";
   statusEl.textContent = "⏳ 正在從 Google Sheets 查詢學員歷史檢測資料...";
   try {
