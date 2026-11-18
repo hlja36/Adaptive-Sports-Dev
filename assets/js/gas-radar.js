@@ -320,6 +320,7 @@ async function submitToGAS(e) {
   const payload = {
     siteName: getValue('siteName'),
     studentId: getValue('studentId'),
+    participantCode: getValue('participantCode'),
     testStage: stage,
     gender: getValue('gender'),
     ageGroup: getValue('ageGroup'),
