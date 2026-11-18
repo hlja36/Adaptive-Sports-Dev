@@ -4,7 +4,7 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxagxu75HFgU8Om
 
 // 儲存前後測狀態（raw: 原始測量值 [握力, 單足立, 5M步行, 30秒坐立, 30秒內收肌], scores: 1~5級分）
 const assessmentState = {
-  pre: { raw: [18.5, 9.5, 5.2, 13, 26], scores: [3, 2, 2, 2, 2] },
+  pre: { raw: null, scores: [0, 0, 0, 0, 0] },
   post: { raw: null, scores: [0, 0, 0, 0, 0] }
 };
 
@@ -76,22 +76,22 @@ function computeFiveLevels(raw, gender, ageGroup) {
 
 // 自動計算 BMI 與腰臀比 WHR
 function calcBodyMetrics() {
-  const h = parseFloat(document.getElementById('height').value);
-  const w = parseFloat(document.getElementById('weight').value);
-  const waist = parseFloat(document.getElementById('waist').value);
-  const hip = parseFloat(document.getElementById('hip').value);
+  const h = parseFloat(document.getElementById('height')?.value);
+  const w = parseFloat(document.getElementById('weight')?.value);
+  const waist = parseFloat(document.getElementById('waist')?.value);
+  const hip = parseFloat(document.getElementById('hip')?.value);
 
   if (h > 0 && w > 0) {
     const bmi = w / Math.pow(h / 100, 2);
-    document.getElementById('bmi').value = bmi.toFixed(1);
+    if (document.getElementById('bmi')) document.getElementById('bmi').value = bmi.toFixed(1);
   } else {
-    document.getElementById('bmi').value = '';
+    if (document.getElementById('bmi')) document.getElementById('bmi').value = '';
   }
 
   if (waist > 0 && hip > 0) {
-    document.getElementById('whr').value = (waist / hip).toFixed(2);
+    if (document.getElementById('whr')) document.getElementById('whr').value = (waist / hip).toFixed(2);
   } else {
-    document.getElementById('whr').value = '';
+    if (document.getElementById('whr')) document.getElementById('whr').value = '';
   }
 }
 
@@ -159,36 +159,71 @@ function initRadarChart() {
   });
 }
 
-// 當表單輸入變動時，即時更新對應階段的雷達圖與評估摘要表
-function recalculateAll() {
-  const stage = document.getElementById('testStage').value;
-  const gender = document.getElementById('gender').value;
-  const ageGroup = document.getElementById('ageGroup').value;
-
-  const rawInputs = [
-    parseFloat(document.getElementById('grip').value) || 0,
-    parseFloat(document.getElementById('oneLeg').value) || 0,
-    parseFloat(document.getElementById('walk5m').value) || 9.9,
-    parseInt(document.getElementById('chairStand').value, 10) || 0,
-    parseInt(document.getElementById('adductor').value, 10) || 0
-  ];
-
-  const scores = computeFiveLevels(rawInputs, gender, ageGroup);
-  assessmentState[stage].raw = rawInputs;
-  assessmentState[stage].scores = scores;
-
-  // 若目前在前測模式，同步重算已存在的後測常模（避免切換性別年齡時基準不一致）
-  if (stage === 'pre' && assessmentState.post.raw) {
-    assessmentState.post.scores = computeFiveLevels(assessmentState.post.raw, gender, ageGroup);
-  } else if (stage === 'post' && assessmentState.pre.raw) {
-    assessmentState.pre.scores = computeFiveLevels(assessmentState.pre.raw, gender, ageGroup);
-  }
-
-  radarChart.data.datasets[0].data = assessmentState.pre.scores;
-  radarChart.data.datasets[1].data = assessmentState.post.scores;
+// 只在五項實測值齊全時才評分；不可把未填資料當成 0。
+function readRadarInputs() {
+  const ids = ['grip', 'oneLeg', 'walk5m', 'chairStand', 'adductor'];
+  const values = ids.map(id => document.getElementById(id)?.value?.trim() ?? '');
+  if (values.some(v => v === '' || !Number.isFinite(Number(v)))) return null;
+  const raw = values.map(Number);
+  if (raw.some(x => x < 0) || raw[2] <= 0 || raw[1] > 60) return null;
+  return raw;
+}
+function refreshRadarView() {
+  if (!radarChart) return;
+  radarChart.data.datasets[0].data = assessmentState.pre.raw ? assessmentState.pre.scores : [null,null,null,null,null];
+  radarChart.data.datasets[1].data = assessmentState.post.raw ? assessmentState.post.scores : [null,null,null,null,null];
   radarChart.update();
-
-  updateSummaryTableAndAlerts(scores, rawInputs[3]);
+}
+function recalculateAll() {
+  const stage = document.getElementById('testStage')?.value;
+  const gender = document.getElementById('gender')?.value;
+  const ageGroup = document.getElementById('ageGroup')?.value;
+  if (stage !== 'pre' && stage !== 'post') return;
+  const raw = readRadarInputs();
+  assessmentState[stage].raw = raw;
+  assessmentState[stage].scores = raw && ['M','F'].includes(gender) && ageGroup
+    ? computeFiveLevels(raw, gender, ageGroup) : [0,0,0,0,0];
+  for (const key of ['pre','post']) {
+    if (assessmentState[key].raw && ['M','F'].includes(gender) && ageGroup) {
+      assessmentState[key].scores = computeFiveLevels(assessmentState[key].raw, gender, ageGroup);
+    }
+  }
+  refreshRadarView();
+  if (raw && gender && ageGroup) updateSummaryTableAndAlerts(assessmentState[stage].scores, raw[3]);
+  else {
+    const badge = document.getElementById('totalScoreBadge');
+    if (badge) badge.textContent = '請完成五項體能檢測資料';
+    const alertBox = document.getElementById('riskAlertBox');
+    if (alertBox) { alertBox.className = 'alert'; alertBox.textContent = '請完成資料後再進行風險評估。'; }
+    updateSummaryTableOnly();
+  }
+}
+function updateSummaryTableOnly() {
+  const tbody = document.getElementById('radarSummaryBody');
+  if (!tbody) return;
+  const labels = ['最大握力','開眼單足立','5公尺步行','30秒坐立','30秒內收'];
+  const units = ['kg','秒','秒','次','次'];
+  tbody.replaceChildren();
+  labels.forEach((label, i) => {
+    const tr = document.createElement('tr');
+    const parts = [label, ...['pre','post'].map(stage => {
+      const state = assessmentState[stage];
+      return state.raw ? `${state.raw[i]} ${units[i]}（${state.scores[i]} 分）` : '--';
+    })];
+    let compare = '待補後測';
+    if (assessmentState.pre.raw && assessmentState.post.raw) {
+      const n=assessmentState.post.scores[i]-assessmentState.pre.scores[i];
+      compare=n>0?`提升 +${n}`:n<0?`下降 ${n}`:'維持';
+    }
+    parts.push(compare);
+    parts.forEach((v,j) => {
+      const td = document.createElement('td');
+      td.textContent = v;
+      if (j===0) td.style.fontWeight='700';
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
 }
 
 function updateSummaryTableAndAlerts(currentScores, chairCount) {
@@ -207,31 +242,7 @@ function updateSummaryTableAndAlerts(currentScores, chairCount) {
     alertBox.innerHTML = `✅ <strong>體能等級評估正常（總點數 ${total} / 25 分）</strong>：圖形面積越大代表體能越佳；可繼續輸入或載入前後測數據進行重疊對比。`;
   }
 
-  const labels = ['① 最大握力 (上肢)', '② 開眼單足立 (平衡)', '③ 5公尺步行 (速度)', '④ 30秒坐立 (下肢)', '⑤ 30秒內收 (骨盆肌)'];
-  const units = ['kg', '秒', '秒', '次', '次'];
-  const tbody = document.getElementById('radarSummaryBody');
-
-  tbody.innerHTML = labels.map((name, i) => {
-    const preRaw = assessmentState.pre.raw ? `${assessmentState.pre.raw[i]} ${units[i]}` : '--';
-    const preSc = assessmentState.pre.raw ? `${assessmentState.pre.scores[i]} 分` : '--';
-    const postRaw = assessmentState.post.raw ? `${assessmentState.post.raw[i]} ${units[i]}` : '--';
-    const postSc = assessmentState.post.raw ? `${assessmentState.post.scores[i]} 分` : '--';
-
-    let diffHtml = '<span style="color:#64748b;">待補後測</span>';
-    if (assessmentState.pre.raw && assessmentState.post.raw) {
-      const diff = assessmentState.post.scores[i] - assessmentState.pre.scores[i];
-      if (diff > 0) diffHtml = `<span style="color:#16a34a;font-weight:700;">▲ +${diff} 級分</span>`;
-      else if (diff < 0) diffHtml = `<span style="color:#dc2626;font-weight:700;">▼ ${diff} 級分</span>`;
-      else diffHtml = `<span style="color:#0284c7;font-weight:700;">＝ 維持</span>`;
-    }
-
-    return `<tr>
-      <td><strong>${name}</strong></td>
-      <td>${preRaw} <strong>(${preSc})</strong></td>
-      <td>${postRaw} <strong>(${postSc})</strong></td>
-      <td>${diffHtml}</td>
-    </tr>`;
-  }).join('');
+  updateSummaryTableOnly();
 }
 
 // 示範按鈕：展示前後測重疊雷達圖效果
@@ -249,170 +260,135 @@ function loadDemoOverlap() {
   recalculateAll();
 }
 
- // 串接 GAS：從雲端載入該學員前測資料 (GET)
+// Google Apps Script 公開 Web App GET 可能遭瀏覽器 CORS 攔截。
+// 若您已建好同源 Netlify 查詢代理，可把下列地址改為代理路徑。
+const RADAR_QUERY_URL = GAS_WEB_APP_URL;
+const RADAR_SUBMIT_URL = GAS_WEB_APP_URL;
+const getRadarValue = id => String(document.getElementById(id)?.value ?? '').trim();
+function setRadarStatus(message, color = '#0284c7') {
+  const el = document.getElementById('gasStatusMsg');
+  if (el) { el.style.color = color; el.textContent = message; }
+}
+function normalizeGender(g) { return g === '男' ? 'M' : g === '女' ? 'F' : g; }
+function normalizeAgeGroup(a) {
+  const m=String(a||'').match(/(65|70|75|80|85)\s*[-–~～]\s*(69|74|79|84|89)/);
+  if (m) return `${m[1]}-${m[2]}`;
+  if (/90/.test(String(a))) return '90+';
+  return String(a||'');
+}
+function fillRadarMetricInputs(raw) {
+  ['grip','oneLeg','walk5m','chairStand','adductor'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    if (el) el.value=raw ? raw[i] : '';
+  });
+}
 async function loadStudentFromGAS() {
-
-  // ① 取得據點、姓名及編號
-  const siteName = document.getElementById('siteName').value.trim();
-  const studentId = document.getElementById('studentId').value.trim();
-  const participantCode = document.getElementById('participantCode')
-    .value.trim().toUpperCase();
-
-  const statusEl = document.getElementById('gasStatusMsg');
-
-  // ② 檢查必要資料
-  if (!siteName || !studentId || !participantCode) {
-    alert("請先輸入「所屬據點名稱、受試者姓名及編號」再查詢！");
-    return;
+  const siteName=getRadarValue('siteName');
+  const studentId=getRadarValue('studentId');
+  const participantCode=getRadarValue('participantCode').toUpperCase();
+  if (!siteName || !studentId) {
+    setRadarStatus('⚠️ 請輸入據點名稱與長者姓名。','#d97706'); return;
   }
-
-  // ③ 檢查 GAS 網址是否設定
-  if (GAS_WEB_APP_URL.includes("YOUR_DEPLOYED_SCRIPT_ID")) {
-    statusEl.style.color = "#d97706";
-    statusEl.textContent =
-      "⚠️ 尚未設定您的 GAS 部署網址。";
-    return;
-  }
-
-  statusEl.style.color = "#0284c7";
-  statusEl.textContent = "⏳ 正在從 Google Sheets 查詢學員歷史檢測資料...";
-
+  const params=new URLSearchParams({siteName,studentId});
+  // 官方表單沒有編號：當您有填編號時，僅會查詢有相同編號的雷達圖記錄。
+  if (participantCode) params.set('participantCode',participantCode);
+  // 性別為輔助比對，但要確保與官方表單的「男／女」值格式一致。
+  const gender=normalizeGender(getRadarValue('gender'));
+  // 後端目前官方表單儲存「男／女」、雷達圖儲存 M/F；故不傳 gender 過濾。
+  const url=RADAR_QUERY_URL+(RADAR_QUERY_URL.includes('?')?'&':'?')+params.toString();
+  setRadarStatus('正在查詢兩張 Google Sheets 工作表...');
   try {
-    // 新增：使用據點名稱、姓名、編號共同查詢
-    const params = new URLSearchParams({
-      siteName: siteName,
-      studentId: studentId,
-      participantCode: participantCode
-    });
-
-    // 建立 Google Apps Script 查詢網址
-    const url = GAS_WEB_APP_URL + "?" + params.toString();
-
-    // 向 Google Sheets 查詢資料
-    const res = await fetch(url);
-    const data = await res.json();
-
-    // 以下保留原本的資料處理與雷達圖更新程式
-    if (data.pre) {
-      assessmentState.pre.raw = data.pre;
-      if (data.gender) document.getElementById('gender').value = data.gender;
-      if (data.ageGroup) document.getElementById('ageGroup').value = data.ageGroup;
-      if (data.post) assessmentState.post.raw = data.post;
-      document.getElementById('testStage').value = 'post';
-      recalculateAll();
-      statusEl.style.color = "#16a34a";
-      statusEl.textContent = `✅ 已成功載入「${studentId}」之前測基準資料，您現在可直接輸入後測數據進行重疊比對！`;
-    } else {
-      statusEl.style.color = "#d97706";
-      statusEl.textContent = `查無「${studentId}」之前測紀錄，請先選擇「前測」並送出建檔。`;
+    const res=await fetch(url,{method:'GET',redirect:'follow'});
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data=await res.json();
+    if (data.status==='ambiguous') {
+      setRadarStatus('⚠️ '+(data.message||'有同名者，請確認身分後查詢。'),'#d97706'); return;
     }
-  } catch (err) {
-    statusEl.style.color = "#dc2626";
-    statusEl.textContent = "❌ 連線失敗，請確認 GAS 權限已設為「所有人（Anyone）」存取。";
+    if (data.status!=='success') throw new Error(data.message||'查詢失敗');
+    if (!Array.isArray(data.pre)||data.pre.length!==5) {
+      setRadarStatus('查無符合條件的前測資料。若正式表單沒有編號，請清空「編號」再查詢。','#d97706');return;
+    }
+    const pre=data.pre.map(Number);
+    if (pre.some(x=>!Number.isFinite(x))) throw new Error('資料格式不正確');
+    assessmentState.pre.raw=pre;
+    const genderEl=document.getElementById('gender');
+    if (genderEl && data.gender) genderEl.value=normalizeGender(data.gender);
+    const ageEl=document.getElementById('ageGroup');
+    if (ageEl && data.ageGroup) ageEl.value=normalizeAgeGroup(data.ageGroup);
+    const g=getRadarValue('gender'), age=getRadarValue('ageGroup');
+    assessmentState.pre.scores=(g && age)?computeFiveLevels(pre,g,age):[0,0,0,0,0];
+    // 將後測保留為空白，防止舊資料或示範數據混入本次測試。
+    assessmentState.post.raw=null;
+    assessmentState.post.scores=[0,0,0,0,0];
+    const stageEl=document.getElementById('testStage');
+    if(stageEl) stageEl.value='post';
+    fillRadarMetricInputs(null);
+    refreshRadarView();
+    updateSummaryTableOnly();
+    const badge=document.getElementById('totalScoreBadge');
+    if (badge) badge.textContent='已載入前測，請填寫後測資料';
+    setRadarStatus(`✅ 已載入「${studentId}」前測資料（來源：${data.preSource||'雲端'}）。請輸入後測數值。`,'#16803c');
+  } catch(err) {
+    console.error('前測查詢錯誤',err);
+    setRadarStatus(`❌ 查詢失敗：${err.message}。若顯示 Failed to fetch，請檢查 GAS 部署、跨網域 CORS 或 Netlify 代理。`,'#dc2626');
   }
 }
 
-// 串接 GAS：送出填報資料至 Google Sheets (POST)
-
- // 串接 GAS：送出填報資料至 Google Sheets (POST)
 async function submitToGAS(e) {
-  e.preventDefault();
-
-  const statusEl = document.getElementById('gasStatusMsg');
-  const btn = document.getElementById('gasSubmitBtn');
-
-  // 安全取得欄位值，避免不存在的欄位造成程式中斷
-  const getValue = (id) => {
-    const el = document.getElementById(id);
-    return el ? String(el.value ?? '').trim() : '';
-  };
-
-  const getChecked = (id) => {
-    const el = document.getElementById(id);
-    return el ? Boolean(el.checked) : false;
-  };
-
-  const stage = getValue('testStage');
-
-  const state = assessmentState[stage];
-
-  if (!state || !Array.isArray(state.raw) ||
-      !Array.isArray(state.scores)) {
-    statusEl.style.color = '#dc2626';
-    statusEl.textContent = '❌ 尚未完成體能評估，請檢查資料。';
-    return;
+  if(e?.preventDefault) e.preventDefault();
+  const btn=document.getElementById('gasSubmitBtn');
+  const stage=getRadarValue('testStage');
+  const siteName=getRadarValue('siteName'), studentId=getRadarValue('studentId');
+  const gender=getRadarValue('gender'), ageGroup=getRadarValue('ageGroup');
+  const raw=readRadarInputs();
+  if (!siteName || !studentId || !['pre','post'].includes(stage) ||
+      !['M','F'].includes(gender) || !ageGroup || !raw) {
+    setRadarStatus('❌ 請完整填寫據點、姓名、測驗階段、性別、年齡層及五項體能數值。','#dc2626');return;
   }
-
-  const payload = {
-    siteName: getValue('siteName'),
-    studentId: getValue('studentId'),
-    participantCode: getValue('participantCode'),
-    testStage: stage,
-    gender: getValue('gender'),
-    ageGroup: getValue('ageGroup'),
-
-    // 若網頁沒有這些欄位，回傳空字串
-    height: getValue('height'),
-    weight: getValue('weight'),
-    bmi: getValue('bmi'),
-    waist: getValue('waist'),
-    hip: getValue('hip'),
-    whr: getValue('whr'),
-    sbp: getValue('sbp'),
-    dbp: getValue('dbp'),
-    hr: getValue('hr'),
-
-    // 五大體能檢測資料
-    rawMetrics: state.raw,
-    levelScores: state.scores,
-    totalScore: state.scores.reduce(
-      (a, b) => a + Number(b || 0), 0
-    ),
-
-    // 若沒有高危險群篩檢欄位，暫以 false 儲存
-    riskFlags: {
-      frailty: getChecked('flagFrailty'),
-      fall: getChecked('flagFall'),
-      urine: getChecked('flagUrine'),
-      nutrition: getChecked('flagNutrition'),
-      cognition: getChecked('flagCog')
-    },
-
-    instructorName: getValue('instructorName')
-  };
-
-  console.log('準備送至 Google Apps Script：', payload);
-
-  // 以下保留原本 GAS_WEB_APP_URL 檢查與 fetch 送出程式
-
-  if (GAS_WEB_APP_URL.includes("YOUR_DEPLOYED_SCRIPT_ID")) {
-    statusEl.style.color = "#16a34a";
-    statusEl.textContent = "✅ 前端檢核與雷達圖計算完成！（提示：部署 gas/Code.gs 並貼上網址後即可自動寫入 Google Sheets）";
-    return;
+  // 強制以目前表單內容重新計算，避免儲存到切換階段前的舊數據。
+  recalculateAll();
+  const state=assessmentState[stage];
+  if (!state?.raw || !state.scores.every(s=>s>=1 && s<=5)) {
+    setRadarStatus('❌ 五項測驗資料不完整。','#dc2626');return;
   }
-
-  btn.disabled = true;
-  statusEl.style.color = "#0284c7";
-  statusEl.textContent = "⏳ 正在寫入 Google Sheets 雲端資料庫...";
-
+  const checked=id=>Boolean(document.getElementById(id)?.checked);
+  const payload={
+    action:'radarSubmit',
+    siteName,studentId,
+    participantCode:getRadarValue('participantCode').toUpperCase(),
+    testStage:stage,gender,ageGroup,
+    rawMetrics:state.raw,
+    levelScores:state.scores,
+    totalScore:state.scores.reduce((a,b)=>a+b,0),
+    riskFlags:{frailty:checked('flagFrailty'),fall:checked('flagFall'),
+      urine:checked('flagUrine'),nutrition:checked('flagNutrition'),cognition:checked('flagCog')},
+    instructorName:getRadarValue('instructorName')
+  };
+  if (btn) btn.disabled=true;
+  setRadarStatus('正在提交雷達圖資料...');
   try {
-    await fetch(GAS_WEB_APP_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+    // 若走同源代理可讀取明確成功/失敗回覆；直接呼叫 GAS 的 no-cors 無法確認寫入成功。
+    const isProxy=RADAR_SUBMIT_URL.startsWith('/');
+    const res=await fetch(RADAR_SUBMIT_URL,{
+      method:'POST',mode:isProxy?'same-origin':'no-cors',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify(payload)
     });
-    statusEl.style.color = "#16a34a";
-    statusEl.textContent = `✅ 資料已成功傳送至雲端資料庫！（據點：${payload.siteName}｜學員：${payload.studentId}｜階段：${stage === 'pre' ? '前測' : '後測'}）`;
-  } catch (err) {
-    statusEl.style.color = "#dc2626";
-    statusEl.textContent = "❌ 傳送過程發生錯誤，請檢查網路連線後重試。";
-  } finally {
-    btn.disabled = false;
-  }
+    if(isProxy){
+      if(!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data=await res.json();
+      if(data.status!=='success') throw new Error(data.message||'後端未確認成功');
+      setRadarStatus('✅ Google Sheets 已確認寫入雷達圖資料。','#16803c');
+    } else {
+      setRadarStatus('📨 已送出寫入請求，但瀏覽器無法確認 Google Sheets 是否儲存。請至「體能檢測資料庫」工作表核對。','#b45309');
+    }
+  } catch(err) {
+    setRadarStatus('❌ 提交失敗：'+err.message,'#dc2626');
+  } finally { if(btn) btn.disabled=false; }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded',()=>{
   initRadarChart();
-  recalculateAll();
+  // 初始化不載入任何假前測資料。
+  updateSummaryTableOnly();
 });
