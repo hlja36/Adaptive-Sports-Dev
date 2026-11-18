@@ -208,7 +208,7 @@ function updateSummaryTableOnly() {
     const tr = document.createElement('tr');
     const parts = [label, ...['pre','post'].map(stage => {
       const state = assessmentState[stage];
-      return state.raw ? `${state.raw[i]} ${units[i]}（${state.scores[i]} 分）` : '--';
+      return state.raw ? `${state.raw[i]} ${units[i]} (${state.scores[i]} 分)` : '--';
     })];
     let compare = '待補後測';
     if (assessmentState.pre.raw && assessmentState.post.raw) {
@@ -282,56 +282,101 @@ function fillRadarMetricInputs(raw) {
     if (el) el.value=raw ? raw[i] : '';
   });
 }
-async function loadStudentFromGAS() {
+async function loadStudentFromGAS(options = {}) {
   const siteName=getRadarValue('siteName');
   const studentId=getRadarValue('studentId');
   const participantCode=getRadarValue('participantCode').toUpperCase();
-  if (!siteName || !studentId) {
-    setRadarStatus('⚠️ 請輸入據點名稱與長者姓名。','#d97706'); return;
+  if (!siteName || !studentId || !participantCode) {
+    setRadarStatus('⚠️ 請填入據點、姓名與受試者編號（例如 A789）。','#d97706');return;
   }
-  const params=new URLSearchParams({siteName,studentId});
-  // 官方表單沒有編號：當您有填編號時，僅會查詢有相同編號的雷達圖記錄。
-  if (participantCode) params.set('participantCode',participantCode);
-  // 性別為輔助比對，但要確保與官方表單的「男／女」值格式一致。
-  const gender=normalizeGender(getRadarValue('gender'));
-  // 後端目前官方表單儲存「男／女」、雷達圖儲存 M/F；故不傳 gender 過濾。
+  const params=new URLSearchParams({siteName,studentId,participantCode});
   const url=RADAR_QUERY_URL+(RADAR_QUERY_URL.includes('?')?'&':'?')+params.toString();
-  setRadarStatus('正在查詢兩張 Google Sheets 工作表...');
+  setRadarStatus('正在查詢正式表單及雷達圖資料庫...');
   try {
     const res=await fetch(url,{method:'GET',redirect:'follow'});
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data=await res.json();
-    if (data.status==='ambiguous') {
-      setRadarStatus('⚠️ '+(data.message||'有同名者，請確認身分後查詢。'),'#d97706'); return;
-    }
+    if (data.status==='ambiguous') throw new Error(data.message||'同名資料無法安全配對');
     if (data.status!=='success') throw new Error(data.message||'查詢失敗');
-    if (!Array.isArray(data.pre)||data.pre.length!==5) {
-      setRadarStatus('查無符合條件的前測資料。若正式表單沒有編號，請清空「編號」再查詢。','#d97706');return;
+    const valid = v => Array.isArray(v) && v.length===5 && v.every(x=>x!=='' && x!==null && Number.isFinite(Number(x)));
+    const pre=valid(data.pre)?data.pre.map(Number):null;
+    const post=valid(data.post)?data.post.map(Number):null;
+    if (!pre && !post) {
+      setRadarStatus('查無符合據點、姓名、編號的前後測資料。舊紀錄若沒有編號，須先核對身分再補登。','#b45309');return;
     }
-    const pre=data.pre.map(Number);
-    if (pre.some(x=>!Number.isFinite(x))) throw new Error('資料格式不正確');
-    assessmentState.pre.raw=pre;
     const genderEl=document.getElementById('gender');
-    if (genderEl && data.gender) genderEl.value=normalizeGender(data.gender);
+    if (data.gender && genderEl) genderEl.value=normalizeGender(data.gender);
     const ageEl=document.getElementById('ageGroup');
-    if (ageEl && data.ageGroup) ageEl.value=normalizeAgeGroup(data.ageGroup);
-    const g=getRadarValue('gender'), age=getRadarValue('ageGroup');
-    assessmentState.pre.scores=(g && age)?computeFiveLevels(pre,g,age):[0,0,0,0,0];
-    // 將後測保留為空白，防止舊資料或示範數據混入本次測試。
-    assessmentState.post.raw=null;
-    assessmentState.post.scores=[0,0,0,0,0];
+    if (ageEl) ageEl.value=data.ageGroup ? normalizeAgeGroup(data.ageGroup) : ''; // 未確認年齡時不得使用預設75-79歲
+    // 若是從正式表單直接跳轉，不讓雲端舊紀錄覆蓋本次手上剛輸入的資料。
+    const handoffStage=options.preserveHandoffStage || '';
+    if (handoffStage!=='pre') assessmentState.pre.raw=pre;
+    if (handoffStage!=='post') assessmentState.post.raw=post;
+    const gender=getRadarValue('gender'), age=getRadarValue('ageGroup');
+    ['pre','post'].forEach(key=>{
+      const raw=assessmentState[key].raw;
+      assessmentState[key].scores=raw&&['M','F'].includes(gender)&&age
+        ?computeFiveLevels(raw,gender,age):[0,0,0,0,0];
+    });
     const stageEl=document.getElementById('testStage');
-    if(stageEl) stageEl.value='post';
-    fillRadarMetricInputs(null);
+    if (!handoffStage && stageEl) {
+      stageEl.value='post'; // 查詢後以後測模式顯示或準備輸入後測
+      fillRadarMetricInputs(post);
+    }
     refreshRadarView();
     updateSummaryTableOnly();
     const badge=document.getElementById('totalScoreBadge');
-    if (badge) badge.textContent='已載入前測，請填寫後測資料';
-    setRadarStatus(`✅ 已載入「${studentId}」前測資料（來源：${data.preSource||'雲端'}）。請輸入後測數值。`,'#16803c');
+    if (badge) badge.textContent=pre&&post?'已載入前測及後測':pre?'已載入前測，請輸入後測':'已載入後測（尚無前測）';
+    setRadarStatus(`✅ 已查得 ${pre?'前測':''}${pre&&post?'與':''}${post?'後測':''}紀錄。${data.ageGroup?'可進行雷達圖比較。':'⚠️ 年齡層無法由原始資料確認，請人工選擇正確年齡層後再評分。'}`,'#16803c');
   } catch(err) {
-    console.error('前測查詢錯誤',err);
-    setRadarStatus(`❌ 查詢失敗：${err.message}。若顯示 Failed to fetch，請檢查 GAS 部署、跨網域 CORS 或 Netlify 代理。`,'#dc2626');
+    console.error('雲端查詢失敗：',err);
+    setRadarStatus(`❌ 雲端查詢未完成：${err.message}。如為 Failed to fetch，請檢查 Apps Script 的 CORS／同源代理；本次已帶入的資料仍保留。`,'#dc2626');
   }
+}
+
+function applyOfficialFormHandoff() {
+  let handoff;
+  try {
+    const text=sessionStorage.getItem('cl140028_radar_handoff');
+    if (!text) return;
+    sessionStorage.removeItem('cl140028_radar_handoff');
+    handoff=JSON.parse(text);
+  } catch(err) { console.warn('無法讀取表單交接資料',err);return; }
+  if (!handoff || Date.now()-handoff.storedAt>30*60*1000) return;
+  if (!['pre','post'].includes(handoff.testStage) || !Array.isArray(handoff.rawMetrics) ||
+      handoff.rawMetrics.length!==5 || handoff.rawMetrics.some(v=>!Number.isFinite(Number(v)))) return;
+  ['siteName','studentId','participantCode'].forEach(id=>{
+    const el=document.getElementById(id);if(el) el.value=handoff[id]||'';
+  });
+  const genderEl=document.getElementById('gender');
+  if(genderEl) genderEl.value=handoff.gender||'F';
+  const stageEl=document.getElementById('testStage');
+  if(stageEl) stageEl.value=handoff.testStage;
+  if(handoff.ageGroup && document.getElementById('ageGroup')) {
+    document.getElementById('ageGroup').value=handoff.ageGroup;
+  }
+  const stage=handoff.testStage;
+  assessmentState[stage].raw=handoff.rawMetrics.map(Number);
+  assessmentState[stage].scores=computeFiveLevels(assessmentState[stage].raw,
+    getRadarValue('gender'),getRadarValue('ageGroup'));
+  fillRadarMetricInputs(assessmentState[stage].raw);
+  refreshRadarView();
+  updateSummaryTableOnly();
+  // 畫面上存在 openTab，切換至真正的雷達圖分頁。
+  const tab=document.getElementById('tabRadar');
+  const formTab=document.getElementById('tabForms');
+  if (formTab) formTab.classList.remove('active');
+  if (tab) tab.classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach((btn,i)=>btn.classList.toggle('active',i===1));
+  const ageNote=handoff.ageGroup?'':'（出生月份與施測月份相同，無法確認實際年齡層，請人工確認後再採用級分）';
+  if(!handoff.ageGroup){
+    assessmentState[stage].scores=[0,0,0,0,0];
+    refreshRadarView();updateSummaryTableOnly();
+  }
+  setRadarStatus('✅ 已帶入剛儲存的'+(stage==='pre'?'前測':'後測')+'五項資料。'+ageNote,'#16803c');
+  // 雲端另一階段資料需明確查詢；CORS 失敗不影響本次顯示。
+  // 允許使用者按「從雲端載入」比對另一階段。
+  document.getElementById('gasStatusMsg')?.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
 async function submitToGAS(e) {
@@ -389,6 +434,20 @@ async function submitToGAS(e) {
 
 document.addEventListener('DOMContentLoaded',()=>{
   initRadarChart();
-  // 初始化不載入任何假前測資料。
+  // 清除原始 HTML 中的示範數值，避免自動顯示為真實前測。
+  fillRadarMetricInputs(null);
   updateSummaryTableOnly();
+  applyOfficialFormHandoff();
+});
+
+// 前後測切換時顯示所選階段原值（不能把另一階段數據當成本階段測量）。
+document.addEventListener('DOMContentLoaded',()=>{
+  const stageEl=document.getElementById('testStage');
+  if(stageEl) stageEl.addEventListener('change',()=>{
+    const stage=stageEl.value;
+    if(stage==='pre'||stage==='post') {
+      fillRadarMetricInputs(assessmentState[stage].raw);
+      recalculateAll();
+    }
+  });
 });
