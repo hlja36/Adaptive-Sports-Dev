@@ -60,19 +60,45 @@
 
   <div class="grid-2" style="align-items:start;">
     <!-- 左側：第一線人員純線上填報表單（無檔案上傳） -->
-    <div class="card">
-      <h3>📝 體型測量與體能測驗紀錄表 </h3>
-      <form id="fitnessGasForm" onsubmit="submitToGAS(event)">
-        <div class="form-grid">
-          <div class="form-group">
-            <label>所屬據點名稱 *</label>
-            <input type="text" id="siteName" placeholder="例：花蓮縣花蓮市碧雲莊社區" required>
-          </div>
-          <div class="form-group">
-            <label>受試者編號 / 姓名 *</label>
-            <input type="text" id="studentId" placeholder="例：王大明" required>
-          </div>
-        </div>
+<div class="card">
+  <h3>📝 體型測量與體能測驗紀錄表</h3>
+  <form id="fitnessGasForm" onsubmit="submitToGAS(event)">
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label>所屬據點名稱 *</label>
+        <input type="text" id="siteName"
+          placeholder="例：花蓮縣花蓮市碧雲莊社區" required>
+      </div>
+
+      <div class="form-group">
+        <label>受試者編號 / 姓名 *</label>
+        <input type="text" id="studentId"
+          placeholder="例：王大明" required>
+      </div>
+    </div>
+
+    <!-- 新增：受試者識別編號 -->
+    <div class="form-grid" style="margin-top:12px;">
+      <div class="form-group">
+        <label for="participantCode">編號 *</label>
+        <input type="text"
+          id="participantCode"
+          name="participantCode"
+          placeholder="例：A789"
+          maxlength="4"
+          pattern="[A-Z][0-9]{3}"
+          title="請輸入1個大寫英文字母及3個數字，例如 A789"
+          oninput="this.value=this.value.toUpperCase()"
+          required>
+
+        <small style="display:block;margin-top:6px;
+          color:#64748b;font-size:0.9rem;line-height:1.6;">
+          身分證英文字大寫＋後3碼。
+          例如：A***556789，編號為 A789。
+        </small>
+      </div>
+    </div>
 
         <div class="form-grid">
           <div class="form-group">
