@@ -66,13 +66,13 @@
 
     <div class="form-grid">
       <div class="form-group">
-        <label>所屬據點名稱 *</label>
+        <label>據點名稱 *</label>
         <input type="text" id="siteName"
           placeholder="例：花蓮縣花蓮市碧雲莊社區" required>
       </div>
 
       <div class="form-group">
-        <label>受試者編號 / 姓名 *</label>
+        <label>長者姓名 *</label>
         <input type="text" id="studentId"
           placeholder="例：王大明" required>
       </div>
@@ -132,7 +132,22 @@
           <button type="button" class="btn btn-outline" style="padding:7px 14px;font-size:0.9rem;" onclick="loadStudentFromGAS()">🔍 從雲端載入該學員前測基準資料</button>
           <button type="button" class="btn btn-outline" style="padding:7px 14px;font-size:0.9rem;margin-left:6px;" onclick="loadDemoOverlap()">✨ 載入示範前後測重疊效果</button>
         </div>
-
+        <!-- 前測查詢說明 -->
+        <div style="
+          margin:0 0 15px;
+          padding:10px 13px;
+          background:#eef8ff;
+          border-left:4px solid #0284c7;
+          border-radius:6px;
+          color:#24536d;
+          font-size:0.9rem;
+          line-height:1.7;
+        ">
+         🔎 載入前測資料須同時核對
+         <strong>據點名稱、長者姓名及編號</strong>
+         三項資料，請務必正確填寫，
+         方能成功載入前測紀錄。
+      </div>
         <hr style="border:0;border-top:1px solid #e2e8f0;margin:14px 0;">
         <h4 style="color:var(--primary-dark);margin-bottom:10px;">五大核心體能檢測（即時連動右側重疊雷達圖）</h4>
         <div class="form-grid">
@@ -172,6 +187,32 @@
         <h3 style="margin:0;">🕸️ 個人體能評估雷達圖（前後測重疊對比）</h3>
         <span id="totalScoreBadge" class="badge badge-blue" style="font-size:0.95rem;">目前階段總點數：-- / 25 分</span>
       </div>
+      <!-- 雷達圖受測者基本資料 -->
+      <div id="radarIdentityInfo" style="
+        display:grid;
+        grid-template-columns:repeat(3,minmax(0,1fr));
+        gap:10px;
+        margin:12px 0 16px;
+        padding:12px;
+        background:#edf8f5;
+        border:1px solid #cce6dc;
+        border-radius:9px;
+        font-size:0.95rem;
+      ">
+        <div>
+          <strong>據點名稱：</strong>
+          <span id="radarSiteName">--</span>
+        </div>
+        <div>
+          <strong>長者姓名：</strong>
+          <span id="radarStudentName">--</span>
+        </div>
+        <div>
+          <strong>編號：</strong>
+          <span id="radarParticipantCode">--</span>
+        </div>
+</div>
+      
       <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">
         依據東京都老人綜合研究所《健康達人 21》及體育署常模轉換為 <strong>1–5 級分（1=劣、2=可、3=中、4=良、5=優）</strong>。多邊形面積向外擴張代表體能進步；總分 ≤ 15 分提示為體弱高風險群。
       </p>
@@ -452,5 +493,49 @@ window.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>  
+
+<script>
+function updateRadarIdentity() {
+  const getValue = (id) => {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : "";
+  };
+
+  const setText = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value || "--";
+  };
+
+  setText("radarSiteName", getValue("siteName"));
+  setText("radarStudentName", getValue("studentId"));
+  setText(
+    "radarParticipantCode",
+    getValue("participantCode").toUpperCase()
+  );
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  ["siteName", "studentId", "participantCode"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener("input", updateRadarIdentity);
+      el.addEventListener("change", updateRadarIdentity);
+    }
+  });
+
+  // 原本雷達圖重新計算時，也同步更新基本資料
+  if (typeof window.recalculateAll === "function") {
+    const original = window.recalculateAll;
+    window.recalculateAll = function(...args) {
+      const result = original.apply(this, args);
+      updateRadarIdentity();
+      return result;
+    };
+  }
+
+  updateRadarIdentity();
+});
+</script>
+  
 </body>
 </html>
