@@ -274,12 +274,25 @@ async function loadStudentFromGAS() {
     return;
   }
 
-  // 後面保留原本的查詢與雷達圖更新程式
   statusEl.style.color = "#0284c7";
   statusEl.textContent = "⏳ 正在從 Google Sheets 查詢學員歷史檢測資料...";
+
   try {
-    const res = await fetch(`${GAS_WEB_APP_URL}?studentId=${encodeURIComponent(studentId)}`);
+    // 新增：使用據點名稱、姓名、編號共同查詢
+    const params = new URLSearchParams({
+      siteName: siteName,
+      studentId: studentId,
+      participantCode: participantCode
+    });
+
+    // 建立 Google Apps Script 查詢網址
+    const url = GAS_WEB_APP_URL + "?" + params.toString();
+
+    // 向 Google Sheets 查詢資料
+    const res = await fetch(url);
     const data = await res.json();
+
+    // 以下保留原本的資料處理與雷達圖更新程式
     if (data.pre) {
       assessmentState.pre.raw = data.pre;
       if (data.gender) document.getElementById('gender').value = data.gender;
