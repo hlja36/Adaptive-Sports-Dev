@@ -113,10 +113,10 @@
       </div>
       <button id="submitButton" type="submit">送出資料至 Google Sheets</button>
       <p id="status" role="status"></p>
-      <a id="viewRadarBtn" href="data-upload.html#tabRadar" target="_top"
-         style="display:none;background:#0b75b5;color:white;text-align:center;text-decoration:none;padding:13px;border-radius:9px;margin-top:12px;font-weight:bold;">
+      <button id="viewRadarBtn" type="button" onclick="openOfficialRadar()"
+         style="display:none;background:#0b75b5;color:white;text-align:center;padding:13px;border-radius:9px;margin-top:12px;font-weight:bold;cursor:pointer;">
          📊 查看本次體能雷達圖
-      </a>
+      </button>
     </form>
   </section>
 </main>
@@ -125,6 +125,22 @@
 
   const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxagxu75HFgU8OmoqKPO7e7SDQMaI9yUy7EeHRjD5F_QlTN8mOvj8TI7d0EOgcPHIId/exec';
                            
+  // 雷達圖按鈕：內嵌表單通知同網域的 data-upload.html 母頁；獨立頁則正常跳轉。
+  function openOfficialRadar() {
+    const status = document.getElementById('status');
+    const saved = sessionStorage.getItem('cl140028_radar_handoff');
+    if (!saved) {
+      status.textContent = '⚠️ 找不到本次雷達圖暫存資料，請先確認表單成功送出。';
+      return;
+    }
+    if (window.parent !== window) {
+      // 只傳給同源母頁，不將姓名或編號送到其他網站。
+      window.parent.postMessage({type:'CL140028_SHOW_RADAR',handoff:saved}, location.origin);
+      return;
+    }
+    window.location.assign('data-upload.html#tabRadar');
+  }
+
   const $ = (id) => document.getElementById(id);
 
   const value = (id) => $(id).value.trim();
