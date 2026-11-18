@@ -164,9 +164,9 @@
 
       respondentEmail: value('respondentEmail'), tester: value('tester'),
 
-      participantName: value('studentId'), 
+      participantName: value('studentld'), 
 
-      studentId: value('studentId'),
+      studentId: value('studentld'),
 
       participantCode: value('participantCode').toUpperCase(),
       
@@ -259,6 +259,8 @@
     '⚠️ 尚無法確認送出結果。' +
     '請先檢查 Google Sheets 是否已有資料，' +
     '避免重複送出。錯誤：' + error.message;
+} finally {
+  button.disabled = false;
 }
 
   });
