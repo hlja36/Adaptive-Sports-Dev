@@ -1,6 +1,6 @@
 // CL-14-0028 體能評估五級分常模演算法（依《健康達人21》表9 及 體育署《銀髮族體適能健身寶典》表14）
 // 請將下方網址替換為您部署 Google Apps Script 後取得的 Web App URL
-const GAS_WEB_APP_URL = "https://script.google.com/macros/s/YOUR_DEPLOYED_SCRIPT_ID/exec";
+const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxagxu75HFgU8OmoqKPO7e7SDQMaI9yUy7EeHRjD5F_QlTN8mOvj8TI7d0EOgcPHIId/exec";
 
 // 儲存前後測狀態（raw: 原始測量值 [握力, 單足立, 5M步行, 30秒坐立, 30秒內收肌], scores: 1~5級分）
 const assessmentState = {
