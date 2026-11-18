@@ -42,13 +42,13 @@
         <div><label>施測者：</label><input id="tester"></div>
         <!-- 受試者姓名：保留欄位，修改 ID -->
        <div>
-         <label for="studentId">
+         <label for="studentld">
           受試者姓名：<span class="required">*</span>
          </label>
          <input
          type="text"
-         id="studentId"
-         name="studentId"
+         id="studentld"
+         name="studentld"
          required>
        </div>
 
@@ -113,6 +113,10 @@
       </div>
       <button id="submitButton" type="submit">送出資料至 Google Sheets</button>
       <p id="status" role="status"></p>
+      <a id="viewRadarBtn" href="data-upload.html#tabRadar" target="_top"
+         style="display:none;background:#0b75b5;color:white;text-align:center;text-decoration:none;padding:13px;border-radius:9px;margin-top:12px;font-weight:bold;">
+         📊 查看本次體能雷達圖
+      </a>
     </form>
   </section>
 </main>
@@ -157,9 +161,9 @@
 
       respondentEmail: value('respondentEmail'), tester: value('tester'),
 
-      participantName: value('studentId'), 
+      participantName: value('studentld'), 
 
-      studentId: value('studentId'),
+      studentId: value('studentld'),
 
       participantCode: value('participantCode').toUpperCase(),
       
@@ -216,6 +220,7 @@
     }
 
     button.disabled = true;
+    $('viewRadarBtn').style.display = 'none';
 
     status.style.color = '#0b75b5';
 
@@ -238,10 +243,35 @@
       if (result.status !== 'success') {
         throw new Error(result.message || 'Apps Script 未回傳成功狀態');
       }
-      status.style.color = '#16803c';
-      status.textContent = '已送出；請至試算表的「CL-14-0028-1官方表單」工作表確認新資料列。';
-      event.currentTarget.reset();
-      updateDerived();
+      // 經後端確認寫入成功後，把本次資料交給同網域雷達圖頁面（不放入網址）。
+      const saved = makePayload();
+      const metrics = ['gripMax','oneLegMax','walk5mBest','chairStand30s','adductorMax']
+        .map(k => Number(saved.fitness[k]));
+      const stage = saved.testStage === '前測' ? 'pre' : 'post';
+      const gender = saved.gender === '男' ? 'M' : 'F';
+      const date = new Date(saved.testDate + 'T12:00:00');
+      const birthYear = Number(saved.birthYearRoc) + 1911;
+      const birthMonth = Number(saved.birthMonth);
+      const age = date.getFullYear() - birthYear - (date.getMonth()+1 < birthMonth ? 1 : 0);
+      // 同月尚不知道出生日，不推定邊界年齡級距。
+      const ageGroup = date.getMonth()+1 === birthMonth || age < 65
+        ? '' : age >= 90 ? '90+' : Math.floor(age/5)*5 + '-' + (Math.floor(age/5)*5+4);
+      try {
+        sessionStorage.setItem('cl140028_radar_handoff', JSON.stringify({
+          siteName:saved.siteName,studentId:saved.studentId,
+          participantCode:saved.participantCode,gender,ageGroup,
+          testStage:stage,rawMetrics:metrics,testDate:saved.testDate,
+          storedAt:Date.now()
+        }));
+        $('viewRadarBtn').style.display = 'block';
+        status.style.color = '#16803c';
+        status.textContent = '✅ Google Sheets 已回覆寫入成功。可點選下方按鈕查看本次雷達圖。';
+      } catch (storageError) {
+        console.warn('雷達圖交接暫存失敗：', storageError);
+        status.style.color = '#16803c';
+        status.textContent = '✅ Google Sheets 已回覆寫入成功；本瀏覽器無法暫存資料，請到雷達圖頁面使用雲端查詢。';
+      }
+      // 不清空表單，方便核對資料及避免重複填寫。
 } catch (error) {
   console.error('表單送出或回應處理失敗：', error);
 
