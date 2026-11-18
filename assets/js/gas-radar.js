@@ -287,39 +287,76 @@ async function loadStudentFromGAS() {
 }
 
 // 串接 GAS：送出填報資料至 Google Sheets (POST)
+
+ // 串接 GAS：送出填報資料至 Google Sheets (POST)
 async function submitToGAS(e) {
   e.preventDefault();
+
   const statusEl = document.getElementById('gasStatusMsg');
   const btn = document.getElementById('gasSubmitBtn');
 
-  const stage = document.getElementById('testStage').value;
-  const payload = {
-    siteName: document.getElementById('siteName').value,
-    studentId: document.getElementById('studentId').value.trim(),
-    testStage: stage,
-    gender: document.getElementById('gender').value,
-    ageGroup: document.getElementById('ageGroup').value,
-    height: document.getElementById('height').value,
-    weight: document.getElementById('weight').value,
-    bmi: document.getElementById('bmi').value,
-    waist: document.getElementById('waist').value,
-    hip: document.getElementById('hip').value,
-    whr: document.getElementById('whr').value,
-    sbp: document.getElementById('sbp').value,
-    dbp: document.getElementById('dbp').value,
-    hr: document.getElementById('hr').value,
-    rawMetrics: assessmentState[stage].raw,
-    levelScores: assessmentState[stage].scores,
-    totalScore: assessmentState[stage].scores.reduce((a, b) => a + b, 0),
-    riskFlags: {
-      frailty: document.getElementById('flagFrailty').checked,
-      fall: document.getElementById('flagFall').checked,
-      urine: document.getElementById('flagUrine').checked,
-      nutrition: document.getElementById('flagNutrition').checked,
-      cognition: document.getElementById('flagCog').checked
-    },
-    instructorName: document.getElementById('instructorName').value.trim()
+  // 安全取得欄位值，避免不存在的欄位造成程式中斷
+  const getValue = (id) => {
+    const el = document.getElementById(id);
+    return el ? String(el.value ?? '').trim() : '';
   };
+
+  const getChecked = (id) => {
+    const el = document.getElementById(id);
+    return el ? Boolean(el.checked) : false;
+  };
+
+  const stage = getValue('testStage');
+
+  const state = assessmentState[stage];
+
+  if (!state || !Array.isArray(state.raw) ||
+      !Array.isArray(state.scores)) {
+    statusEl.style.color = '#dc2626';
+    statusEl.textContent = '❌ 尚未完成體能評估，請檢查資料。';
+    return;
+  }
+
+  const payload = {
+    siteName: getValue('siteName'),
+    studentId: getValue('studentId'),
+    testStage: stage,
+    gender: getValue('gender'),
+    ageGroup: getValue('ageGroup'),
+
+    // 若網頁沒有這些欄位，回傳空字串
+    height: getValue('height'),
+    weight: getValue('weight'),
+    bmi: getValue('bmi'),
+    waist: getValue('waist'),
+    hip: getValue('hip'),
+    whr: getValue('whr'),
+    sbp: getValue('sbp'),
+    dbp: getValue('dbp'),
+    hr: getValue('hr'),
+
+    // 五大體能檢測資料
+    rawMetrics: state.raw,
+    levelScores: state.scores,
+    totalScore: state.scores.reduce(
+      (a, b) => a + Number(b || 0), 0
+    ),
+
+    // 若沒有高危險群篩檢欄位，暫以 false 儲存
+    riskFlags: {
+      frailty: getChecked('flagFrailty'),
+      fall: getChecked('flagFall'),
+      urine: getChecked('flagUrine'),
+      nutrition: getChecked('flagNutrition'),
+      cognition: getChecked('flagCog')
+    },
+
+    instructorName: getValue('instructorName')
+  };
+
+  console.log('準備送至 Google Apps Script：', payload);
+
+  // 以下保留原本 GAS_WEB_APP_URL 檢查與 fetch 送出程式
 
   if (GAS_WEB_APP_URL.includes("YOUR_DEPLOYED_SCRIPT_ID")) {
     statusEl.style.color = "#16a34a";
