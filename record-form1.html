@@ -251,10 +251,15 @@
       status.textContent = '已送出；請至試算表的「CL-14-0028-1官方表單」工作表確認新資料列。';
       event.currentTarget.reset();
       updateDerived();
-    } catch (error) {
-      status.style.color = '#b45309';
-      status.textContent = '⚠️ 請確認是否成功收到回覆Email信件!' + '若已收到email回信，表示成功送出，未收到信件，請重送資料。';
-    } finally { button.disabled = false; }
+} catch (error) {
+  console.error('表單送出或回應處理失敗：', error);
+
+  status.style.color = '#b45309';
+  status.textContent =
+    '⚠️ 尚無法確認送出結果。' +
+    '請先檢查 Google Sheets 是否已有資料，' +
+    '避免重複送出。錯誤：' + error.message;
+}
 
   });
 </script>
