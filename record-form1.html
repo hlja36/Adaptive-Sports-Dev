@@ -40,7 +40,40 @@
         <div><label>前、後測：<span class="required">*</span></label><select id="testStage" required><option value="">請選擇</option><option>前測</option><option>後測</option></select></div>
         <div><label style="display: flex; align-items: baseline;">施測者或據點 E-mail：<small style="margin-left: 8px;">用於寄送回覆確認，可留白</small></label><input id="respondentEmail" type="email"></div>
         <div><label>施測者：</label><input id="tester"></div>
-        <div><label>受試者姓名：<span class="required">*</span></label><input id="participantName" required></div>
+        <!-- 受試者姓名：保留欄位，修改 ID -->
+       <div>
+         <label for="studentld">
+          受試者姓名：<span class="required">*</span>
+         </label>
+         <input
+         type="text"
+         id="studentld"
+         name="studentld"
+         required>
+       </div>
+
+       <!-- 新增：受試者識別編號 -->
+       <div>
+         <label for="participantCode">
+            編號：<span class="required">*</span>
+         </label>
+         <input
+           type="text"
+           id="participantCode"
+           name="participantCode"
+           placeholder="例：A789"
+           maxlength="4"
+           pattern="[A-Z][0-9]{3}"
+           title="請輸入1個大寫英文字母及3個數字，例如 A789"
+           oninput="this.value=this.value.toUpperCase()"
+           required>
+
+        <small style="display:block;margin-top:6px;
+          color:#64748b;font-size:0.9rem;line-height:1.6;">
+          身分證英文字大寫＋後3碼。
+          例如：A***556789，編號為 A789。
+        </small>
+        </div>
         <div><label>性別：<span class="required">*</span></label><select id="gender" required><option value="">請選擇</option><option>男</option><option>女</option></select></div>
         <div><label>施測日期：<span class="required">*</span></label><input id="testDate" type="date" required></div>
         <div><label style="display: flex; align-items: baseline;">出生年（民國）：<span class="required">*</span><small style="margin-left: 8px;">民國46年請填 46</small></label><input id="birthYearRoc" type="number" min="1" max="200" required></div>
@@ -131,7 +164,13 @@
 
       respondentEmail: value('respondentEmail'), tester: value('tester'),
 
-      participantName: value('participantName'), gender: value('gender'),
+      participantName: value('studentId'), 
+
+      studentId: value('studentId'),
+
+      participantCode: value('participantCode').toUpperCase(),
+      
+      gender: value('gender'),
 
       testDate: value('testDate'), birthYearRoc: value('birthYearRoc'), birthMonth: value('birthMonth'),
 
