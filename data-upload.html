@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
+<link rel="stylesheet" href="radar-print-senior-A4.css">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -119,6 +120,7 @@
   
   
 </head>
+
 <body>
   <div class="top-bar">
     <span>衛生福利部長者健康促進服務方案｜方案編號：<strong>CL-14-0028</strong></span>
@@ -647,6 +649,58 @@ document.addEventListener("DOMContentLoaded", () => {
 
   updateRadarIdentity();
 });
+</script>
+
+<script>
+/* A4 列印時放大雷達圖字體，列印結束後還原 */
+(function () {
+  let saved = null;
+
+  window.addEventListener('beforeprint', function () {
+    if (typeof radarChart === 'undefined' || !radarChart) return;
+
+    const chart = radarChart;
+    const radial = chart.options.scales &&
+                   chart.options.scales.r;
+    const labels = chart.options.plugins &&
+                   chart.options.plugins.legend &&
+                   chart.options.plugins.legend.labels;
+
+    if (!radial || !labels) return;
+
+    saved = {
+      chart,
+      pointSize: radial.pointLabels.font.size,
+      tickSize: radial.ticks.font.size,
+      legendSize: labels.font.size
+    };
+
+    // 長者友善列印字體
+    radial.pointLabels.font.size = 16;
+    radial.ticks.font.size = 13;
+    labels.font.size = 15;
+
+    chart.update('none');
+  });
+
+  window.addEventListener('afterprint', function () {
+    if (!saved) return;
+
+    const chart = saved.chart;
+
+    chart.options.scales.r.pointLabels.font.size =
+      saved.pointSize;
+
+    chart.options.scales.r.ticks.font.size =
+      saved.tickSize;
+
+    chart.options.plugins.legend.labels.font.size =
+      saved.legendSize;
+
+    saved = null;
+    chart.update('none');
+  });
+})();
 </script>
   
 </body>
