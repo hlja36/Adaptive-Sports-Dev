@@ -648,6 +648,18 @@ window.addEventListener('DOMContentLoaded', function() {
 </script>  
 
 <script>
+// 假設你的圖表變數名稱為 overlapRadarChart（請依實際變數名稱替換）
+window.addEventListener('beforeprint', () => {
+  if (window.overlapRadarChart) {
+    window.overlapRadarChart.resize();
+  }
+});
+
+window.addEventListener('afterprint', () => {
+  if (window.overlapRadarChart) {
+    window.overlapRadarChart.resize();
+  }
+});
 function updateRadarIdentity() {
   const getValue = (id) => {
     const el = document.getElementById(id);
