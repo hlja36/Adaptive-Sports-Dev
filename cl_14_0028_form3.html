@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CL-14-0028 長者適性方案《健康達人21》調查與雷達圖評估</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --brand-green: #166534;
+      --brand-green-dark: #14532d;
+      --brand-orange: #f59e0b;
+    }
+
+    body {
+      font-family: 'Inter', 'Noto Sans TC', system-ui, -apple-system, sans-serif;
+      background-color: #f3f6f4;
+      color: #1e293b;
+    }
+
+    /* Custom subtle scrollbar for form panel */
+    .form-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .form-scroll::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 999px;
+    }
+    .form-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 999px;
+    }
+    .form-scroll::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Radio pill styling */
+    .pill-radio input:checked + span {
+      background-color: #166534;
+      color: #ffffff;
+      border-color: #166534;
+      box-shadow: 0 1px 2px rgba(22, 101, 52, 0.2);
+    }
+    .pill-radio.risk-opt input:checked + span {
+      background-color: #dc2626;
+      color: #ffffff;
+      border-color: #dc2626;
+      box-shadow: 0 1px 2px rgba(220, 38, 38, 0.2);
+    }
+
+    /* Print-only elements hidden on screen */
+    .print-only {
+      display: none;
+    }
+
+    /* Toast animation */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translate(-50%, 12px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+    .toast-show {
+      animation: fadeSlideUp 0.22s ease-out forwards;
+    }
+
+    /* ============================================================
+       A4 Single-Page Print Layout (1.5cm margins on all 4 sides)
+       Printable area: 180mm x 267mm
+       ============================================================ */
+    @page {
+      size: A4 portrait;
+      margin: 1.5cm;
+    }
+
+    @media print {
+      html, body {
+        width: 100%;
+        height: auto;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        color: #111827 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+
+      .print-only {
+        display: block !important;
+      }
+
+      #app-shell {
+        max-width: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      #main-grid {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      #printable-report {
+        position: static !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        background: #ffffff !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      .print-title-block {
+        text-align: center;
+        border-bottom: 2px solid #166534;
+        padding-bottom: 6px;
+        margin-bottom: 10px;
+      }
+
+      .print-meta-grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px 12px;
+        font-size: 11px;
+        margin-bottom: 10px;
+        padding: 8px 10px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        background-color: #f8fafc !important;
+      }
+
+      #radar-screen-wrap {
+        display: none !important;
+      }
+
+      #radar-print-wrap {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        margin: 4px 0 8px 0;
+      }
+
+      #radar-print-img {
+        width: 100%;
+        max-width: 600px;
+        max-height: 410px;
+        object-fit: contain;
+        display: block;
+      }
+
+      .print-table th,
+      .print-table td {
+        padding: 5px 8px !important;
+        font-size: 11.5px !important;
+      }
+
+      .print-advice-box {
+        margin-top: 10px !important;
+        padding: 8px 12px !important;
+        font-size: 11px !important;
+        line-height: 1.5 !important;
+        border: 1px solid #cbd5e1 !important;
+        background-color: #f8fafc !important;
+      }
+
+      .print-footer-sign {
+        display: flex !important;
+        justify-content: space-between;
+        margin-top: 14px;
+        padding-top: 8px;
+        border-top: 1px dashed #94a3b8;
+        font-size: 11px;
+        color: #475569;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen antialiased">
+  <div id="app-shell" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+
+    <!-- Top Header (Hidden on Print) -->
+    <header class="no-print mb-4">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-3 border-b border-slate-200">
+        <div>
+          <h1 class="text-xl sm:text-2xl font-bold text-slate-800 flex items-center gap-2">
+            <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 text-lg">📊</span>
+            <span>CL-14-0028 健康達人21 問卷填報與雷達圖評估</span>
+          </h1>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            長者適性方案《健康達人21》調查表單 ｜ 即時換算五大高危險群分數、前後測重疊雷達圖與 A4 單頁列印
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Stage Switch Tabs (Matching reference image pill bar) -->
+      <div class="flex flex-wrap items-center gap-2 mt-3">
+        <button id="tab-pre" type="button" class="px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition border">
+          1. 前測填報 (Pre-test / 始業式)
+        </button>
+        <button id="tab-post" type="button" class="px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition border">
+          2. 後測填報 (Post-test / 結業式)
+        </button>
+        <button id="btn-load-demo" type="button" class="ml-auto inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-amber-50 text-amber-800 border border-amber-300 hover:bg-amber-100 transition">
+          <span>✨</span> 載入示範前後測重疊效果
+        </button>
+        <button id="btn-clear-stage" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium bg-white text-slate-600 border border-slate-300 hover:bg-slate-50 transition">
+          <span>↺</span> 清空目前階段
+        </button>
+      </div>
+    </header>
+
+    <!-- Dynamic Risk Alert Banner (Hidden on Print) -->
+    <div id="alert-banner" class="no-print mb-5 rounded-xl px-4 py-3 border flex items-start gap-2.5 text-xs sm:text-sm transition-all">
+      <span id="alert-icon" class="text-base leading-5 shrink-0">⚠️</span>
+      <div id="alert-text" class="leading-relaxed"></div>
+    </div>
+
+    <!-- Main 2-Column Workspace -->
+    <main id="main-grid" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+      <!-- ========================================================
+           LEFT HALF: CL-14-0028-3 FORM INPUTS (Hidden on Print)
+           ======================================================== -->
+      <section class="no-print lg:col-span-6 bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5 sm:p-6">
+        <div class="flex items-center justify-between gap-2 pb-3 mb-4 border-b border-slate-100">
+          <h2 class="text-base sm:text-lg font-bold text-slate-800 flex items-center gap-2">
+            <span>📋</span>
+            <span id="form-stage-title">健康達人21 調查表單（前測）</span>
+          </h2>
+          <span id="stage-pill" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+            前測模式
+          </span>
+        </div>
+
+        <!-- Basic Info Section -->
+        <div class="mb-5">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-800 mb-3 flex items-center gap-1.5">
+            <span class="w-1.5 h-4 rounded-full bg-emerald-600 inline-block"></span>
+            基本資料（對應表單第 1–9 題）
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label for="input-date" class="block text-xs font-semibold text-slate-700 mb-1">
+                1. 施測日期 <span class="text-red-500">*</span>
+              </label>
+              <input id="input-date" type="date" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+            </div>
+            <div>
+              <label for="input-site" class="block text-xs font-semibold text-slate-700 mb-1">
+                2. 施測據點 <span class="text-red-500">*</span>
+              </label>
+              <input id="input-site" type="text" placeholder="縣市+據點；例如：花蓮宜昌" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+            </div>
+            <div>
+              <label for="input-email" class="block text-xs font-semibold text-slate-700 mb-1">
+                3. 施測者 E-mail <span class="text-red-500">*</span>
+              </label>
+              <input id="input-email" type="email" placeholder="example@domain.com" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+            </div>
+            <div>
+              <label for="input-tester" class="block text-xs font-semibold text-slate-700 mb-1">
+                4. 施測者 <span class="text-red-500">*</span>
+              </label>
+              <input id="input-tester" type="text" placeholder="請填寫施測人員姓名" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+            </div>
+            <div>
+              <label for="input-code" class="block text-xs font-semibold text-slate-700 mb-1">
+                5. 編號 <span class="text-red-500">*</span>
+              </label>
+              <input id="input-code" type="text" placeholder="身分證英文字大寫+後3碼，例：A789" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+            </div>
+            <div>
+              <label for="input-name" class="block text-xs font-semibold text-slate-700 mb-1">
+                6. 長者姓名 <span class="text-red-500">*</span>
+              </label>
+              <input id="input-name" type="text" placeholder="例：王大明" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+            </div>
+            <div>
+              <label for="input-gender" class="block text-xs font-semibold text-slate-700 mb-1">
+                7. 性別（影響 Q19–Q21 判定標準）<span class="text-red-500">*</span>
+              </label>
+              <select id="input-gender" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                <option value="女">女 (Female)</option>
+                <option value="男">男 (Male)</option>
+              </select>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label for="input-birth-year" class="block text-xs font-semibold text-slate-700 mb-1">
+                  8. 出生年 (民國) <span class="text-red-500">*</span>
+                </label>
+                <input id="input-birth-year" type="number" min="1" max="115" placeholder="例：46" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
+              </div>
+              <div>
+                <label for="input-birth-month" class="block text-xs font-semibold text-slate-700 mb-1">
+                  9. 出生月
+                </label>
+                <select id="input-birth-month" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                  <option value="">請選擇</option>
+                  <option value="1">1 月</option>
+                  <option value="2">2 月</option>
+                  <option value="3">3 月</option>
+                  <option value="4">4 月</option>
+                  <option value="5">5 月</option>
+                  <option value="6">6 月</option>
+                  <option value="7">7 月</option>
+                  <option value="8">8 月</option>
+                  <option value="9">9 月</option>
+                  <option value="10">10 月</option>
+                  <option value="11">11 月</option>
+                  <option value="12">12 月</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cloud Load Bar (Load Pre & Post test by Site + Code + Name) -->
+        <div class="mb-5 flex flex-wrap items-center gap-2">
+          <button id="btn-cloud-load" type="button" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-sky-50 text-sky-800 border border-sky-300 hover:bg-sky-100 transition">
+            <span>🔍</span> 依據點／編號／姓名載入雲端前測與後測資料
+          </button>
+        </div>
+
+        <!-- 21 Questions Container -->
+        <div class="border-t border-slate-100 pt-4">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
+              <span class="w-1.5 h-4 rounded-full bg-emerald-600 inline-block"></span>
+              健康達人21 評估題項（Q1–Q21 即時連動右側雷達圖）
+            </h3>
+            <span id="answered-progress" class="text-xs font-medium text-slate-500">已填 21 / 21 題</span>
+          </div>
+
+          <div id="questions-container" class="space-y-2.5"></div>
+        </div>
+
+        <!-- Physical Performance Measurements (Q19-Q21 Numeric Inputs) -->
+        <div class="mt-5 pt-4 border-t border-slate-100">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-800 mb-1 flex items-center gap-1.5">
+            <span class="w-1.5 h-4 rounded-full bg-emerald-600 inline-block"></span>
+            體能實測數值（輸入後自動判定 Q19–Q21）
+          </h3>
+          <p id="gender-threshold-hint" class="text-xs text-slate-500 mb-3"></p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
+              <label for="input-grip" class="block text-xs font-semibold text-slate-700 mb-1">
+                最大握力 (kg)
+              </label>
+              <input id="input-grip" type="number" step="0.1" min="0" placeholder="例：17.4" class="w-full px-2.5 py-1.5 text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              <div id="badge-q19" class="mt-1.5 text-[11px] font-medium"></div>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
+              <label for="input-stand" class="block text-xs font-semibold text-slate-700 mb-1">
+                最佳開眼單足立 (秒)
+              </label>
+              <input id="input-stand" type="number" step="0.1" min="0" placeholder="例：12.0" class="w-full px-2.5 py-1.5 text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              <div id="badge-q20" class="mt-1.5 text-[11px] font-medium"></div>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
+              <label for="input-walk" class="block text-xs font-semibold text-slate-700 mb-1">
+                最快5公尺走路 (秒)
+              </label>
+              <input id="input-walk" type="number" step="0.01" min="0" placeholder="例：6.0" class="w-full px-2.5 py-1.5 text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              <div id="badge-q21" class="mt-1.5 text-[11px] font-medium"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Action Bar in Left Card -->
+        <div class="mt-6 pt-4 border-t border-slate-100 space-y-2.5">
+          <label class="flex items-start gap-2 px-3 py-2 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-700 cursor-pointer select-none">
+            <input id="chk-send-email" type="checkbox" checked class="mt-0.5 rounded border-slate-300 text-emerald-700 focus:ring-emerald-500" />
+            <span>
+              <strong>同步寄送確認 E-mail</strong>（正本：第 3 題施測者 E-mail；副本：<code class="text-emerald-800 font-semibold">hlja36@gmail.com</code>；內容含 Google Sheet 所有欄位）
+            </span>
+          </label>
+          <button id="btn-cloud-save" type="button" class="w-full py-3 px-4 rounded-xl text-sm font-bold text-white bg-emerald-700 hover:bg-emerald-800 active:bg-emerald-900 transition shadow-sm flex items-center justify-center gap-2">
+            <span>☁️</span>
+            <span id="btn-cloud-save-label">確認送出目前階段紀錄至 Google Sheets 雲端</span>
+          </button>
+          <button id="btn-switch-next-stage" type="button" class="w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition flex items-center justify-center gap-2">
+            <span>➡️</span>
+            <span id="btn-switch-label">前往填寫「後測」資料進行對比</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           RIGHT HALF: RADAR CHART & EVALUATION TABLE (PRINTABLE A4)
+           ======================================================== -->
+      <section id="printable-report" class="lg:col-span-6 lg:sticky lg:top-5 bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5 sm:p-6">
+
+        <!-- Report Header (Shared by Screen & A4 Print) -->
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100">
+          <h2 class="text-base sm:text-lg font-bold text-slate-800 flex items-center gap-2">
+            <span>🕸️</span>
+            <span>健康達人21 調查結果評估雷達圖（前後測重疊對比）</span>
+          </h2>
+        </div>
+
+        <!-- Participant Summary Bar (Shared by Screen & A4 Print) -->
+        <div class="grid grid-cols-3 gap-2 mb-3 px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200/80 text-xs sm:text-sm">
+          <div class="truncate">
+            <span class="font-semibold text-slate-500">據點名稱：</span>
+            <span id="r-site" class="font-bold text-slate-800">--</span>
+          </div>
+          <div class="truncate">
+            <span class="font-semibold text-slate-500">編號：</span>
+            <span id="r-code" class="font-bold text-slate-800">--</span>
+          </div>
+          <div class="truncate">
+            <span class="font-semibold text-slate-500">長者姓名：</span>
+            <span id="r-name" class="font-bold text-slate-800">--</span>
+          </div>
+        </div>
+
+        <!-- Score Summary Badges -->
+        <div class="flex flex-wrap items-center gap-2 mb-3">
+          <div id="badge-pre-total" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold bg-blue-50 text-blue-800 border border-blue-200">
+            運動前得點 (前測)：-- 分
+          </div>
+          <div id="badge-post-total" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs sm:text-sm font-bold bg-orange-50 text-orange-800 border border-orange-200">
+            運動後得點 (後測)：-- 分
+          </div>
+          <div id="badge-diff-total" class="hidden inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold">
+          </div>
+        </div>
+
+        <p class="text-xs text-slate-500 leading-relaxed mb-2">
+          依據《健康達人21》高危險群評分規則：雷達圖圍成範圍越大（得點分數越多），表示衰弱風險愈高；越向中心凹陷代表風險越低。
+        </p>
+
+        <!-- Radar Chart (Screen Canvas) -->
+        <div id="radar-screen-wrap" class="relative h-96 sm:h-[430px] w-full my-2">
+          <canvas id="radarChart"></canvas>
+        </div>
+
+        <!-- Radar Chart (Print High-DPI Image Snapshot) -->
+        <div id="radar-print-wrap" class="print-only">
+          <img id="radar-print-img" alt="健康達人21調查結果評估雷達圖" />
+        </div>
+
+        <!-- Five High-Risk Groups Table -->
+        <div class="mt-3 overflow-x-auto">
+          <table class="print-table w-full text-left border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr class="bg-slate-100 text-slate-700 border-y border-slate-200">
+                <th class="py-2.5 px-2.5 font-bold">評估項目</th>
+                <th class="py-2.5 px-2 font-bold text-center">判斷值</th>
+                <th class="py-2.5 px-2 font-bold text-center text-blue-700">前測分數</th>
+                <th class="py-2.5 px-2 font-bold text-center text-orange-700">後測分數</th>
+                <th class="py-2.5 px-2.5 font-bold text-center">高危險群判定</th>
+              </tr>
+            </thead>
+            <tbody id="score-table-body" class="divide-y divide-slate-100"></tbody>
+            <tfoot>
+              <tr class="bg-emerald-50/70 font-bold border-t-2 border-slate-200">
+                <td class="py-2.5 px-2.5 text-slate-800">🌟 五大項總得點</td>
+                <td class="py-2.5 px-2 text-center text-slate-500 text-xs">越低越好</td>
+                <td id="tfoot-pre-total" class="py-2.5 px-2 text-center text-blue-800">-- 分</td>
+                <td id="tfoot-post-total" class="py-2.5 px-2 text-center text-orange-800">-- 分</td>
+                <td id="tfoot-risk-summary" class="py-2.5 px-2.5 text-center text-xs">--</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <!-- Comprehensive Evaluation & Advice (Included on A4 Print) -->
+        <div class="print-advice-box mt-4 p-3.5 rounded-xl bg-slate-50 border border-slate-200/90 text-xs text-slate-700 leading-relaxed">
+          <div class="font-bold text-slate-800 mb-1 flex items-center gap-1.5">
+            <span>📝</span> 綜合評估與建議
+          </div>
+          <p id="advice-dynamic" class="mb-1.5"></p>
+          <p class="text-[11px] text-slate-500 border-t border-slate-200 pt-1.5 mt-1.5">
+            注意：健康達人21調查之數字連結在雷達圖上之範圍越大者（得點分數越多者），表示衰弱風險愈高；反之，越低。同時，越凹陷之部分表示其風險越低；反之，越高。
+          </p>
+        </div>
+
+
+
+        <!-- Orange Print Button (Matching reference image) -->
+        <div class="no-print mt-5">
+          <button id="btn-print-a4" type="button" class="w-full py-3 px-4 rounded-xl text-sm font-bold text-white bg-amber-500 hover:bg-amber-600 active:bg-amber-700 transition shadow-sm flex items-center justify-center gap-2">
+            <span>🖨️</span>
+            <span>單獨列印雷達圖與表格（A4 尺寸，邊界 1.5 公分）</span>
+          </button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- A4 Print Preview Modal (Only shown on demand when browser/embed blocks native print dialog) -->
+  <div id="print-modal" class="no-print fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden">
+      <div class="px-5 py-3.5 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div>
+          <h3 class="text-sm sm:text-base font-bold text-slate-800">🖨️ A4 單頁列印預覽（上下左右邊界 1.5 公分）</h3>
+          <p class="text-xs text-slate-500 mt-0.5">若目前視窗限制自動彈出系統列印，可按 Ctrl+P（Mac 為 Cmd+P）或下載獨立 A4 列印檔開啟列印。</p>
+        </div>
+        <button id="btn-close-print-modal" type="button" class="w-8 h-8 rounded-lg text-slate-500 hover:bg-slate-200 flex items-center justify-center font-bold">✕</button>
+      </div>
+      <div class="p-4 overflow-y-auto bg-slate-200/70 flex-1 flex justify-center">
+        <div id="print-modal-sheet" class="bg-white shadow-md border border-slate-300 w-full max-w-[560px] p-6 text-slate-900"></div>
+      </div>
+      <div class="px-5 py-3 border-t border-slate-200 bg-white flex flex-wrap items-center justify-end gap-2">
+        <button id="btn-modal-download-a4" type="button" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-white bg-emerald-700 hover:bg-emerald-800 transition">
+          📄 下載 A4 列印檔 (HTML)
+        </button>
+        <button id="btn-modal-try-print" type="button" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold text-white bg-amber-500 hover:bg-amber-600 transition">
+          🖨️ 立即列印
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="no-print fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden px-4 py-2.5 rounded-xl bg-slate-800 text-white text-xs sm:text-sm font-medium shadow-lg"></div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      // ================================================================
+      // 1. QUESTION DEFINITIONS (Exact match to CL-14-0028-3 Google Form)
+      // ================================================================
+      const QUESTIONS = [
+        { id: 'q1',  num: 'Q1',  group: '健康狀況與跌倒風險', text: '您(妳)自認為健康嗎?', options: ['非常健康', '還好', '不太健康', '不健康'], riskValues: ['不太健康', '不健康'] },
+        { id: 'q2',  num: 'Q2',  group: '健康狀況與跌倒風險', text: '現在，有在喝3種以上的藥物?', options: ['沒有', '是的'], riskValues: ['是的'] },
+        { id: 'q3',  num: 'Q3',  group: '健康狀況與跌倒風險', text: '在這一年當中，有住院過嗎?', options: ['沒有', '是的'], riskValues: ['是的'] },
+        { id: 'q4',  num: 'Q4',  group: '健康狀況與跌倒風險', text: '在這一年中，有跌倒過嗎?', options: ['沒有', '是的'], riskValues: ['是的'] },
+        { id: 'q5',  num: 'Q5',  group: '健康狀況與跌倒風險', text: '現在，仍然會覺得跌倒好可怕嗎?', options: ['沒有', '是的'], riskValues: ['是的'] },
+
+        { id: 'q6',  num: 'Q6',  group: '行動能力與日常活動', text: '可以獨自一個人出遠門嗎?', options: ['可以', '不可以'], riskValues: ['不可以'] },
+        { id: 'q7',  num: 'Q7',  group: '行動能力與日常活動', text: '可以獨自一個人持續走完1公里的路程嗎?', options: ['可以', '不可以'], riskValues: ['不可以'] },
+        { id: 'q8',  num: 'Q8',  group: '行動能力與日常活動', text: '可以獨自一個人上下樓梯嗎?', options: ['可以', '不可以'], riskValues: ['不可以'] },
+        { id: 'q9',  num: 'Q9',  group: '行動能力與日常活動', text: '可以不假借他物，用腳尖站立嗎?', options: ['可以', '不可以'], riskValues: ['不可以'] },
+
+        { id: 'q10', num: 'Q10', group: '排尿狀況', text: '上廁所中，曾經漏尿過嗎?', options: ['沒有', '有時'], riskValues: ['有時'] },
+        { id: 'q11', num: 'Q11', group: '排尿狀況', text: '尿失禁的次數，每週一次以上嗎?', options: ['完全沒有', '大約一次', '一次以上'], riskValues: ['大約一次', '一次以上'] },
+
+        { id: 'q12', num: 'Q12', group: '生活嗜好、營養與認知功能', text: '您(妳)是否有特別的興趣與嗜好呢?', options: ['是的', '沒有'], riskValues: ['沒有'] },
+        { id: 'q13', num: 'Q13', group: '生活嗜好、營養與認知功能', text: '肉類、蛋、魚貝類、牛奶等食當中，每天都有吃一種以上的食品嗎?', options: ['是的', '沒有'], riskValues: ['沒有'] },
+        { id: 'q14', num: 'Q14', group: '生活嗜好、營養與認知功能', text: '現在，您(妳)每週料理煮飯4-5次嗎?', options: ['是的', '沒有'], riskValues: ['沒有'] },
+        { id: 'q15', num: 'Q15', group: '生活嗜好、營養與認知功能', text: '過去常做或有興趣的事情，現在，大都放棄了嗎?', options: ['沒有', '是的'], riskValues: ['是的'] },
+        { id: 'q16', num: 'Q16', group: '生活嗜好、營養與認知功能', text: '可以自行存、提款或繳交水電等費用或計算家庭開銷嗎?', options: ['是的', '不行'], riskValues: ['不行'] },
+        { id: 'q17', num: 'Q17', group: '生活嗜好、營養與認知功能', text: '可以自行查電話號碼打電話嗎?', options: ['是的', '不行'], riskValues: ['不行'] },
+        { id: 'q18', num: 'Q18', group: '生活嗜好、營養與認知功能', text: '可以自行按時，依劑量服用藥物嗎?', options: ['是的', '不行'], riskValues: ['不行'] },
+
+        { id: 'q19', num: 'Q19', group: '體能指標判定（鎖定，僅由下方實測數值自動判定）', text: '您(妳)的握力有超過29kg (男性)或19kg (女性) 以上嗎?', options: ['是的', '沒有'], riskValues: ['沒有'], locked: true },
+        { id: 'q20', num: 'Q20', group: '體能指標判定（鎖定，僅由下方實測數值自動判定）', text: '開眼單足立的時間可以超過20秒鐘 (男性)或10秒鐘 (女性) 以上嗎?', options: ['是的', '不行'], riskValues: ['不行'], locked: true },
+        { id: 'q21', num: 'Q21', group: '體能指標判定（鎖定，僅由下方實測數值自動判定）', text: '一般走路可以在4.4秒 (男性)或5秒 (女性)內走完5公尺嗎?', options: ['是的', '不行'], riskValues: ['不行'], locked: true }
+      ];
+
+      // Five Domains & Thresholds (Verified directly against 問1-5. 健康達人21 (回應).xlsx)
+      const DOMAINS = [
+        { key: 'frailty',      label: '虛弱高危險群',   shortLabel: '虛弱高危險群\n(得分>5分)',   threshold: 5 },
+        { key: 'fall',         label: '跌倒高危險群',   shortLabel: '跌倒高危險群\n(得分>5分)',   threshold: 5 },
+        { key: 'incontinence', label: '尿失禁高危險群', shortLabel: '尿失禁高危險群\n(得分>5分)', threshold: 5 },
+        { key: 'malnutrition', label: '低營養高危險群', shortLabel: '低營養高危險群\n(得分>4分)', threshold: 4 },
+        { key: 'dementia',     label: '輕痴呆高危險群', shortLabel: '輕痴呆高危險群\n(得分>4分)', threshold: 4 }
+      ];
+
+      // ================================================================
+      // 2. APPLICATION STATE
+      // ================================================================
+      function createEmptyStage(dateStr) {
+        return {
+          date: dateStr || '',
+          answers: {},
+          grip: '',
+          stand: '',
+          walk: ''
+        };
+      }
+
+      const todayStr = new Date().toISOString().slice(0, 10);
+
+      // Initial sample pre-test matching Excel Row 2 (花蓮宜昌) so UI opens rich & ready
+      const INITIAL_PRE = {
+        date: todayStr,
+        answers: {
+          q1: '不太健康', q2: '沒有', q3: '沒有', q4: '沒有', q5: '是的',
+          q6: '可以', q7: '可以', q8: '可以', q9: '可以',
+          q10: '有時', q11: '大約一次',
+          q12: '是的', q13: '是的', q14: '是的', q15: '是的',
+          q16: '是的', q17: '是的', q18: '是的',
+          q19: '沒有', q20: '是的', q21: '不行'
+        },
+        grip: '17.4',
+        stand: '12',
+        walk: '6'
+      };
+
+      const DEMO_PRE = {
+        date: '2026-08-01',
+        answers: {
+          q1: '不太健康', q2: '是的', q3: '是的', q4: '是的', q5: '是的',
+          q6: '不可以', q7: '不可以', q8: '不可以', q9: '不可以',
+          q10: '有時', q11: '一次以上',
+          q12: '沒有', q13: '是的', q14: '沒有', q15: '是的',
+          q16: '不行', q17: '是的', q18: '是的',
+          q19: '沒有', q20: '不行', q21: '不行'
+        },
+        grip: '15.2',
+        stand: '6.5',
+        walk: '6.8'
+      };
+
+      const DEMO_POST = {
+        date: todayStr,
+        answers: {
+          q1: '還好', q2: '沒有', q3: '沒有', q4: '沒有', q5: '是的',
+          q6: '可以', q7: '可以', q8: '可以', q9: '可以',
+          q10: '有時', q11: '完全沒有',
+          q12: '是的', q13: '是的', q14: '是的', q15: '沒有',
+          q16: '是的', q17: '是的', q18: '是的',
+          q19: '是的', q20: '是的', q21: '是的'
+        },
+        grip: '21.5',
+        stand: '16.8',
+        walk: '4.3'
+      };
+
+      let state = {
+        activeStage: 'pre', // 'pre' | 'post'
+        profile: {
+          site: '花蓮宜昌',
+          email: '',
+          tester: '',
+          code: 'U789',
+          name: '林美華',
+          gender: '女',
+          birthYear: '29',
+          birthMonth: '11'
+        },
+        stages: {
+          pre: JSON.parse(JSON.stringify(INITIAL_PRE)),
+          post: createEmptyStage('')
+        }
+      };
+
+      // ================================================================
+      // 3. EXACT SCORING ENGINE (Verified from 問1-5. 健康達人21 (回應).xlsx)
+      // ================================================================
+      function hasAnyAnswer(stageData) {
+        return Object.keys(stageData.answers).length > 0;
+      }
+
+      function calculateScores(stageData) {
+        if (!hasAnyAnswer(stageData)) return null;
+        const a = stageData.answers;
+
+        // AI: 虛弱分數總和
+        const frailty =
+          (a.q1 === '不太健康' || a.q1 === '不健康' ? 1 : 0) +
+          (a.q6 === '不可以' ? 3 : 0) +
+          (a.q7 === '不可以' ? 1 : 0) +
+          (a.q9 === '不可以' ? 1 : 0) +
+          (a.q10 === '有時' ? 1 : 0) +
+          (a.q12 === '沒有' ? 1 : 0) +
+          (a.q13 === '沒有' ? 1 : 0) +
+          (a.q14 === '沒有' ? 1 : 0) +
+          (a.q16 === '不行' ? 2 : 0) +
+          (a.q17 === '不行' ? 1 : 0) +
+          (a.q19 === '沒有' ? 2 : 0) +
+          (a.q20 === '不行' ? 2 : 0) +
+          (a.q21 === '不行' ? 3 : 0);
+
+        // AJ: 跌倒分數總和
+        const fall =
+          (a.q2 === '是的' ? 1 : 0) +
+          (a.q3 === '是的' ? 1 : 0) +
+          (a.q4 === '是的' ? 3 : 0) +
+          (a.q5 === '是的' ? 2 : 0) +
+          (a.q6 === '不可以' ? 1 : 0) +
+          (a.q9 === '不可以' ? 1 : 0) +
+          (a.q10 === '有時' ? 1 : 0) +
+          (a.q13 === '沒有' ? 1 : 0) +
+          (a.q15 === '是的' ? 1 : 0) +
+          (a.q19 === '沒有' ? 2 : 0) +
+          (a.q20 === '不行' ? 2 : 0) +
+          (a.q21 === '不行' ? 3 : 0);
+
+        // AK: 尿失禁分數總和
+        const incontinence =
+          (a.q1 === '不太健康' || a.q1 === '不健康' ? 1 : 0) +
+          (a.q4 === '是的' ? 1 : 0) +
+          (a.q5 === '是的' ? 1 : 0) +
+          (a.q6 === '不可以' ? 1 : 0) +
+          (a.q8 === '不可以' ? 1 : 0) +
+          (a.q9 === '不可以' ? 1 : 0) +
+          (a.q10 === '有時' ? 3 : 0) +
+          (a.q11 === '大約一次' ? 1 : 0) +
+          (a.q11 === '一次以上' ? 2 : 0) +
+          (a.q15 === '是的' ? 1 : 0) +
+          (a.q16 === '不行' ? 1 : 0) +
+          (a.q17 === '不行' ? 2 : 0) +
+          (a.q19 === '沒有' ? 2 : 0) +
+          (a.q21 === '不行' ? 2 : 0);
+
+        // AL: 低營養分數總和
+        const malnutrition =
+          (a.q3 === '是的' ? 2 : 0) +
+          (a.q4 === '是的' ? 2 : 0) +
+          (a.q12 === '沒有' ? 2 : 0) +
+          (a.q13 === '沒有' ? 1 : 0) +
+          (a.q14 === '沒有' ? 1 : 0) +
+          (a.q16 === '不行' ? 1 : 0) +
+          (a.q19 === '沒有' ? 2 : 0) +
+          (a.q20 === '不行' ? 2 : 0) +
+          (a.q21 === '不行' ? 3 : 0);
+
+        // AM: 輕痴呆分數總和
+        const dementia =
+          (a.q6 === '不可以' ? 2 : 0) +
+          (a.q16 === '不行' ? 2 : 0) +
+          (a.q17 === '不行' ? 2 : 0) +
+          (a.q18 === '不行' ? 2 : 0);
+
+        const total = frailty + fall + incontinence + malnutrition + dementia;
+        return { frailty, fall, incontinence, malnutrition, dementia, total };
+      }
+
+      // ================================================================
+      // 4. DOM REFERENCES & RENDERING
+      // ================================================================
+      const el = {
+        tabPre: document.getElementById('tab-pre'),
+        tabPost: document.getElementById('tab-post'),
+        btnLoadDemo: document.getElementById('btn-load-demo'),
+        btnClearStage: document.getElementById('btn-clear-stage'),
+        btnCloudLoad: document.getElementById('btn-cloud-load'),
+        chkSendEmail: document.getElementById('chk-send-email'),
+        btnCloudSave: document.getElementById('btn-cloud-save'),
+        btnCloudSaveLabel: document.getElementById('btn-cloud-save-label'),
+        btnSwitchNext: document.getElementById('btn-switch-next-stage'),
+        btnSwitchLabel: document.getElementById('btn-switch-label'),
+        btnPrintA4: document.getElementById('btn-print-a4'),
+        printModal: document.getElementById('print-modal'),
+        printModalSheet: document.getElementById('print-modal-sheet'),
+        btnClosePrintModal: document.getElementById('btn-close-print-modal'),
+        btnModalDownloadA4: document.getElementById('btn-modal-download-a4'),
+        btnModalTryPrint: document.getElementById('btn-modal-try-print'),
+
+        alertBanner: document.getElementById('alert-banner'),
+        alertIcon: document.getElementById('alert-icon'),
+        alertText: document.getElementById('alert-text'),
+
+        formStageTitle: document.getElementById('form-stage-title'),
+        stagePill: document.getElementById('stage-pill'),
+        answeredProgress: document.getElementById('answered-progress'),
+        questionsContainer: document.getElementById('questions-container'),
+
+        date: document.getElementById('input-date'),
+        site: document.getElementById('input-site'),
+        email: document.getElementById('input-email'),
+        tester: document.getElementById('input-tester'),
+        code: document.getElementById('input-code'),
+        name: document.getElementById('input-name'),
+        gender: document.getElementById('input-gender'),
+        birthYear: document.getElementById('input-birth-year'),
+        birthMonth: document.getElementById('input-birth-month'),
+
+        grip: document.getElementById('input-grip'),
+        stand: document.getElementById('input-stand'),
+        walk: document.getElementById('input-walk'),
+        genderHint: document.getElementById('gender-threshold-hint'),
+        badgeQ19: document.getElementById('badge-q19'),
+        badgeQ20: document.getElementById('badge-q20'),
+        badgeQ21: document.getElementById('badge-q21'),
+
+        badgePreTotal: document.getElementById('badge-pre-total'),
+        badgePostTotal: document.getElementById('badge-post-total'),
+        badgeDiffTotal: document.getElementById('badge-diff-total'),
+        scoreTableBody: document.getElementById('score-table-body'),
+        tfootPreTotal: document.getElementById('tfoot-pre-total'),
+        tfootPostTotal: document.getElementById('tfoot-post-total'),
+        tfootRiskSummary: document.getElementById('tfoot-risk-summary'),
+        adviceDynamic: document.getElementById('advice-dynamic'),
+
+        rSite: document.getElementById('r-site'),
+        rCode: document.getElementById('r-code'),
+        rName: document.getElementById('r-name'),
+
+
+        radarPrintImg: document.getElementById('radar-print-img'),
+
+        toast: document.getElementById('toast')
+      };
+
+      let toastTimer = null;
+      function showToast(msg, durationMs) {
+        el.toast.textContent = msg;
+        el.toast.classList.remove('hidden', 'toast-show');
+        void el.toast.offsetWidth;
+        el.toast.classList.add('toast-show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.toast.classList.add('hidden'), durationMs || 3200);
+      }
+
+      // Build Questions UI once
+      function buildQuestionsDOM() {
+        let html = '';
+        let currentGroup = '';
+
+        QUESTIONS.forEach((q) => {
+          if (q.group !== currentGroup) {
+            currentGroup = q.group;
+            html += `<div class="pt-2 pb-1 text-[11px] font-bold text-slate-500 tracking-wide">${currentGroup}</div>`;
+          }
+
+          const optionsHtml = q.options.map((opt) => {
+            const isRisk = q.riskValues.includes(opt);
+            const lockClass = q.locked ? 'cursor-not-allowed opacity-85' : 'cursor-pointer';
+            const spanHover = q.locked ? '' : 'hover:bg-slate-50';
+            const disabledAttr = q.locked ? 'disabled' : '';
+            return `
+              <label class="pill-radio ${isRisk ? 'risk-opt' : ''} ${lockClass} select-none" ${q.locked ? 'title="此題已鎖定，請由下方體能實測數值自動判定"' : ''}>
+                <input type="radio" name="${q.id}" value="${opt}" class="sr-only" ${disabledAttr} />
+                <span class="inline-block px-2.5 py-1 text-xs font-medium rounded-lg border border-slate-300 bg-white text-slate-700 ${spanHover} transition">
+                  ${opt}
+                </span>
+              </label>
+            `;
+          }).join('');
+
+          const lockBadge = q.locked
+            ? '<span class="ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-slate-200/80 text-slate-600 align-middle">🔒 自動判定</span>'
+            : '';
+
+          html += `
+            <div class="p-2.5 sm:p-3 rounded-xl border border-slate-200/80 ${q.locked ? 'bg-slate-100/70' : 'bg-slate-50/60 hover:border-slate-300'} transition flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+              <div class="text-xs sm:text-sm text-slate-800 leading-snug">
+                <span class="inline-block font-bold text-emerald-800 mr-1">${q.num}</span>${q.text}${lockBadge}
+              </div>
+              <div class="flex flex-wrap gap-1.5 shrink-0">${optionsHtml}</div>
+            </div>
+          `;
+        });
+
+        el.questionsContainer.innerHTML = html;
+
+        // Delegate radio changes (ignore locked auto-evaluated questions Q19-Q21)
+        const LOCKED_IDS = new Set(QUESTIONS.filter((q) => q.locked).map((q) => q.id));
+        el.questionsContainer.addEventListener('change', (e) => {
+          if (e.target && e.target.type === 'radio') {
+            const qId = e.target.name;
+            if (LOCKED_IDS.has(qId)) {
+              syncRadiosFromState();
+              return;
+            }
+            state.stages[state.activeStage].answers[qId] = e.target.value;
+            saveToLocalStorage();
+            updateOutputs();
+          }
+        });
+      }
+
+      // ================================================================
+      // 5. CHART.JS RADAR CHART
+      // ================================================================
+      let radarChart = null;
+
+      function initRadarChart() {
+        const ctx = document.getElementById('radarChart').getContext('2d');
+        radarChart = new Chart(ctx, {
+          type: 'radar',
+          data: {
+            labels: DOMAINS.map((d) => d.shortLabel.split('\n')),
+            datasets: [
+              {
+                label: '前測 (Pre-test)',
+                data: [0, 0, 0, 0, 0],
+                borderColor: '#2563eb',
+                backgroundColor: 'rgba(37, 99, 235, 0.18)',
+                borderWidth: 2.5,
+                pointBackgroundColor: '#2563eb',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 1.5,
+                pointRadius: 4
+              },
+              {
+                label: '後測 (Post-test)',
+                data: [],
+                borderColor: '#ea580c',
+                backgroundColor: 'rgba(234, 88, 12, 0.18)',
+                borderWidth: 2.5,
+                pointBackgroundColor: '#ea580c',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 1.5,
+                pointRadius: 4
+              },
+              {
+                label: '判斷值 (高危險基準)',
+                data: DOMAINS.map((d) => d.threshold),
+                borderColor: '#dc2626',
+                backgroundColor: 'rgba(220, 38, 38, 0.04)',
+                borderWidth: 1.8,
+                borderDash: [5, 4],
+                pointBackgroundColor: '#dc2626',
+                pointRadius: 2.5
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: { duration: 280 },
+            layout: {
+              padding: { top: 4, bottom: 4, left: 4, right: 4 }
+            },
+            scales: {
+              r: {
+                min: 0,
+                max: 20,
+                ticks: {
+                  stepSize: 5,
+                  backdropColor: 'transparent',
+                  color: '#64748b',
+                  font: { size: 12, weight: '500' }
+                },
+                grid: {
+                  color: '#e2e8f0'
+                },
+                angleLines: {
+                  color: '#cbd5e1'
+                },
+                pointLabels: {
+                  color: '#1e293b',
+                  font: {
+                    size: 13,
+                    weight: '700',
+                    family: "'Inter', 'Noto Sans TC', sans-serif"
+                  }
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: {
+                  usePointStyle: true,
+                  padding: 14,
+                  font: { size: 13, weight: '600', family: "'Inter', 'Noto Sans TC', sans-serif" }
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => `${ctx.dataset.label}：${ctx.raw} 分`
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // ================================================================
+      // 6. AUTO-EVALUATE Q19, Q20, Q21 FROM PHYSICAL MEASUREMENTS
+      // ================================================================
+      function applyPhysicalThresholds(triggerUpdate) {
+        const isMale = state.profile.gender === '男';
+        const stage = state.stages[state.activeStage];
+
+        el.genderHint.textContent = isMale
+          ? '目前標準（男性）：最大握力 > 29 kg｜開眼單足立 > 20 秒｜5公尺走路 < 4.4 秒'
+          : '目前標準（女性）：最大握力 > 19 kg｜開眼單足立 > 10 秒｜5公尺走路 < 5.0 秒';
+
+        // Q19 Grip
+        const gripVal = parseFloat(stage.grip);
+        if (!isNaN(gripVal)) {
+          const pass = isMale ? gripVal > 29 : gripVal > 19;
+          stage.answers.q19 = pass ? '是的' : '沒有';
+          el.badgeQ19.innerHTML = pass
+            ? '<span class="text-emerald-700">✓ Q19 達標（是的）</span>'
+            : '<span class="text-red-600">✕ Q19 未達標（沒有）</span>';
+        } else {
+          delete stage.answers.q19;
+          el.badgeQ19.textContent = '輸入數值自動判定 Q19';
+          el.badgeQ19.className = 'mt-1.5 text-[11px] font-medium text-slate-400';
+        }
+
+        // Q20 Single-leg stand
+        const standVal = parseFloat(stage.stand);
+        if (!isNaN(standVal)) {
+          const pass = isMale ? standVal > 20 : standVal > 10;
+          stage.answers.q20 = pass ? '是的' : '不行';
+          el.badgeQ20.innerHTML = pass
+            ? '<span class="text-emerald-700">✓ Q20 達標（是的）</span>'
+            : '<span class="text-red-600">✕ Q20 未達標（不行）</span>';
+        } else {
+          delete stage.answers.q20;
+          el.badgeQ20.textContent = '輸入數值自動判定 Q20';
+          el.badgeQ20.className = 'mt-1.5 text-[11px] font-medium text-slate-400';
+        }
+
+        // Q21 5m walk
+        const walkVal = parseFloat(stage.walk);
+        if (!isNaN(walkVal)) {
+          const pass = isMale ? walkVal < 4.4 : walkVal < 5;
+          stage.answers.q21 = pass ? '是的' : '不行';
+          el.badgeQ21.innerHTML = pass
+            ? '<span class="text-emerald-700">✓ Q21 達標（是的）</span>'
+            : '<span class="text-red-600">✕ Q21 未達標（不行）</span>';
+        } else {
+          delete stage.answers.q21;
+          el.badgeQ21.textContent = '輸入數值自動判定 Q21';
+          el.badgeQ21.className = 'mt-1.5 text-[11px] font-medium text-slate-400';
+        }
+
+        syncRadiosFromState();
+        if (triggerUpdate) {
+          saveToLocalStorage();
+          updateOutputs();
+        }
+      }
+
+      // ================================================================
+      // 7. SYNC FORM <-> STATE
+      // ================================================================
+      function syncRadiosFromState() {
+        const answers = state.stages[state.activeStage].answers;
+        QUESTIONS.forEach((q) => {
+          const radios = document.querySelectorAll(`input[name="${q.id}"]`);
+          radios.forEach((r) => {
+            r.checked = answers[q.id] === r.value;
+          });
+        });
+      }
+
+      function syncFormFromState() {
+        const isPre = state.activeStage === 'pre';
+        const stage = state.stages[state.activeStage];
+
+        // Tab styling (matching reference dark green active button)
+        if (isPre) {
+          el.tabPre.className = 'px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition border bg-emerald-800 text-white border-emerald-800 shadow-sm';
+          el.tabPost.className = 'px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition border bg-white text-slate-700 border-slate-300 hover:bg-slate-50';
+          el.formStageTitle.textContent = '健康達人21 調查表單（前測）';
+          el.stagePill.textContent = '前測模式 (Pre-test)';
+          el.stagePill.className = 'px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200';
+          el.btnSwitchLabel.textContent = '前往填寫「後測」資料進行前後測對比';
+          el.btnCloudSaveLabel.textContent = '確認送出「前測」紀錄至 Google Sheets 雲端';
+        } else {
+          el.tabPost.className = 'px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition border bg-emerald-800 text-white border-emerald-800 shadow-sm';
+          el.tabPre.className = 'px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition border bg-white text-slate-700 border-slate-300 hover:bg-slate-50';
+          el.formStageTitle.textContent = '健康達人21 調查表單（後測）';
+          el.stagePill.textContent = '後測模式 (Post-test)';
+          el.stagePill.className = 'px-2.5 py-0.5 rounded-full text-xs font-semibold bg-orange-50 text-orange-700 border border-orange-200';
+          el.btnSwitchLabel.textContent = '返回檢視／修改「前測」資料';
+          el.btnCloudSaveLabel.textContent = '確認送出「後測」紀錄至 Google Sheets 雲端';
+        }
+
+        // Profile fields
+        el.site.value = state.profile.site;
+        el.email.value = state.profile.email;
+        el.tester.value = state.profile.tester;
+        el.code.value = state.profile.code;
+        el.name.value = state.profile.name;
+        el.gender.value = state.profile.gender;
+        el.birthYear.value = state.profile.birthYear;
+        el.birthMonth.value = state.profile.birthMonth;
+
+        // Stage fields
+        el.date.value = stage.date;
+        el.grip.value = stage.grip;
+        el.stand.value = stage.stand;
+        el.walk.value = stage.walk;
+
+        applyPhysicalThresholds(false);
+        updateOutputs();
+      }
+
+      // ================================================================
+      // 8. UPDATE RADAR CHART, TABLE, ALERT BANNER & PRINT META
+      // ================================================================
+      function updateOutputs() {
+        const preScores = calculateScores(state.stages.pre);
+        const postScores = calculateScores(state.stages.post);
+        const activeStageData = state.stages[state.activeStage];
+        const activeScores = state.activeStage === 'pre' ? preScores : postScores;
+
+        // Progress counter
+        const answeredCount = Object.keys(activeStageData.answers).length;
+        el.answeredProgress.textContent = `已填 ${answeredCount} / 21 題`;
+
+        // Update Top Alert Banner (based on active stage, or pre if active empty)
+        const refScores = activeScores || preScores || postScores;
+        const refLabel = activeScores
+          ? (state.activeStage === 'pre' ? '前測' : '後測')
+          : (preScores ? '前測' : '後測');
+
+        if (!refScores) {
+          el.alertBanner.className = 'no-print mb-5 rounded-xl px-4 py-3 border bg-slate-100 border-slate-200 text-slate-700 flex items-start gap-2.5 text-xs sm:text-sm';
+          el.alertIcon.textContent = 'ℹ️';
+          el.alertText.innerHTML = '<strong>尚未填寫問卷題項：</strong>請於左側選擇 Q1–Q21 選項，或點擊「載入示範前後測重疊效果」檢視雷達圖。';
+        } else {
+          const triggered = DOMAINS.filter((d) => refScores[d.key] > d.threshold);
+          if (triggered.length > 0) {
+            const names = triggered.map((d) => d.label.replace('高危險群', '')).join('、');
+            el.alertBanner.className = 'no-print mb-5 rounded-xl px-4 py-3 border bg-red-50 border-red-200 text-red-800 flex items-start gap-2.5 text-xs sm:text-sm';
+            el.alertIcon.textContent = '⚠️';
+            el.alertText.innerHTML = `<strong>高危險群風險警示（${refLabel}總得點 ${refScores.total} 分）：</strong>符合【${names}】高危險群標準（共 ${triggered.length} 項），建議優先安排對應之肌力、平衡、營養或認知介入處方。`;
+          } else {
+            el.alertBanner.className = 'no-print mb-5 rounded-xl px-4 py-3 border bg-emerald-50 border-emerald-200 text-emerald-800 flex items-start gap-2.5 text-xs sm:text-sm';
+            el.alertIcon.textContent = '✅';
+            el.alertText.innerHTML = `<strong>整體狀態良好（${refLabel}總得點 ${refScores.total} 分）：</strong>目前五大指標皆未達高危險群門檻，建議持續維持規律運動、均衡飲食與社會參與。`;
+          }
+        }
+
+        // Update Badges
+        el.badgePreTotal.textContent = preScores ? `運動前得點 (前測)：${preScores.total} 分` : '運動前得點 (前測)：-- 分';
+        el.badgePostTotal.textContent = postScores ? `運動後得點 (後測)：${postScores.total} 分` : '運動後得點 (後測)：-- 分';
+
+        if (preScores && postScores) {
+          const diff = postScores.total - preScores.total;
+          el.badgeDiffTotal.classList.remove('hidden');
+          if (diff < 0) {
+            el.badgeDiffTotal.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200';
+            el.badgeDiffTotal.textContent = `📉 風險降低 ${Math.abs(diff)} 分`;
+          } else if (diff > 0) {
+            el.badgeDiffTotal.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold bg-red-100 text-red-800 border border-red-200';
+            el.badgeDiffTotal.textContent = `📈 風險增加 +${diff} 分`;
+          } else {
+            el.badgeDiffTotal.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200';
+            el.badgeDiffTotal.textContent = '➖ 前後測持平 (0 分)';
+          }
+        } else {
+          el.badgeDiffTotal.classList.add('hidden');
+        }
+
+        // Update Radar Chart
+        if (radarChart) {
+          radarChart.data.datasets[0].data = preScores ? DOMAINS.map((d) => preScores[d.key]) : [];
+          radarChart.data.datasets[1].data = postScores ? DOMAINS.map((d) => postScores[d.key]) : [];
+          radarChart.update();
+        }
+
+        // Update Table Rows
+        const rowsHtml = DOMAINS.map((d) => {
+          const preVal = preScores ? preScores[d.key] : null;
+          const postVal = postScores ? postScores[d.key] : null;
+          const evalVal = postVal !== null ? postVal : preVal;
+          const isHigh = evalVal !== null && evalVal > d.threshold;
+
+          let statusBadge = '<span class="text-slate-400">待填寫</span>';
+          if (evalVal !== null) {
+            if (isHigh) {
+              statusBadge = '<span class="inline-block px-2 py-0.5 rounded-full text-[11px] font-bold bg-red-100 text-red-700">符合高危險群</span>';
+            } else {
+              statusBadge = '<span class="inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-700">未符合 (安全)</span>';
+            }
+          }
+
+          return `
+            <tr class="hover:bg-slate-50/80">
+              <td class="py-2.5 px-2.5 font-semibold text-slate-800">${d.label}</td>
+              <td class="py-2.5 px-2 text-center text-slate-500">> ${d.threshold} 分</td>
+              <td class="py-2.5 px-2 text-center font-bold ${preVal !== null && preVal > d.threshold ? 'text-red-600' : 'text-blue-700'}">
+                ${preVal !== null ? preVal + ' 分' : '--'}
+              </td>
+              <td class="py-2.5 px-2 text-center font-bold ${postVal !== null && postVal > d.threshold ? 'text-red-600' : 'text-orange-700'}">
+                ${postVal !== null ? postVal + ' 分' : '--'}
+              </td>
+              <td class="py-2.5 px-2.5 text-center">${statusBadge}</td>
+            </tr>
+          `;
+        }).join('');
+
+        el.scoreTableBody.innerHTML = rowsHtml;
+        el.tfootPreTotal.textContent = preScores ? `${preScores.total} 分` : '-- 分';
+        el.tfootPostTotal.textContent = postScores ? `${postScores.total} 分` : '-- 分';
+
+        const latestScores = postScores || preScores;
+        if (latestScores) {
+          const highCount = DOMAINS.filter((d) => latestScores[d.key] > d.threshold).length;
+          el.tfootRiskSummary.innerHTML = highCount > 0
+            ? `<span class="text-red-700 font-bold">符合 ${highCount} 項高危險</span>`
+            : '<span class="text-emerald-700 font-bold">0 項高危險</span>';
+        } else {
+          el.tfootRiskSummary.textContent = '--';
+        }
+
+        // Dynamic Advice Text
+        if (!preScores && !postScores) {
+          el.adviceDynamic.textContent = '請填寫左側問卷題項後，系統將自動產生五大高危險群之綜合評估與改善建議。';
+        } else {
+          const target = postScores || preScores;
+          const stageName = postScores ? '後測' : '前測';
+          const highDomains = DOMAINS.filter((d) => target[d.key] > d.threshold).map((d) => d.label);
+          let summary = `本次（${stageName}）五大面向總得點為 ${target.total} 分。`;
+          if (highDomains.length > 0) {
+            summary += `其中【${highDomains.join('、')}】達高危險群基準，建議針對相關項目加強介入與追蹤。`;
+          } else {
+            summary += '五大面向皆未達高危險群門檻，整體健康與自主功能表現良好。';
+          }
+          if (preScores && postScores) {
+            const diff = preScores.total - postScores.total;
+            if (diff > 0) {
+              summary += ` 與前測（${preScores.total} 分）相較，後測總得點下降 ${diff} 分，顯示介入方案具正向改善成效。`;
+            } else if (diff < 0) {
+              summary += ` 與前測（${preScores.total} 分）相較，後測總得點上升 ${Math.abs(diff)} 分，建議關注近期健康或生活型態變化。`;
+            } else {
+              summary += ` 與前測（${preScores.total} 分）相較，總得點維持穩定。`;
+            }
+          }
+          el.adviceDynamic.textContent = summary;
+        }
+
+        // Sync Participant Summary Bar (Shared by Screen & A4 Print)
+        el.rSite.textContent = state.profile.site || '（未填寫）';
+        el.rCode.textContent = state.profile.code || '（未填寫）';
+        el.rName.textContent = state.profile.name || '（未填寫）';
+      }
+
+      // ================================================================
+      // 9. PRINT SNAPSHOT & MULTI-ENVIRONMENT A4 PRINT ENGINE (1.5cm)
+      // ================================================================
+      let beforePrintFired = false;
+
+      function preparePrintSnapshot() {
+        if (radarChart) {
+          radarChart.update('none');
+          try {
+            const imgData = radarChart.toBase64Image('image/png', 1.0);
+            el.radarPrintImg.src = imgData;
+            return imgData;
+          } catch (err) {
+            return '';
+          }
+        }
+        return '';
+      }
+
+      window.addEventListener('beforeprint', () => {
+        beforePrintFired = true;
+        preparePrintSnapshot();
+      });
+
+      function escapeHtml(str) {
+        return String(str ?? '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function buildA4InnerHtml(imgData) {
+        const preScores = calculateScores(state.stages.pre);
+        const postScores = calculateScores(state.stages.post);
+        const siteVal = escapeHtml(state.profile.site || '（未填寫）');
+        const codeVal = escapeHtml(state.profile.code || '（未填寫）');
+        const nameVal = escapeHtml(state.profile.name || '（未填寫）');
+
+        let diffBadgeHtml = '';
+        if (preScores && postScores) {
+          const diff = postScores.total - preScores.total;
+          if (diff < 0) {
+            diffBadgeHtml = `<span style="padding:4px 10px;border-radius:8px;background:#d1fae5;color:#065f46;border:1px solid #a7f3d0;font-size:12px;font-weight:700;">📉 風險降低 ${Math.abs(diff)} 分</span>`;
+          } else if (diff > 0) {
+            diffBadgeHtml = `<span style="padding:4px 10px;border-radius:8px;background:#fee2e2;color:#991b1b;border:1px solid #fecaca;font-size:12px;font-weight:700;">📈 風險增加 +${diff} 分</span>`;
+          } else {
+            diffBadgeHtml = `<span style="padding:4px 10px;border-radius:8px;background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;font-size:12px;font-weight:700;">➖ 前後測持平 (0 分)</span>`;
+          }
+        }
+
+        const rows = DOMAINS.map((d) => {
+          const preV = preScores ? preScores[d.key] : null;
+          const postV = postScores ? postScores[d.key] : null;
+          const evalV = postV !== null ? postV : preV;
+          const isHigh = evalV !== null && evalV > d.threshold;
+          const status = evalV === null
+            ? '<span style="color:#94a3b8;">待填寫</span>'
+            : (isHigh
+                ? '<span style="display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;background:#fee2e2;color:#b91c1c;">符合高危險群</span>'
+                : '<span style="display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:600;background:#d1fae5;color:#047857;">未符合 (安全)</span>');
+          return `
+            <tr>
+              <td style="padding:7px 8px;border-bottom:1px solid #f1f5f9;font-weight:600;color:#1e293b;">${d.label}</td>
+              <td style="padding:7px 8px;border-bottom:1px solid #f1f5f9;text-align:center;color:#64748b;">> ${d.threshold} 分</td>
+              <td style="padding:7px 8px;border-bottom:1px solid #f1f5f9;text-align:center;font-weight:700;color:${preV !== null && preV > d.threshold ? '#dc2626' : '#1d4ed8'};">${preV !== null ? preV + ' 分' : '--'}</td>
+              <td style="padding:7px 8px;border-bottom:1px solid #f1f5f9;text-align:center;font-weight:700;color:${postV !== null && postV > d.threshold ? '#dc2626' : '#c2410c'};">${postV !== null ? postV + ' 分' : '--'}</td>
+              <td style="padding:7px 8px;border-bottom:1px solid #f1f5f9;text-align:center;">${status}</td>
+            </tr>`;
+        }).join('');
+
+        const latest = postScores || preScores;
+        const highCount = latest ? DOMAINS.filter((d) => latest[d.key] > d.threshold).length : 0;
+        const totalStatus = latest
+          ? (highCount > 0 ? `<span style="color:#b91c1c;font-weight:700;">符合 ${highCount} 項高危險</span>` : '<span style="color:#047857;font-weight:700;">0 項高危險</span>')
+          : '--';
+
+        return `
+          <div style="display:flex;align-items:center;gap:8px;padding-bottom:10px;margin-bottom:12px;border-bottom:1px solid #f1f5f9;">
+            <span style="font-size:18px;">🕸️</span>
+            <span style="font-size:17px;font-weight:700;color:#1e293b;">健康達人21 調查結果評估雷達圖（前後測重疊對比）</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;padding:9px 14px;border-radius:10px;background:#f8fafc;border:1px solid #e2e8f0;font-size:12.5px;">
+            <div><span style="font-weight:600;color:#64748b;">據點名稱：</span><strong style="color:#1e293b;">${siteVal}</strong></div>
+            <div><span style="font-weight:600;color:#64748b;">編號：</span><strong style="color:#1e293b;">${codeVal}</strong></div>
+            <div><span style="font-weight:600;color:#64748b;">長者姓名：</span><strong style="color:#1e293b;">${nameVal}</strong></div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+            <span style="padding:4px 12px;border-radius:8px;background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;font-size:12.5px;font-weight:700;">運動前得點 (前測)：${preScores ? preScores.total : '--'} 分</span>
+            <span style="padding:4px 12px;border-radius:8px;background:#fff7ed;color:#9a3412;border:1px solid #fed7aa;font-size:12.5px;font-weight:700;">運動後得點 (後測)：${postScores ? postScores.total : '--'} 分</span>
+            ${diffBadgeHtml}
+          </div>
+          <p style="font-size:11.5px;color:#64748b;line-height:1.6;margin:0 0 8px 0;">
+            依據《健康達人21》高危險群評分規則：雷達圖圍成範圍越大（得點分數越多），表示衰弱風險愈高；越向中心凹陷代表風險越低。
+          </p>
+          <div style="text-align:center;margin:6px 0 10px 0;">
+            ${imgData ? `<img src="${imgData}" alt="健康達人21調查結果評估雷達圖" style="max-width:600px;max-height:410px;width:100%;object-fit:contain;margin:0 auto;display:block;" />` : ''}
+          </div>
+          <table style="width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:12px;">
+            <thead>
+              <tr style="background:#f1f5f9;border-top:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;">
+                <th style="padding:8px;text-align:left;color:#334155;">評估項目</th>
+                <th style="padding:8px;text-align:center;color:#334155;">判斷值</th>
+                <th style="padding:8px;text-align:center;color:#1d4ed8;">前測分數</th>
+                <th style="padding:8px;text-align:center;color:#c2410c;">後測分數</th>
+                <th style="padding:8px;text-align:center;color:#334155;">高危險群判定</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+            <tfoot>
+              <tr style="background:#ecfdf5;font-weight:700;border-top:2px solid #e2e8f0;">
+                <td style="padding:8px;color:#1e293b;">🌟 五大項總得點</td>
+                <td style="padding:8px;text-align:center;font-size:11.5px;color:#64748b;">越低越好</td>
+                <td style="padding:8px;text-align:center;color:#1e40af;">${preScores ? preScores.total + ' 分' : '-- 分'}</td>
+                <td style="padding:8px;text-align:center;color:#9a3412;">${postScores ? postScores.total + ' 分' : '-- 分'}</td>
+                <td style="padding:8px;text-align:center;font-size:11.5px;">${totalStatus}</td>
+              </tr>
+            </tfoot>
+          </table>
+          <div style="padding:12px 14px;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;font-size:12px;line-height:1.6;color:#334155;">
+            <div style="font-weight:700;color:#1e293b;margin-bottom:4px;">📝 綜合評估與建議</div>
+            <div style="margin-bottom:8px;">${escapeHtml(el.adviceDynamic.textContent)}</div>
+            <div style="font-size:11px;color:#64748b;border-top:1px solid #e2e8f0;padding-top:6px;">
+              注意：健康達人21調查之數字連結在雷達圖上之範圍越大者（得點分數越多者），表示衰弱風險愈高；反之，越低。同時，越凹陷之部分表示其風險越低；反之，越高。
+            </div>
+          </div>
+        `;
+      }
+
+      function buildStandaloneA4Document(imgData, autoPrint) {
+        const innerHtml = buildA4InnerHtml(imgData);
+        const autoScript = autoPrint
+          ? '<script>window.addEventListener("load",function(){setTimeout(function(){window.focus();window.print();},220);});<\/script>'
+          : '';
+        return `<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>健康達人21調查結果評估表_${escapeHtml(state.profile.code || 'A4')}</title>
+  <style>
+    @page { size: A4 portrait; margin: 1.5cm; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+      color: #0f172a;
+      margin: 0;
+      padding: 0;
+      background: #e2e8f0;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .bar {
+      max-width: 210mm;
+      margin: 12px auto 0 auto;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    .bar button {
+      background: #f59e0b;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .sheet {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 12px auto;
+      padding: 1.5cm;
+      background: #ffffff;
+      box-shadow: 0 4px 20px rgba(15,23,42,0.12);
+    }
+    @media print {
+      body { background: #ffffff; }
+      .bar { display: none !important; }
+      .sheet {
+        width: 100%;
+        min-height: auto;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bar"><button onclick="window.print()">🖨️ 列印 A4 評估表</button></div>
+  <div class="sheet">${innerHtml}</div>
+  ${autoScript}
+</body>
+</html>`;
+      }
+
+      function downloadStandaloneA4Html() {
+        const imgData = preparePrintSnapshot();
+        const docHtml = buildStandaloneA4Document(imgData, true);
+        const blob = new Blob([docHtml], { type: 'text/html;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `CL-14-0028_健康達人21_${state.profile.code || 'report'}_A4列印.html`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('已下載獨立 A4 列印檔，開啟即可直接列印');
+      }
+
+      function triggerPrintA4() {
+        const imgData = preparePrintSnapshot();
+
+        // Tier 1: Open clean A4 print preview tab & trigger native print dialog
+        try {
+          const printWin = window.open('', '_blank', 'width=900,height=1050');
+          if (printWin && printWin.document) {
+            printWin.document.open();
+            printWin.document.write(buildStandaloneA4Document(imgData, true));
+            printWin.document.close();
+            return;
+          }
+        } catch (err) {
+          // Popup blocked or restricted; continue to Tier 2
+        }
+
+        // Tier 2: Direct synchronous window.print() on current page
+        beforePrintFired = false;
+        const t0 = Date.now();
+        let blocked = false;
+        try {
+          window.print();
+        } catch (err) {
+          blocked = true;
+        }
+        const elapsed = Date.now() - t0;
+
+        // Tier 3: If restricted environment silently blocked print, show in-page A4 preview modal
+        if (blocked || (!beforePrintFired && elapsed < 50)) {
+          el.printModalSheet.innerHTML = buildA4InnerHtml(imgData);
+          el.printModal.classList.remove('hidden');
+        }
+      }
+
+      // ================================================================
+      // 9B. GOOGLE APPS SCRIPT CLOUD SAVE & LOAD (gid=45460058)
+      // ================================================================
+      // 若已部署完成，可直接將網頁應用程式網址填入下方常數，GitHub Pages 開啟即可免設定連線
+      const DEFAULT_GAS_URL = '';
+      const GAS_URL_STORAGE_KEY = 'cl_14_0028_form3_gas_url_v1';
+
+      function getGasUrl() {
+        try {
+          const saved = localStorage.getItem(GAS_URL_STORAGE_KEY);
+          if (saved && saved.trim()) return saved.trim();
+        } catch (err) {
+          // ignore
+        }
+        return DEFAULT_GAS_URL;
+      }
+
+      async function saveToGoogleSheets() {
+        const gasUrl = getGasUrl();
+        if (!gasUrl) {
+          showToast('尚未設定 Google Apps Script 連線網址（請於程式碼 DEFAULT_GAS_URL 填入）', 5000);
+          return;
+        }
+
+        const stageData = state.stages[state.activeStage];
+        const scores = calculateScores(stageData);
+        if (!scores) {
+          showToast('目前階段尚未填寫題項，請先填寫後再儲存');
+          return;
+        }
+        if (!state.profile.site.trim() || (!state.profile.code.trim() && !state.profile.name.trim())) {
+          showToast('請先填寫「施測據點」與「編號／長者姓名」');
+          return;
+        }
+
+        const shouldSendEmail = el.chkSendEmail ? el.chkSendEmail.checked : true;
+        const emailVal = state.profile.email.trim();
+        if (shouldSendEmail && !emailVal) {
+          showToast('請先填寫第 3 題「施測者 E-mail」以寄送確認信（或取消勾選寄信）');
+          el.email.focus();
+          return;
+        }
+
+        const origText = el.btnCloudSaveLabel.textContent;
+        el.btnCloudSave.disabled = true;
+        el.btnCloudSaveLabel.textContent = shouldSendEmail
+          ? '正在儲存至 Google Sheets 並寄送確認信...'
+          : '正在傳送資料至 Google Sheets 雲端...';
+
+        try {
+          const payload = {
+            stage: state.activeStage,
+            sendEmail: shouldSendEmail,
+            profile: state.profile,
+            stageData: stageData,
+            scores: scores
+          };
+          const resp = await fetch(gasUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+          });
+          const resJson = await resp.json();
+          if (resJson && resJson.ok) {
+            const dur = resJson.emailSent === false ? 7000 : 3500;
+            showToast(resJson.message || '已成功儲存至 Google Sheets 雲端！', dur);
+          } else {
+            showToast('儲存失敗：' + ((resJson && resJson.error) || '請檢查 Apps Script 部署權限'), 6000);
+          }
+        } catch (err) {
+          showToast('無法連線至 Apps Script，請確認網址正確且部署權限設為「所有人」');
+        } finally {
+          el.btnCloudSave.disabled = false;
+          el.btnCloudSaveLabel.textContent = origText;
+        }
+      }
+
+      async function loadFromGoogleSheets() {
+        const gasUrl = getGasUrl();
+        if (!gasUrl) {
+          showToast('尚未設定 Google Apps Script 連線網址（請於程式碼 DEFAULT_GAS_URL 填入）', 5000);
+          return;
+        }
+
+        const site = state.profile.site.trim();
+        const code = state.profile.code.trim();
+        const name = state.profile.name.trim();
+        if (!site && !code && !name) {
+          showToast('請先輸入據點名稱、編號或長者姓名再載入');
+          return;
+        }
+
+        const origHtml = el.btnCloudLoad.innerHTML;
+        el.btnCloudLoad.disabled = true;
+        el.btnCloudLoad.innerHTML = '<span>⏳</span> 正在從雲端查詢前測與後測資料...';
+
+        try {
+          const qs = new URLSearchParams({ action: 'load', site, code, name });
+          const sep = gasUrl.includes('?') ? '&' : '?';
+          const resp = await fetch(`${gasUrl}${sep}${qs.toString()}`);
+          const resJson = await resp.json();
+
+          if (!resJson || !resJson.ok) {
+            showToast('查詢失敗：' + ((resJson && resJson.error) || '回傳格式錯誤'));
+            return;
+          }
+          if (!resJson.found) {
+            showToast('雲端試算表查無符合「據點／編號／姓名」之紀錄');
+            return;
+          }
+
+          if (resJson.profile) {
+            if (resJson.profile.site) state.profile.site = resJson.profile.site;
+            if (resJson.profile.email) state.profile.email = resJson.profile.email;
+            if (resJson.profile.tester) state.profile.tester = resJson.profile.tester;
+            if (resJson.profile.gender) state.profile.gender = resJson.profile.gender;
+            if (resJson.profile.birthYear) state.profile.birthYear = resJson.profile.birthYear;
+            if (resJson.profile.birthMonth) state.profile.birthMonth = resJson.profile.birthMonth;
+          }
+
+          if (resJson.pre) {
+            state.stages.pre = {
+              date: resJson.pre.date || '',
+              answers: resJson.pre.answers || {},
+              grip: resJson.pre.grip || '',
+              stand: resJson.pre.stand || '',
+              walk: resJson.pre.walk || ''
+            };
+          } else {
+            state.stages.pre = createEmptyStage('');
+          }
+
+          if (resJson.post) {
+            state.stages.post = {
+              date: resJson.post.date || '',
+              answers: resJson.post.answers || {},
+              grip: resJson.post.grip || '',
+              stand: resJson.post.stand || '',
+              walk: resJson.post.walk || ''
+            };
+          } else {
+            state.stages.post = createEmptyStage('');
+          }
+
+          state.activeStage = resJson.post ? 'post' : 'pre';
+          saveToLocalStorage();
+          syncFormFromState();
+
+          const loadedTags = [];
+          if (resJson.pre) loadedTags.push('前測');
+          if (resJson.post) loadedTags.push('後測');
+          showToast(`已成功載入雲端【${loadedTags.join('＋')}】資料並更新雷達圖！`);
+        } catch (err) {
+          showToast('無法連線至 Apps Script，請確認網址正確且部署權限設為「所有人」');
+        } finally {
+          el.btnCloudLoad.disabled = false;
+          el.btnCloudLoad.innerHTML = origHtml;
+        }
+      }
+
+      // ================================================================
+      // 11. LOCALSTORAGE PERSISTENCE (Safe try/catch)
+      // ================================================================
+      const STORAGE_KEY = 'cl_14_0028_form3_state_v1';
+
+      function saveToLocalStorage() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (err) {
+          // Ignore storage errors in sandboxed iframes
+        }
+      }
+
+      function loadFromLocalStorage() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && parsed.profile && parsed.stages && parsed.stages.pre && parsed.stages.post) {
+              state = parsed;
+            }
+          }
+        } catch (err) {
+          // Ignore storage errors
+        }
+      }
+
+      // ================================================================
+      // 12. EVENT LISTENERS & INIT
+      // ================================================================
+      function bindEvents() {
+        el.tabPre.addEventListener('click', () => {
+          state.activeStage = 'pre';
+          syncFormFromState();
+        });
+
+        el.tabPost.addEventListener('click', () => {
+          state.activeStage = 'post';
+          if (!state.stages.post.date) {
+            state.stages.post.date = todayStr;
+          }
+          syncFormFromState();
+        });
+
+        el.btnSwitchNext.addEventListener('click', () => {
+          state.activeStage = state.activeStage === 'pre' ? 'post' : 'pre';
+          if (state.activeStage === 'post' && !state.stages.post.date) {
+            state.stages.post.date = todayStr;
+          }
+          syncFormFromState();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        el.btnLoadDemo.addEventListener('click', () => {
+          state.profile = {
+            site: '花蓮宜昌',
+            email: 'tichen@gms.tcu.edu.tw',
+            tester: '陳聰毅',
+            code: 'U789',
+            name: '林美華',
+            gender: '女',
+            birthYear: '29',
+            birthMonth: '11'
+          };
+          state.stages.pre = JSON.parse(JSON.stringify(DEMO_PRE));
+          state.stages.post = JSON.parse(JSON.stringify(DEMO_POST));
+          state.activeStage = 'post';
+          saveToLocalStorage();
+          syncFormFromState();
+          showToast('已載入示範前後測重疊效果');
+        });
+
+        el.btnClearStage.addEventListener('click', () => {
+          state.stages[state.activeStage] = createEmptyStage(todayStr);
+          saveToLocalStorage();
+          syncFormFromState();
+          showToast(`已清空${state.activeStage === 'pre' ? '前測' : '後測'}問卷資料`);
+        });
+
+        // Profile inputs
+        const profileMap = [
+          [el.site, 'site'],
+          [el.email, 'email'],
+          [el.tester, 'tester'],
+          [el.code, 'code'],
+          [el.name, 'name'],
+          [el.birthYear, 'birthYear'],
+          [el.birthMonth, 'birthMonth']
+        ];
+        profileMap.forEach(([node, key]) => {
+          node.addEventListener('input', () => {
+            state.profile[key] = node.value;
+            saveToLocalStorage();
+            updateOutputs();
+          });
+        });
+
+        el.gender.addEventListener('change', () => {
+          state.profile.gender = el.gender.value;
+          applyPhysicalThresholds(true);
+        });
+
+        el.date.addEventListener('input', () => {
+          state.stages[state.activeStage].date = el.date.value;
+          saveToLocalStorage();
+          updateOutputs();
+        });
+
+        // Physical measurement inputs
+        [
+          [el.grip, 'grip'],
+          [el.stand, 'stand'],
+          [el.walk, 'walk']
+        ].forEach(([node, key]) => {
+          node.addEventListener('input', () => {
+            state.stages[state.activeStage][key] = node.value;
+            applyPhysicalThresholds(true);
+          });
+        });
+
+        // Print A4 Button & fallback modal controls
+        el.btnPrintA4.addEventListener('click', triggerPrintA4);
+        el.btnClosePrintModal.addEventListener('click', () => el.printModal.classList.add('hidden'));
+        el.printModal.addEventListener('click', (e) => {
+          if (e.target === el.printModal) el.printModal.classList.add('hidden');
+        });
+        el.btnModalDownloadA4.addEventListener('click', downloadStandaloneA4Html);
+        el.btnModalTryPrint.addEventListener('click', () => {
+          el.printModal.classList.add('hidden');
+          preparePrintSnapshot();
+          try { window.print(); } catch (err) { /* ignore */ }
+        });
+
+        el.btnCloudSave.addEventListener('click', saveToGoogleSheets);
+        el.btnCloudLoad.addEventListener('click', loadFromGoogleSheets);
+      }
+
+      // Initialize app
+      loadFromLocalStorage();
+      buildQuestionsDOM();
+      initRadarChart();
+      bindEvents();
+      syncFormFromState();
+    })();
+  </script>
+</body>
+</html>
