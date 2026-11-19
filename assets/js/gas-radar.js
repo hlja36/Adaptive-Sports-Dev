@@ -125,8 +125,9 @@ function initRadarChart() {
           backgroundColor: 'rgba(217, 119, 6, 0.30)',
           borderColor: 'rgba(217, 119, 6, 1)',
           pointBackgroundColor: 'rgba(217, 119, 6, 1)',
-          borderWidth: 2.5,
-          pointRadius: 4
+          borderWidth: 3,
+          pointRadius: 5,
+          pointHoverRadius: 7
         }
       ]
     },
