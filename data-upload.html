@@ -416,40 +416,41 @@
         <span class="badge badge-green">CL-14-0028-1</span>
         <h4 style="margin:8px 0;">體型測量及體能測驗-前後測紀錄表</h4>
         <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">Google Forms 官方備份填報表單（前後測體型、血壓與體適能紀錄）。</p>
-        <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://hlja36.github.io/Adaptive-Sports-Dev/record-form1.html', '體型測量及體能測驗-前後測紀錄表')" class="btn">前往填寫表單 ⬇</a>   
+        <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://hlja36.github.io/Adaptive-Sports-Dev/record-form1.html', '體型測量及體能測驗-前後測紀錄表', '1800px')" class="btn">前往填寫表單 ⬇</a>   
       </div>
       <div class="kpi-card accent" style="margin-bottom:0;">
         <span class="badge badge-orange">CL-14-0028-2</span>
         <h4 style="margin:8px 0;">預防改善尿失禁問卷調查</h4>
         <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">15 題簡易排尿頻率、尿勢、自主停尿與生活影響評估問卷。</p>
-        <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://hlja36.github.io/Adaptive-Sports-Dev/record-form2.html', '預防改善尿失禁問卷調查')" class="btn">前往填寫問卷 ⬇</a>
+        <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://hlja36.github.io/Adaptive-Sports-Dev/record-form2.html', '預防改善尿失禁問卷調查', '2400px')" class="btn">前往填寫問卷 ⬇</a>
       </div>
       <div class="kpi-card blue" style="margin-bottom:0;">
         <span class="badge badge-blue">CL-14-0028-3</span>
         <h4 style="margin:8px 0;">健康達人 21 篩檢問卷</h4>
         <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">21 題特定高齡者（虛弱、跌倒、尿失禁、低營養、輕度認知障礙）篩檢。</p>
-        <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://forms.gle/Wq3PJpdqGNpVaU8DA', '健康達人 21 篩檢問卷')" class="btn">前往填寫問卷 ⬇</a>        
+        <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://forms.gle/Wq3PJpdqGNpVaU8DA', '健康達人 21 篩檢問卷', '2800px')" class="btn">前往填寫問卷 ⬇</a>        
       </div>
     </div>
   </div>
-<!-- 新增的單一內嵌大區塊 (預設隱藏) -->
-<div id="form-embed-container" style="display: none; margin-top: 30px; padding: 20px; background: #ffffff; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #e0e0e0;">
+
+  <!-- 新增的單一內嵌大區塊 (預設隱藏) -->
+  <div id="form-embed-container" style="display: none; margin-top: 30px; padding: 20px; background: #ffffff; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #e0e0e0;">
     
     <!-- 區塊頂部：標題與關閉按鈕 -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px solid #2e7d32; padding-bottom: 10px;">
-        <h4 id="form-embed-title" style="margin: 0; color: #2e7d32; font-weight: bold;">正在載入問卷...</h4>
-        <button onclick="closeEmbeddedForm()" style="background: #dc3545; color: white; border: none; padding: 6px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
-            ✖ 關閉表單
-        </button>
+      <h4 id="form-embed-title" style="margin: 0; color: #2e7d32; font-weight: bold;">正在載入問卷...</h4>
+      <button onclick="closeEmbeddedForm()" style="background: #dc3545; color: white; border: none; padding: 6px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+        ✖ 關閉表單
+      </button>
     </div>
 
     <!-- 實際載入外部網頁的 iframe -->
-    <iframe id="form-iframe" src="record-form1.html" width="100%" height="850px" frameborder="0" style="border: none; border-radius: 8px;">
-        載入中...如果無法顯示，請確認您的瀏覽器支援 iframe。
+    <iframe id="form-iframe" src="" width="100%" frameborder="0" style="height: 1400px; border: none; border-radius: 8px; display: block;">
+      載入中...如果無法顯示，請確認您的瀏覽器支援 iframe。
     </iframe>
+  </div>
 </div>
-</div>
-
+    
   </main>
   <footer>
     <div class="footer-inner">
