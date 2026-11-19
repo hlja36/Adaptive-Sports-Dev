@@ -1,0 +1,134 @@
+/* CL-14-0028：長者友善 A4 單頁列印版
+   加在 data-upload.html 的 </head> 前，置於既有列印 CSS 之後。 */
+@media print {
+  @page { size: A4 portrait; margin: 9mm; }
+
+  html, body {
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+
+  /* 保留雷達圖列印區，其餘網站內容不列印 */
+  body * { visibility: hidden !important; }
+  #radar-print-section, #radar-print-section * { visibility: visible !important; }
+
+  #radar-print-section {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    display: block !important;
+    box-sizing: border-box !important;
+    width: 190mm !important;
+    max-width: 190mm !important;
+    min-width: 0 !important;
+    height: auto !important;
+    max-height: 275mm !important;
+    margin: 0 !important;
+    padding: 3mm 3mm 2mm !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: #fff !important;
+    zoom: 1 !important; /* 取消舊版 zoom:0.8，使文字恢復清晰 */
+    font-family: Arial, 'Noto Sans TC', sans-serif !important;
+    font-size: 13pt !important;
+    line-height: 1.35 !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* 報告名稱、分數 */
+  #radar-print-section h3 {
+    font-size: 18pt !important;
+    line-height: 1.3 !important;
+    margin: 0 0 3mm !important;
+    color: #134e4a !important;
+  }
+  #radar-print-section #totalScoreBadge {
+    font-size: 12pt !important;
+    line-height: 1.35 !important;
+    padding: 1.5mm 2.5mm !important;
+  }
+
+  /* 三項識別資料：18pt 標題之外最優先的閱讀資訊 */
+  #radarIdentityInfo {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 2mm !important;
+    margin: 2mm 0 3mm !important;
+    padding: 2.5mm !important;
+    font-size: 13pt !important;
+    line-height: 1.5 !important;
+    background: #eaf6f2 !important;
+    border: 1px solid #b9d9cf !important;
+  }
+  #radarIdentityInfo strong, #radarIdentityInfo span { font-size: 13pt !important; }
+
+  /* 常模解說保留，但不占據過多版面 */
+  #radar-print-section p {
+    font-size: 10.5pt !important;
+    line-height: 1.4 !important;
+    margin: 1mm 0 3mm !important;
+  }
+
+  /* 雷達圖維持可辨識大小：高度約 105mm */
+  #radar-print-section canvas#overlapRadarChart {
+    display: block !important;
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 105mm !important;
+    margin: 0 auto !important;
+  }
+  #radar-print-section:has(canvas#overlapRadarChart) > div:has(> canvas#overlapRadarChart) {
+    max-width: 165mm !important;
+    margin: 0 auto 2mm !important;
+  }
+
+  /* 五項體能表格：字放大、行距保持清楚 */
+  #radar-print-section .table-wrap {
+    margin-top: 3mm !important;
+    overflow: visible !important;
+  }
+  #radar-print-section table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    table-layout: fixed !important;
+    font-size: 12pt !important;
+    line-height: 1.35 !important;
+  }
+  #radar-print-section th,
+  #radar-print-section td {
+    padding: 2mm 2mm !important;
+    font-size: 12pt !important;
+    line-height: 1.35 !important;
+    white-space: normal !important;
+    word-break: keep-all !important;
+    vertical-align: middle !important;
+  }
+  #radar-print-section thead th { font-weight: 700 !important; }
+  #radar-print-section tfoot td {
+    font-size: 13pt !important;
+    font-weight: 700 !important;
+    background: #eaf6f2 !important;
+  }
+
+  #radar-print-section table,
+  #radar-print-section thead,
+  #radar-print-section tbody,
+  #radar-print-section tfoot,
+  #radar-print-section tr,
+  #radar-print-section canvas {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  #radar-print-section .no-print,
+  #radar-print-section button { display: none !important; }
+}
