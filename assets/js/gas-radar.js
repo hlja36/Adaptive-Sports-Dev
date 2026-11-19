@@ -133,7 +133,7 @@ function initRadarChart() {
     },
     options: {
       responsive: true,
-      maintainAspectRatio: true,
+      maintainAspectRatio: false,
       aspectRatio: 1,
       devicePixelRatio: 4,
       scales: {
