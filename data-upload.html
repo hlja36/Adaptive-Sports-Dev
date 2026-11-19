@@ -1,165 +1,78 @@
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
-
-<style>
-@media print {
-
-  @page {
-    size: A4 portrait;
-    margin: 4mm;
-  }
-
-  /* 報告擴展至 A4 可列印寬度 */
-  #radar-print-section {
-    width: 202mm !important;
-    max-width: 202mm !important;
-    margin: 0 !important;
-    padding: 2mm !important;
-    box-sizing: border-box !important;
-    zoom: 1 !important;
-    transform: none !important;
-  }
-
-  /* 放大雷達圖所在容器 */
-  #radar-print-section
-  div:has(> #overlapRadarChart) {
-    width: 160mm !important;
-    max-width: 160mm !important;
-    height: 320 !important;
-    max-height: 320 !important;
-    margin: 2mm auto 3mm !important;
-    padding: 0 !important;
-  }
-
-  /* 雷達圖適度放大 */
-  #overlapRadarChart {
-    display: block !important;
-    width: 100% !important;
-    height: 320 !important;
-    max-width: 160mm !important;
-    max-height: 320 !important;
-    margin: 0 auto !important;
-  }
-
-  /* 表格緊湊排列 */
-  #radar-print-section .table-wrap {
-    margin-top: 2mm !important;
-    padding: 0 !important;
-    overflow: visible !important;
-  }
-
-  #radar-print-section table {
-    width: 94% !important;
-    margin: 0 auto !important;
-    border-collapse: collapse !important;
-    table-layout: fixed !important;
-  }
-
-  /* 表格縮小至 11pt */
-  #radar-print-section th,
-  #radar-print-section td {
-    font-size: 11pt !important;
-    line-height: 1.15 !important;
-    padding: 3px 5px !important;
-  }
-
-  /* 總分列 */
-  #radar-print-section tfoot td {
-    font-size: 12pt !important;
-    font-weight: bold !important;
-    padding: 4px 5px !important;
-  }
-
-  /* 避免表格資料列跨頁 */
-  #radar-print-section tr {
-    break-inside: avoid !important;
-    page-break-inside: avoid !important;
-  }
-
-  /* 隱藏列印按鈕 */
-  #radar-print-section .no-print {
-    display: none !important;
-  }
-}
-</style>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>檢測問卷填報與雷達圖評估 | CL-14-0028 長者適性運動-增力穩行尿防漏、健康老化快樂過</title>
   <link rel="stylesheet" href="assets/css/style.css">
   
+  <style>
+  /* CL-14-0028：A4 單頁列印（僅一組規則，避免舊設定互相覆蓋） */
+  @media print {
+    @page { size: A4 portrait; margin: 5mm; }
+
+    /* 整份報告使用 A4 可列印寬度，不縮放整張報告 */
+    #radar-print-section {
+      width: 200mm !important;
+      max-width: 200mm !important;
+      margin: 0 !important;
+      padding: 2mm !important;
+      box-sizing: border-box !important;
+      zoom: 1 !important;
+      transform: none !important;
+    }
+
+    /* 雷達圖改成正方形：相較原本偏扁的版型，增加有效高度而不拉伸五角形。 */
+    #radar-print-section div:has(> #overlapRadarChart) {
+      width: 138mm !important;
+      max-width: 138mm !important;
+      height: 138mm !important;
+      max-height: 138mm !important;
+      margin: 1mm auto 1mm !important;
+      padding: 0 !important;
+      overflow: visible !important;
+      box-sizing: border-box !important;
+    }
+
+    #overlapRadarChart {
+      display: block !important;
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      margin: 0 auto !important;
+      image-rendering: auto !important;
+    }
+
+    /* 緊縮下方表格，給雷達圖更多垂直空間 */
+    #radar-print-section .table-wrap {
+      margin-top: 1mm !important;
+      margin-bottom: 0 !important;
+      padding: 0 !important;
+      overflow: visible !important;
+    }
+    #radar-print-section table {
+      width: 100% !important;
+      margin: 0 !important;
+      border-collapse: collapse !important;
+      border-spacing: 0 !important;
+      table-layout: fixed !important;
+    }
+    #radar-print-section th,
+    #radar-print-section td {
+      font-size: 10pt !important;
+      line-height: 1.1 !important;
+      padding: 2px 4px !important;
+      height: auto !important;
+      min-height: 0 !important;
+    }
+    #radar-print-section thead th { padding-top: 3px !important; padding-bottom: 3px !important; }
+    #radar-print-section tfoot td { font-size: 11pt !important; font-weight: 700 !important; padding: 3px 4px !important; }
+    #radar-print-section tr { break-inside: avoid !important; page-break-inside: avoid !important; }
+    #radar-print-section .no-print { display: none !important; }
+  }
+  </style>
 </head>
-
-
-<style>
-/* A4 單頁列印：雷達圖大小不變，只壓縮表格 */
-@media print {
-
-  @page {
-    size: A4 portrait;
-    margin: 10mm;
-  }
-
-  /* 保留雷達圖原來的尺寸，不調整 canvas */
-  /* 縮短雷達圖與表格之間的距離 */
-  #radar-print-section .table-wrap {
-    margin-top: 2mm !important;
-    margin-bottom: 0 !important;
-    padding: 0 !important;
-    overflow: visible !important;
-  }
-
-  /* 表格保留原本寬度 */
-  #radar-print-section table {
-    width: 100% !important;
-    border-collapse: collapse !important;
-    border-spacing: 0 !important;
-    margin: 0 !important;
-  }
-
-  /* 縮小表格每一列的高度 */
-  #radar-print-section th,
-  #radar-print-section td {
-    font-size: 13pt !important;
-    line-height: 1.05 !important;
-    padding: 2px 4px !important;
-    height: 42px !important;
-    min-height: 0 !important;
-  }
-
-  /* 表頭 */
-  #radar-print-section thead th {
-    font-weight: 700 !important;
-    padding-top: 4px !important;
-    padding-bottom: 4px !important;
-  }
-
-  /* 級分總計列 */
-  #radar-print-section tfoot td {
-    font-size: 10pt !important;
-    font-weight: 700 !important;
-    padding: 3px 4px !important;
-  }
-
-  /* 盡量讓整張表格保持同一頁 */
-  #radar-print-section table {
-    break-inside: avoid !important;
-    page-break-inside: avoid !important;
-  }
-
-  #radar-print-section tr {
-    break-inside: avoid !important;
-    page-break-inside: avoid !important;
-  }
-
-  /* 隱藏列印按鈕 */
-  #radar-print-section .no-print {
-    display: none !important;
-  }
-}
-</style>
-
-
 <body>
   <div class="top-bar">
     <span>衛生福利部長者健康促進服務方案｜方案編號：<strong>CL-14-0028</strong></span>
@@ -690,5 +603,20 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
   
+<script>
+// 列印尺寸改變時要求 Chart.js 重新排版（不修改五項測驗資料）。
+window.addEventListener('beforeprint', function () {
+  if (typeof radarChart !== 'undefined' && radarChart) {
+    radarChart.resize();
+    radarChart.update('none');
+  }
+});
+window.addEventListener('afterprint', function () {
+  if (typeof radarChart !== 'undefined' && radarChart) {
+    radarChart.resize();
+    radarChart.update('none');
+  }
+});
+</script>
 </body>
 </html>
