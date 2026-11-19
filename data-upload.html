@@ -652,7 +652,7 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 <script>
-/* A4 列印時放大雷達圖字體，列印結束後還原 */
+/* A4 列印時調整雷達圖字體與邊界，避免五個項目名稱被切掉 */
 (function () {
   let saved = null;
 
@@ -660,8 +660,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof radarChart === 'undefined' || !radarChart) return;
 
     const chart = radarChart;
-    const radial = chart.options.scales &&
-                   chart.options.scales.r;
+    const radial = chart.options.scales && chart.options.scales.r;
     const labels = chart.options.plugins &&
                    chart.options.plugins.legend &&
                    chart.options.plugins.legend.labels;
@@ -672,13 +671,23 @@ document.addEventListener("DOMContentLoaded", () => {
       chart,
       pointSize: radial.pointLabels.font.size,
       tickSize: radial.ticks.font.size,
-      legendSize: labels.font.size
+      legendSize: labels.font.size,
+      layoutPadding: chart.options.layout ? chart.options.layout.padding : undefined
     };
 
-    // 長者友善列印字體
-    radial.pointLabels.font.size = 16;
-    radial.ticks.font.size = 13;
-    labels.font.size = 15;
+    // 列印時的長者友善設定：保留較大字，但避免切字
+    radial.pointLabels.font.size = 13;
+    radial.ticks.font.size = 11;
+    labels.font.size = 13;
+
+    // 增加四周留白，避免左右與上下文字被裁切
+    chart.options.layout = chart.options.layout || {};
+    chart.options.layout.padding = {
+      top: 28,
+      right: 36,
+      bottom: 28,
+      left: 36
+    };
 
     chart.update('none');
   });
@@ -688,14 +697,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const chart = saved.chart;
 
-    chart.options.scales.r.pointLabels.font.size =
-      saved.pointSize;
+    chart.options.scales.r.pointLabels.font.size = saved.pointSize;
+    chart.options.scales.r.ticks.font.size = saved.tickSize;
+    chart.options.plugins.legend.labels.font.size = saved.legendSize;
 
-    chart.options.scales.r.ticks.font.size =
-      saved.tickSize;
-
-    chart.options.plugins.legend.labels.font.size =
-      saved.legendSize;
+    if (saved.layoutPadding !== undefined) {
+      chart.options.layout = chart.options.layout || {};
+      chart.options.layout.padding = saved.layoutPadding;
+    }
 
     saved = null;
     chart.update('none');
