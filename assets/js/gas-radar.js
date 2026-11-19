@@ -138,12 +138,12 @@ function initRadarChart() {
         r: {
           min: 0,
           max: 5,
-          ticks: { stepSize: 1, font: { size: 12, weight: 'bold' } },
-          pointLabels: { font: { size: 12, weight: 'bold' }, color: '#1e293b' }
+          ticks: { stepSize: 1, font: { size: 15, weight: 'bold' } },
+          pointLabels: { font: { size: 16, weight: 'bold' }, color: '#1e293b' }
         }
       },
       plugins: {
-        legend: { position: 'bottom', labels: { font: { size: 13, weight: 'bold' } } },
+        legend: { position: 'bottom', labels: { font: { size: 15, weight: 'bold' } } },
         tooltip: {
           callbacks: {
             label: function(context) {
