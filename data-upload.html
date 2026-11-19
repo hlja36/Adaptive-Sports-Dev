@@ -554,13 +554,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <!-- 控制表單內嵌與滾動的 Script -->
 <script>
-function loadEmbeddedForm(url, title) {
+function loadEmbeddedForm(url, title, height = '1400px') {
     const container = document.getElementById('form-embed-container');
     const iframe = document.getElementById('form-iframe');
     const titleEl = document.getElementById('form-embed-title');
 
     // 1. 更新標題與 iframe 網址
     titleEl.textContent = title;
+  
+    // 強制覆蓋任何現有的 CSS 高度限制
+    iframe.setAttribute('height', height);
+    iframe.style.setProperty('height', height, 'important');
+    iframe.style.setProperty('max-height', 'none', 'important');
     iframe.src = url;
 
     // 2. 顯示該大區塊
