@@ -702,6 +702,111 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 })();
 </script>
-  
+<!-- 請將這一整段放在 data-upload.html 最後一個 </body> 前面。
+     不必修改 Code.gs、gas-radar.js 或 Google Sheets。
+     若已加入舊的 radar-print-chart-fonts.js，請移除其 <script src=...> 引用，以免互相覆寫。 -->
+<style>
+@media print {
+  @page { size: A4 portrait; margin: 8mm; }
+  html, body { margin: 0 !important; padding: 0 !important; overflow: visible !important; background: #fff !important; }
+  body * { visibility: hidden !important; }
+  #radar-print-section, #radar-print-section * { visibility: visible !important; }
+  #radar-print-section {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    display: block !important;
+    width: 194mm !important;
+    max-width: 194mm !important;
+    height: auto !important;
+    max-height: 278mm !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 3mm 4mm !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    background: white !important;
+    zoom: 1 !important;
+    transform: none !important;
+    font-family: 'Noto Sans TC', 'Microsoft JhengHei', Arial, sans-serif !important;
+    font-size: 15pt !important;
+    line-height: 1.25 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  #radar-print-section > div:first-child { margin-bottom: 2mm !important; gap: 3mm !important; }
+  #radar-print-section h3 { font-size: 22pt !important; font-weight: 800 !important; line-height: 1.25 !important; margin: 0 !important; }
+  #radar-print-section #totalScoreBadge { font-size: 15pt !important; font-weight: 800 !important; padding: 2mm !important; }
+  #radarIdentityInfo {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 2mm !important;
+    margin: 3mm 0 !important;
+    padding: 3mm !important;
+    font-size: 16pt !important;
+    line-height: 1.25 !important;
+    background: #eaf6f2 !important;
+  }
+  #radarIdentityInfo, #radarIdentityInfo * { font-size: 16pt !important; }
+  #radar-print-section p { font-size: 11.5pt !important; line-height: 1.3 !important; margin: 2mm 0 !important; }
+  #radar-print-section div:has(> canvas#overlapRadarChart) {
+    width: 178mm !important;
+    max-width: 178mm !important;
+    height: 119mm !important;
+    max-height: 119mm !important;
+    margin: 1mm auto !important;
+  }
+  #radar-print-section canvas#overlapRadarChart {
+    display: block !important;
+    max-width: 100% !important;
+    max-height: 119mm !important;
+    margin: 0 auto !important;
+  }
+  #radar-print-section .table-wrap { margin-top: 3mm !important; overflow: visible !important; }
+  #radar-print-section table { width: 100% !important; border-collapse: collapse !important; table-layout: fixed !important; }
+  #radar-print-section th, #radar-print-section td {
+    font-size: 15pt !important;
+    line-height: 1.25 !important;
+    padding: 2.4mm 1.5mm !important;
+    white-space: normal !important;
+    vertical-align: middle !important;
+  }
+  #radar-print-section tfoot td { font-size: 17pt !important; font-weight: 800 !important; background: #eaf6f2 !important; }
+  #radar-print-section .no-print, #radar-print-section button { display: none !important; }
+  #radar-print-section table, #radar-print-section tr, #radar-print-section canvas { break-inside: avoid !important; page-break-inside: avoid !important; }
+}
+</style>
+<script>
+(function () {
+  let previousFonts = null;
+  window.addEventListener('beforeprint', function () {
+    if (typeof radarChart === 'undefined' || !radarChart) return;
+    const chart = radarChart;
+    const r = chart.options.scales && chart.options.scales.r;
+    const l = chart.options.plugins && chart.options.plugins.legend && chart.options.plugins.legend.labels;
+    if (!r || !l) return;
+    previousFonts = {
+      point: r.pointLabels.font.size,
+      ticks: r.ticks.font.size,
+      legend: l.font.size
+    };
+    r.pointLabels.font.size = 20;
+    r.ticks.font.size = 16;
+    l.font.size = 18;
+    chart.resize(660, 440);
+    chart.update('none');
+  });
+  window.addEventListener('afterprint', function () {
+    if (!previousFonts || typeof radarChart === 'undefined' || !radarChart) return;
+    const chart = radarChart;
+    chart.options.scales.r.pointLabels.font.size = previousFonts.point;
+    chart.options.scales.r.ticks.font.size = previousFonts.ticks;
+    chart.options.plugins.legend.labels.font.size = previousFonts.legend;
+    previousFonts = null;
+    chart.resize();
+    chart.update('none');
+  });
+})();
+</script>  
 </body>
 </html>
