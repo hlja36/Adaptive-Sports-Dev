@@ -5,6 +5,118 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>檢測問卷填報與雷達圖評估 | CL-14-0028 長者適性運動-增力穩行尿防漏、健康老化快樂過</title>
   <link rel="stylesheet" href="assets/css/style.css">
+
+
+<style>
+/* A4 單頁列印：只列印雷達圖及評估表 */
+@media print {
+
+  @page {
+    size: A4 portrait;
+    margin: 8mm;
+  }
+
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+  }
+
+  /* 隱藏其他網站區域 */
+  body * {
+    visibility: hidden !important;
+  }
+
+  /* 只顯示雷達圖報告 */
+  #radar-print-section,
+  #radar-print-section * {
+    visibility: visible !important;
+  }
+
+  #radar-print-section {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+
+    /* 等比例縮小以適合 A4 */
+    width: 235mm !important;
+    max-width: none !important;
+    zoom: 0.80;
+
+    margin: 0 !important;
+    padding: 5mm !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: white !important;
+
+    font-size: 11px !important;
+    line-height: 1.3 !important;
+  }
+
+  /* 標題 */
+  #radar-print-section h3 {
+    font-size: 16px !important;
+    margin: 0 0 6px !important;
+  }
+
+  /* 說明文字 */
+  #radar-print-section p {
+    font-size: 10px !important;
+    line-height: 1.35 !important;
+    margin: 5px 0 !important;
+  }
+
+  /* 長者基本資料 */
+  #radarIdentityInfo {
+    padding: 7px !important;
+    margin: 6px 0 !important;
+    gap: 5px !important;
+    font-size: 11px !important;
+  }
+
+  /* 雷達圖縮小 */
+  #radar-print-section canvas {
+    max-height: 105mm !important;
+    max-width: 100% !important;
+  }
+
+  /* 表格緊湊排列 */
+  #radar-print-section table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 10px !important;
+  }
+
+  #radar-print-section th,
+  #radar-print-section td {
+    padding: 5px 6px !important;
+    font-size: 10px !important;
+    line-height: 1.25 !important;
+  }
+
+  /* 禁止表格及資料列跨頁 */
+  #radar-print-section table,
+  #radar-print-section tr,
+  #radar-print-section tfoot,
+  #radar-print-section canvas {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* 列印時隱藏按鈕 */
+  #radar-print-section .no-print,
+  #radar-print-section button {
+    display: none !important;
+  }
+
+  /* 保留雷達圖與表格背景色 */
+  #radar-print-section {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}
+</style>
+  
   
 </head>
 <body>
