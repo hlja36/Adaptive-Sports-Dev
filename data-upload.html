@@ -1,5 +1,84 @@
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
+
+<style>
+@media print {
+
+  @page {
+    size: A4 portrait;
+    margin: 4mm;
+  }
+
+  /* 報告擴展至 A4 可列印寬度 */
+  #radar-print-section {
+    width: 202mm !important;
+    max-width: 202mm !important;
+    margin: 0 !important;
+    padding: 2mm !important;
+    box-sizing: border-box !important;
+    zoom: 1 !important;
+    transform: none !important;
+  }
+
+  /* 放大雷達圖所在容器 */
+  #radar-print-section
+  div:has(> #overlapRadarChart) {
+    width: 175mm !important;
+    max-width: 175mm !important;
+    margin: 2mm auto 3mm !important;
+    padding: 0 !important;
+  }
+
+  /* 雷達圖適度放大 */
+  #overlapRadarChart {
+    display: block !important;
+    width: 100% !important;
+    max-width: 175mm !important;
+    max-height: 105mm !important;
+    margin: 0 auto !important;
+  }
+
+  /* 表格緊湊排列 */
+  #radar-print-section .table-wrap {
+    margin-top: 2mm !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  #radar-print-section table {
+    width: 94% !important;
+    margin: 0 auto !important;
+    border-collapse: collapse !important;
+    table-layout: fixed !important;
+  }
+
+  /* 表格縮小至 11pt */
+  #radar-print-section th,
+  #radar-print-section td {
+    font-size: 11pt !important;
+    line-height: 1.15 !important;
+    padding: 3px 5px !important;
+  }
+
+  /* 總分列 */
+  #radar-print-section tfoot td {
+    font-size: 12pt !important;
+    font-weight: bold !important;
+    padding: 4px 5px !important;
+  }
+
+  /* 避免表格資料列跨頁 */
+  #radar-print-section tr {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* 隱藏列印按鈕 */
+  #radar-print-section .no-print {
+    display: none !important;
+  }
+}
+</style>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
