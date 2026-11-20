@@ -874,53 +874,89 @@
       // ================================================================
       let radarChart = null;
 
+const radarPointValuePlugin = {
+        id: 'radarPointValuePlugin',
+        afterDatasetsDraw(chart) {
+          const { ctx } = chart;
+          ctx.save();
+          ctx.font = "700 12px 'Inter', 'Noto Sans TC', sans-serif";
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          [0, 1].forEach((dsIndex) => {
+            const ds = chart.data.datasets[dsIndex];
+            if (!ds || !ds.data || ds.data.length === 0) return;
+            const meta = chart.getDatasetMeta(dsIndex);
+            if (!meta || meta.hidden) return;
+            const color = dsIndex === 0 ? '#1d4ed8' : '#c2410c';
+            meta.data.forEach((pt, idx) => {
+              const val = ds.data[idx];
+              if (val == null) return;
+              const offsetY = dsIndex === 0 ? -13 : 14;
+              const label = String(val);
+              ctx.lineWidth = 3.5;
+              ctx.strokeStyle = 'rgba(255, 255, 255, 0.92)';
+              ctx.strokeText(label, pt.x, pt.y + offsetY);
+              ctx.fillStyle = color;
+              ctx.fillText(label, pt.x, pt.y + offsetY);
+            });
+          });
+          ctx.restore();
+        }
+      };
+
       function initRadarChart() {
         const ctx = document.getElementById('radarChart').getContext('2d');
         radarChart = new Chart(ctx, {
           type: 'radar',
+          plugins: [radarPointValuePlugin],
           data: {
             labels: DOMAINS.map((d) => d.shortLabel.split('\n')),
             datasets: [
               {
                 label: '前測 (Pre-test)',
                 data: [0, 0, 0, 0, 0],
-                borderColor: '#2563eb',
-                backgroundColor: 'rgba(37, 99, 235, 0.18)',
-                borderWidth: 2.5,
-                pointBackgroundColor: '#2563eb',
+                borderColor: '#1d4ed8',
+                backgroundColor: 'rgba(37, 99, 235, 0.24)',
+                borderWidth: 3,
+                pointBackgroundColor: '#1d4ed8',
                 pointBorderColor: '#ffffff',
-                pointBorderWidth: 1.5,
-                pointRadius: 4
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 6.5
               },
               {
                 label: '後測 (Post-test)',
                 data: [],
                 borderColor: '#ea580c',
-                backgroundColor: 'rgba(234, 88, 12, 0.18)',
-                borderWidth: 2.5,
+                backgroundColor: 'rgba(234, 88, 12, 0.24)',
+                borderWidth: 3,
                 pointBackgroundColor: '#ea580c',
                 pointBorderColor: '#ffffff',
-                pointBorderWidth: 1.5,
-                pointRadius: 4
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 6.5
               },
               {
                 label: '判斷值 (高危險基準)',
                 data: DOMAINS.map((d) => d.threshold),
                 borderColor: '#dc2626',
-                backgroundColor: 'rgba(220, 38, 38, 0.04)',
-                borderWidth: 1.8,
-                borderDash: [5, 4],
+                backgroundColor: 'rgba(220, 38, 38, 0.06)',
+                borderWidth: 2.2,
+                borderDash: [6, 4],
                 pointBackgroundColor: '#dc2626',
-                pointRadius: 2.5
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 1.5,
+                pointRadius: 3.5
               }
             ]
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
+            devicePixelRatio: Math.max(window.devicePixelRatio || 1, 2.5),
             animation: { duration: 280 },
             layout: {
-              padding: { top: 4, bottom: 4, left: 4, right: 4 }
+              padding: { top: 8, bottom: 6, left: 8, right: 8 }
             },
             scales: {
               r: {
@@ -928,20 +964,25 @@
                 max: 20,
                 ticks: {
                   stepSize: 5,
-                  backdropColor: 'transparent',
-                  color: '#64748b',
-                  font: { size: 12, weight: '500' }
+                  showLabelBackdrop: true,
+                  backdropColor: 'rgba(255, 255, 255, 0.88)',
+                  backdropPadding: 2,
+                  color: '#334155',
+                  font: { size: 12, weight: '700' }
                 },
                 grid: {
-                  color: '#e2e8f0'
+                  color: '#94a3b8',
+                  lineWidth: 1.2
                 },
                 angleLines: {
-                  color: '#cbd5e1'
+                  color: '#94a3b8',
+                  lineWidth: 1.2
                 },
                 pointLabels: {
-                  color: '#1e293b',
+                  color: '#0f172a',
+                  padding: 8,
                   font: {
-                    size: 13,
+                    size: 14,
                     weight: '700',
                     family: "'Inter', 'Noto Sans TC', sans-serif"
                   }
@@ -953,8 +994,9 @@
                 position: 'bottom',
                 labels: {
                   usePointStyle: true,
-                  padding: 14,
-                  font: { size: 13, weight: '600', family: "'Inter', 'Noto Sans TC', sans-serif" }
+                  padding: 16,
+                  color: '#0f172a',
+                  font: { size: 13, weight: '700', family: "'Inter', 'Noto Sans TC', sans-serif" }
                 }
               },
               tooltip: {
