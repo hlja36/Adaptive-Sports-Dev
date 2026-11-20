@@ -532,8 +532,8 @@
           <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">Google Forms 官方備份填報表單（前後測體型、血壓與體適能紀錄）。</p>
         </div>
         <div class="kpi-card-footer">
-          <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://hlja36.github.io/Adaptive-Sports-Dev/record-form1.html', '體型測量及體能測驗-前後測紀錄表', '1800px')" class="btn">前往填寫表單 ⬇</a>
-          <div class="qr-box" onclick="openQrModal('https://hlja36.github.io/Adaptive-Sports-Dev/record-form1.html', 'CL-14-0028-1 體型測量及體能測驗-前後測紀錄表')" title="點擊放大 QR Code">
+          <a href="javascript:void(0)" onclick="loadEmbeddedForm('record-form1.html', '體型測量及體能測驗-前後測紀錄表', '1800px')" class="btn">前往填寫表單 ⬇</a>
+          <div class="qr-box" onclick="openQrModal('record-form1.html', 'CL-14-0028-1 體型測量及體能測驗-前後測紀錄表')" title="點擊放大 QR Code">
             <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fhlja36.github.io%2FAdaptive-Sports-Dev%2Frecord-form1.html" alt="CL-14-0028-1 QR Code">
             <span>掃碼填寫</span>
           </div>
@@ -548,8 +548,8 @@
           <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">15 題簡易排尿頻率、尿勢、自主停尿與生活影響評估問卷。</p>
         </div>
         <div class="kpi-card-footer">
-          <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://hlja36.github.io/Adaptive-Sports-Dev/record-form2.html', '預防改善尿失禁問卷調查', '2000px')" class="btn">前往填寫問卷 ⬇</a>
-          <div class="qr-box" onclick="openQrModal('https://hlja36.github.io/Adaptive-Sports-Dev/record-form2.html', 'CL-14-0028-2 預防改善尿失禁問卷調查')" title="點擊放大 QR Code">
+          <a href="javascript:void(0)" onclick="loadEmbeddedForm('record-form2.html', '預防改善尿失禁問卷調查', '2000px')" class="btn">前往填寫問卷 ⬇</a>
+          <div class="qr-box" onclick="openQrModal('record-form2.html', 'CL-14-0028-2 預防改善尿失禁問卷調查')" title="點擊放大 QR Code">
             <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fhlja36.github.io%2FAdaptive-Sports-Dev%2Frecord-form2.html" alt="CL-14-0028-2 QR Code">
             <span>掃碼填寫</span>
           </div>
@@ -564,8 +564,8 @@
           <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">21 題特定高齡者（虛弱、跌倒、尿失禁、低營養、輕度認知障礙）篩檢。</p>
         </div>
         <div class="kpi-card-footer">
-          <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form3.html', '健康達人 21 篩檢問卷', '3000px')" class="btn">前往填寫問卷 ⬇</a>
-          <div class="qr-box" onclick="openQrModal('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form3.html', 'CL-14-0028-3 健康達人 21 篩檢問卷')" title="點擊放大 QR Code">
+          <a href="javascript:void(0)" onclick="loadEmbeddedForm('cl_14_0028_form3.html', '健康達人 21 篩檢問卷', '3000px')" class="btn">前往填寫問卷 ⬇</a>
+          <div class="qr-box" onclick="openQrModal('cl_14_0028_form3.html', 'CL-14-0028-3 健康達人 21 篩檢問卷')" title="點擊放大 QR Code">
             <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fhlja36.github.io%2FAdaptive-Sports-Dev%2Fcl_14_0028_form3.html" alt="CL-14-0028-3 QR Code">
             <span>掃碼填寫</span>
           </div>
@@ -728,14 +728,16 @@ function closeEmbeddedForm() {
 </script>
 <script> 
 window.addEventListener('message', function(event) {
-  if (event.origin !== window.location.origin) return;
-  if (!event.data ||
-      event.data.type !== 'CL140028_SHOW_RADAR') return;
+  const allowedOrigins = [
+    window.location.origin,
+    'https://adaptive-sports-dev.vercel.app',
+    'https://hlja36.github.io'
+  ];
+  if (!allowedOrigins.includes(event.origin)) return;
+  if (!event.data || event.data.type !== 'CL140028_SHOW_RADAR') return;
 
   const sourceFrame = document.getElementById('form-iframe');
-
-  if (!sourceFrame ||
-      event.source !== sourceFrame.contentWindow) return;
+  if (!sourceFrame || event.source !== sourceFrame.contentWindow) return;
 
   try {
     const handoff = JSON.parse(event.data.handoff);
@@ -747,16 +749,19 @@ window.addEventListener('message', function(event) {
         !Number.isFinite(handoff.storedAt) ||
         Date.now() - handoff.storedAt > 30 * 60 * 1000) return;
 
-    sessionStorage.setItem(
-      'cl140028_radar_handoff',
-      event.data.handoff
-    );
+    sessionStorage.setItem('cl140028_radar_handoff', event.data.handoff);
 
     const forms = document.getElementById('tabForms');
     const radar = document.getElementById('tabRadar');
 
-    if (forms) forms.classList.remove('active');
-    if (radar) radar.classList.add('active');
+    if (forms) {
+      forms.classList.remove('active');
+      forms.style.display = 'none';
+    }
+    if (radar) {
+      radar.classList.add('active');
+      radar.style.display = 'block';
+    }
 
     document.querySelectorAll('.tab-btn').forEach((b, i) => {
       b.classList.toggle('active', i === 1);
@@ -766,13 +771,13 @@ window.addEventListener('message', function(event) {
       applyOfficialFormHandoff();
     }
 
-    if (radar) {
-      radar.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
+    if (window.overlapRadarChart) {
+      setTimeout(() => window.overlapRadarChart.resize(), 50);
     }
 
+    if (radar) {
+      radar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   } catch (error) {
     console.error('無法開啟本次雷達圖', error);
   }
