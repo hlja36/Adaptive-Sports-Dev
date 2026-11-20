@@ -40,9 +40,15 @@
           </svg>
         </div>
         <div class="min-w-0">
-          <h1 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight leading-snug">
-            CL-14-0028 Form4 執行方案內容授課內容及進度回報表
-          </h1>
+          <div class="flex flex-wrap items-center gap-2">
+            <h1 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight leading-snug">
+              CL-14-0028 Form4 執行方案內容授課內容及進度回報表
+            </h1>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              已連結雲端
+            </span>
+          </div>
           <p class="text-xs sm:text-sm text-slate-500 mt-0.5 truncate">
             長者適性運動－增力穩行尿防漏、健康老化快樂過
           </p>
@@ -69,7 +75,7 @@
       </p>
     </div>
 
-    <!-- Form4 主表單（使用 novalidate 交由自訂 JS 驗證，避免無聲無息沒反應） -->
+    <!-- Form4 主表單（使用 novalidate 交由自訂 JS 驗證，提供清晰錯誤回饋） -->
     <form id="form4" novalidate class="space-y-6">
 
       <!-- 卡片一：基本資料 -->
@@ -190,56 +196,56 @@
             <div id="modulesGroup" class="flex flex-wrap gap-2.5 p-1 rounded-xl transition">
               <label class="cursor-pointer select-none">
                 <input type="checkbox" name="completedModules" value="暖身與關節活動" class="peer sr-only">
-                <span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700 font-medium peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 hover:bg-slate-100 transition">
-                  <span class="w-4 h-4 rounded-md border border-slate-300 bg-white flex items-center justify-center text-[10px]">✓</span>
+                <span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700 font-medium peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 peer-checked:[&_.check-box]:bg-blue-600 peer-checked:[&_.check-box]:border-blue-600 peer-checked:[&_.check-box]:text-white hover:bg-slate-100 transition">
+                  <span class="check-box w-4 h-4 rounded-md border border-slate-300 bg-white text-transparent flex items-center justify-center text-[10px] font-bold transition">✓</span>
                   暖身與關節活動
                 </span>
               </label>
 
               <label class="cursor-pointer select-none">
                 <input type="checkbox" name="completedModules" value="肌力訓練（增力）" class="peer sr-only">
-                <span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700 font-medium peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 hover:bg-slate-100 transition">
-                  <span class="w-4 h-4 rounded-md border border-slate-300 bg-white flex items-center justify-center text-[10px]">✓</span>
+                <span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700 font-medium peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 peer-checked:[&_.check-box]:bg-blue-600 peer-checked:[&_.check-box]:border-blue-600 peer-checked:[&_.check-box]:text-white hover:bg-slate-100 transition">
+                  <span class="check-box w-4 h-4 rounded-md border border-slate-300 bg-white text-transparent flex items-center justify-center text-[10px] font-bold transition">✓</span>
                   肌力訓練（增力）
                 </span>
               </label>
 
               <label class="cursor-pointer select-none">
                 <input type="checkbox" name="completedModules" value="平衡與步態訓練（穩行）" class="peer sr-only">
-                <span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700 font-medium peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 hover:bg-slate-100 transition">
-                  <span class="w-4 h-4 rounded-md border border-slate-300 bg-white flex items-center justify-center text-[10px]">✓</span>
+                <span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700 font-medium peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 peer-checked:[&_.check-box]:bg-blue-600 peer-checked:[&_.check-box]:border-blue-600 peer-checked:[&_.check-box]:text-white hover:bg-slate-100 transition">
+                  <span class="check-box w-4 h-4 rounded-md border border-slate-300 bg-white text-transparent flex items-center justify-center text-[10px] font-bold transition">✓</span>
                   平衡與步態訓練（穩行）
                 </span>
               </label>
 
               <label class="cursor-pointer select-none">
                 <input type="checkbox" name="completedModules" value="骨盆底肌訓練（尿防漏）" class="peer sr-only">
-                <span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700 font-medium peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 hover:bg-slate-100 transition">
-                  <span class="w-4 h-4 rounded-md border border-slate-300 bg-white flex items-center justify-center text-[10px]">✓</span>
+                <span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700 font-medium peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 peer-checked:[&_.check-box]:bg-blue-600 peer-checked:[&_.check-box]:border-blue-600 peer-checked:[&_.check-box]:text-white hover:bg-slate-100 transition">
+                  <span class="check-box w-4 h-4 rounded-md border border-slate-300 bg-white text-transparent flex items-center justify-center text-[10px] font-bold transition">✓</span>
                   骨盆底肌訓練（尿防漏）
                 </span>
               </label>
 
               <label class="cursor-pointer select-none">
                 <input type="checkbox" name="completedModules" value="認知與健康衛教" class="peer sr-only">
-                <span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700 font-medium peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 hover:bg-slate-100 transition">
-                  <span class="w-4 h-4 rounded-md border border-slate-300 bg-white flex items-center justify-center text-[10px]">✓</span>
+                <span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700 font-medium peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 peer-checked:[&_.check-box]:bg-blue-600 peer-checked:[&_.check-box]:border-blue-600 peer-checked:[&_.check-box]:text-white hover:bg-slate-100 transition">
+                  <span class="check-box w-4 h-4 rounded-md border border-slate-300 bg-white text-transparent flex items-center justify-center text-[10px] font-bold transition">✓</span>
                   認知與健康衛教
                 </span>
               </label>
 
               <label class="cursor-pointer select-none">
                 <input type="checkbox" name="completedModules" value="緩和伸展與收操" class="peer sr-only">
-                <span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700 font-medium peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 hover:bg-slate-100 transition">
-                  <span class="w-4 h-4 rounded-md border border-slate-300 bg-white flex items-center justify-center text-[10px]">✓</span>
+                <span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700 font-medium peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 peer-checked:[&_.check-box]:bg-blue-600 peer-checked:[&_.check-box]:border-blue-600 peer-checked:[&_.check-box]:text-white hover:bg-slate-100 transition">
+                  <span class="check-box w-4 h-4 rounded-md border border-slate-300 bg-white text-transparent flex items-center justify-center text-[10px] font-bold transition">✓</span>
                   緩和伸展與收操
                 </span>
               </label>
 
               <label class="cursor-pointer select-none">
                 <input type="checkbox" name="completedModules" value="前後測體能檢測" class="peer sr-only">
-                <span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700 font-medium peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 hover:bg-slate-100 transition">
-                  <span class="w-4 h-4 rounded-md border border-slate-300 bg-white flex items-center justify-center text-[10px]">✓</span>
+                <span class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-700 font-medium peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 peer-checked:[&_.check-box]:bg-blue-600 peer-checked:[&_.check-box]:border-blue-600 peer-checked:[&_.check-box]:text-white hover:bg-slate-100 transition">
+                  <span class="check-box w-4 h-4 rounded-md border border-slate-300 bg-white text-transparent flex items-center justify-center text-[10px] font-bold transition">✓</span>
                   前後測體能檢測
                 </span>
               </label>
@@ -331,7 +337,7 @@
         </div>
       </section>
 
-      <!-- 狀態提示橫幅（驗證錯誤、傳送中、本機/雲端成功或失敗皆即時顯示） -->
+      <!-- 狀態提示橫幅 -->
       <div id="statusMsg" role="alert" class="hidden rounded-2xl px-5 py-4 text-sm font-medium border shadow-sm"></div>
 
       <!-- 底部操作按鈕列 -->
@@ -586,7 +592,7 @@
   <!-- =========================================================
        自訂確認對話框 (取代 confirm())
   ========================================================== -->
-  <div id="confirmModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+  <div id="confirmModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
     <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-sm p-6 space-y-4">
       <div class="flex items-start gap-3">
         <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 text-lg">⚠️</div>
@@ -625,11 +631,13 @@
         { id: 'master-1', name: '主管理者', role: 'master', password: '0028', active: true }
       ];
 
-      // ===== 雲端串接設定：若需同步 Google Sheets，請直接於此填入部署後的 Web App URL (/exec) =====
-      const GAS_URL = '';
+      // ===== 雲端串接設定：已綁定 CL-14-0028 Form4 Google Apps Script 部署網址 =====
+      const GAS_URL = 'https://script.google.com/macros/s/AKfycbw3K0ruIqz2S2y2KdVNSXHFPuG_MzWP-Pufd6NLQul1S7XHigL_jJ5UBoLvtiwA1F4N/exec';
+      const TARGET_SPREADSHEET_ID = '1HAajKZvK-qva9J066NPun8gausy-47b9tjH_DuFQ8tg';
+      const TARGET_SHEET_GID = 1665212385;
 
       // ===== 儲存鍵值 =====
-      const STORAGE_KEY_RECORDS = 'cl140028_form4_records_v1';
+      const STORAGE_KEY_RECORDS = 'cl140028_form4_records_v2';
       const STORAGE_KEY_ADMINS = 'cl14_0028_form4_admins';
 
       // ===== 記憶體狀態（含 localStorage 無法存取時之備援） =====
@@ -673,7 +681,7 @@
       const progressStatusSelect = document.getElementById('progressStatus');
       const courseSummaryInput = document.getElementById('courseSummary');
       const participationLevelSelect = document.getElementById('participationLevel');
-      const safetySelect = document.getElementById('safetyIncident');
+      const safetyIncidentSelect = document.getElementById('safetyIncident');
       const safetyAlertBox = document.getElementById('safetyAlertBox');
       const notesInput = document.getElementById('notes');
       const photoLinkInput = document.getElementById('photoLink');
@@ -682,16 +690,16 @@
       const submitBtn = document.getElementById('submitBtn');
       const submitSpinner = document.getElementById('submitSpinner');
       const submitBtnText = document.getElementById('submitBtnText');
+      const tableCountBadge = document.getElementById('tableCountBadge');
+      const recordsContainer = document.getElementById('recordsContainer');
+      const clearAllRecordsBtn = document.getElementById('clearAllRecordsBtn');
 
-      // 底部功能與管理者紀錄區元素
+      // 管理者權限與隱藏控制元素
       const adminToggleBtn = document.getElementById('adminToggleBtn');
       const adminToggleIcon = document.getElementById('adminToggleIcon');
       const adminToggleText = document.getElementById('adminToggleText');
       const adminRecordsSection = document.getElementById('adminRecordsSection');
       const adminViewerBadge = document.getElementById('adminViewerBadge');
-      const tableCountBadge = document.getElementById('tableCountBadge');
-      const recordsContainer = document.getElementById('recordsContainer');
-      const clearAllRecordsBtn = document.getElementById('clearAllRecordsBtn');
 
       // Modal 元素
       const detailModal = document.getElementById('detailModal');
@@ -720,6 +728,7 @@
       function init() {
         loadFromStorage();
         setTodayDate();
+        syncSafetyAlert();
         updateAdminUiState();
         renderRecords();
         bindEvents();
@@ -786,7 +795,7 @@
           .replace(/'/g, '&#39;');
       }
 
-      // ===== 狀態橫幅顯示 (#statusMsg) =====
+      // ===== 狀態橫幅顯示 =====
       function showStatus(type, htmlContent) {
         statusMsg.classList.remove(
           'hidden',
@@ -816,26 +825,27 @@
 
       // ===== 清除欄位錯誤外框 =====
       function clearFieldErrors() {
-        const errorFields = form.querySelectorAll('.border-rose-500');
-        errorFields.forEach(el => {
+        form.querySelectorAll('.border-rose-500').forEach(el => {
           el.classList.remove('border-rose-500', 'ring-2', 'ring-rose-200');
         });
-        modulesGroup.classList.remove('ring-2', 'ring-rose-300', 'bg-rose-50/50');
+        modulesGroup.classList.remove('ring-2', 'ring-rose-400', 'bg-rose-50/60');
+      }
+
+      // ===== 安全異常提醒框同步 =====
+      function syncSafetyAlert() {
+        if (safetyIncidentSelect.value !== '無異常') {
+          safetyAlertBox.classList.remove('hidden');
+        } else {
+          safetyAlertBox.classList.add('hidden');
+        }
       }
 
       // ===== 事件綁定 =====
       function bindEvents() {
-        // 表單提交
         form.addEventListener('submit', handleFormSubmit);
 
-        // 安全異常提醒切換
-        safetySelect.addEventListener('change', () => {
-          if (safetySelect.value === '無異常') {
-            safetyAlertBox.classList.add('hidden');
-          } else {
-            safetyAlertBox.classList.remove('hidden');
-          }
-        });
+        // 安全異常選項切換
+        safetyIncidentSelect.addEventListener('change', syncSafetyAlert);
 
         // 全選 / 取消全選課程單元
         document.getElementById('toggleAllModulesBtn').addEventListener('click', () => {
@@ -849,14 +859,14 @@
           openConfirmModal('清空表單', '確定要清除目前已填寫的所有欄位內容嗎？', () => {
             form.reset();
             setTodayDate();
+            syncSafetyAlert();
             clearFieldErrors();
             hideStatus();
-            safetyAlertBox.classList.add('hidden');
             showToast('表單已清空重設', 'info');
           });
         });
 
-        // 頁面底部居中按鈕：管理者檢視紀錄 / 鎖定切換
+        // 底部居中：管理者檢視紀錄 / 鎖定切換
         adminToggleBtn.addEventListener('click', () => {
           if (currentAdmin) {
             lockAdminPanel(true);
@@ -866,7 +876,7 @@
         });
         document.getElementById('lockAdminBtn').addEventListener('click', () => lockAdminPanel(true));
 
-        // 頁面底部居中按鈕：複製回報摘要
+        // 底部居中：複製回報摘要（僅複製目前填寫中的表單）
         document.getElementById('copySummaryBtn').addEventListener('click', () => {
           const current = getFormData();
           const hasCurrentInput = Boolean(
@@ -875,10 +885,8 @@
             current.weekNumber ||
             current.studentCount ||
             (current.completedModules && current.completedModules.length > 0) ||
-            current.courseSummary ||
-            current.notes
+            current.courseSummary
           );
-
           if (hasCurrentInput) {
             copyTextToClipboard(buildSummaryText(current), '已複製目前填寫中的回報摘要！');
           } else {
@@ -886,7 +894,7 @@
           }
         });
 
-        // 管理者專區：匯出 CSV 與清空紀錄
+        // 管理者專區：匯出 CSV 與清空全部紀錄
         document.getElementById('exportCsvBtn').addEventListener('click', exportRecordsToCsv);
         clearAllRecordsBtn.addEventListener('click', () => {
           openConfirmModal('清空全部紀錄', `確定要刪除本機儲存的所有 ${records.length} 筆回報紀錄嗎？此動作無法復原。`, () => {
@@ -926,7 +934,7 @@
           );
         });
 
-        // 詳情視窗事件
+        // 詳情視窗
         document.getElementById('closeDetailModalBtn').addEventListener('click', closeDetailModal);
         document.getElementById('closeDetailModalFooterBtn').addEventListener('click', closeDetailModal);
         detailModal.addEventListener('click', (e) => {
@@ -938,7 +946,7 @@
           }
         });
 
-        // 確認對話框按鈕
+        // 確認對話框
         document.getElementById('confirmCancelBtn').addEventListener('click', closeConfirmModal);
         confirmModal.addEventListener('click', (e) => {
           if (e.target === confirmModal) closeConfirmModal();
@@ -951,22 +959,7 @@
         });
       }
 
-      // ===== 確認對話框控制 =====
-      function openConfirmModal(title, message, onConfirm) {
-        confirmTitle.textContent = title;
-        confirmMessage.textContent = message;
-        pendingConfirmAction = onConfirm;
-        confirmModal.classList.remove('hidden');
-        confirmModal.classList.add('flex');
-      }
-
-      function closeConfirmModal() {
-        confirmModal.classList.add('hidden');
-        confirmModal.classList.remove('flex');
-        pendingConfirmAction = null;
-      }
-
-      // ===== 詳情視窗控制 =====
+      // ===== 詳情與確認 Modal 控制 =====
       function openDetailModal(rec) {
         activeDetailRecord = rec;
         const modulesText = Array.isArray(rec.completedModules) && rec.completedModules.length > 0
@@ -976,23 +969,32 @@
         detailModalBody.innerHTML = `
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200/80">
             <div><span class="text-xs text-slate-500 block">填報時間</span><span class="font-semibold text-slate-800">${escapeHtml(rec.createdAt)}</span></div>
-            <div><span class="text-xs text-slate-500 block">授課日期／週次</span><span class="font-semibold text-slate-800">${escapeHtml(rec.sessionDate)}（${escapeHtml(rec.weekNumber)}）</span></div>
+            <div><span class="text-xs text-slate-500 block">授課日期 / 週次</span><span class="font-semibold text-slate-800">${escapeHtml(rec.sessionDate)}（${escapeHtml(rec.weekNumber)}）</span></div>
             <div><span class="text-xs text-slate-500 block">執行據點名稱</span><span class="font-semibold text-slate-800">${escapeHtml(rec.siteName)}</span></div>
+            <div><span class="text-xs text-slate-500 block">上課人數</span><span class="font-bold text-blue-700">${escapeHtml(rec.studentCount)} 人</span></div>
             <div><span class="text-xs text-slate-500 block">授課師資</span><span class="font-semibold text-slate-800">${escapeHtml(rec.instructorName)}</span></div>
-            <div><span class="text-xs text-slate-500 block">上課人數</span><span class="font-semibold text-blue-700">${escapeHtml(rec.studentCount)} 人</span></div>
-            <div><span class="text-xs text-slate-500 block">協同／指導員</span><span class="font-medium text-slate-800">${escapeHtml(rec.assistantName || '無')}</span></div>
+            <div><span class="text-xs text-slate-500 block">協同師資／指導員</span><span class="font-medium text-slate-800">${escapeHtml(rec.assistantName || '無')}</span></div>
             <div class="sm:col-span-2"><span class="text-xs text-slate-500 block">師資電子郵件</span><span class="font-medium text-slate-800">${escapeHtml(rec.instructorEmail)}</span></div>
           </div>
 
           <div>
-            <div class="text-xs font-semibold text-slate-500 mb-1">執行課程單元</div>
+            <div class="text-xs font-semibold text-slate-500 mb-1">本次執行課程單元</div>
             <div class="p-3 rounded-xl bg-blue-50/70 border border-blue-200 text-blue-900 font-medium">${escapeHtml(modulesText)}</div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200"><span class="text-xs text-slate-500 block">進度狀態</span><span class="font-semibold text-slate-800">${escapeHtml(rec.progressStatus)}</span></div>
-            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200"><span class="text-xs text-slate-500 block">長者參與度</span><span class="font-semibold text-slate-800">${escapeHtml(rec.participationLevel)}</span></div>
-            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200"><span class="text-xs text-slate-500 block">安全異常回報</span><span class="font-semibold text-slate-800">${escapeHtml(rec.safetyIncident)}</span></div>
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="text-xs text-slate-500">課程進度狀態</div>
+              <div class="font-semibold text-slate-800 mt-0.5">${escapeHtml(rec.progressStatus)}</div>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="text-xs text-slate-500">長者整體參與度</div>
+              <div class="font-semibold text-slate-800 mt-0.5">${escapeHtml(rec.participationLevel)}</div>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+              <div class="text-xs text-slate-500">安全異常回報</div>
+              <div class="font-semibold text-slate-800 mt-0.5">${escapeHtml(rec.safetyIncident)}</div>
+            </div>
           </div>
 
           <div>
@@ -1006,12 +1008,13 @@
           </div>
 
           ${rec.photoLink ? `
-          <div>
-            <div class="text-xs font-semibold text-slate-500 mb-1">課堂紀錄照片雲端連結</div>
-            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 break-all">
-              <a href="${escapeHtml(rec.photoLink)}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">${escapeHtml(rec.photoLink)}</a>
+            <div>
+              <div class="text-xs font-semibold text-slate-500 mb-1">課堂紀錄照片雲端連結</div>
+              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 break-all">
+                <a href="${escapeHtml(rec.photoLink)}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">${escapeHtml(rec.photoLink)}</a>
+              </div>
             </div>
-          </div>` : ''}
+          ` : ''}
         `;
         detailModal.classList.remove('hidden');
         detailModal.classList.add('flex');
@@ -1021,6 +1024,20 @@
         detailModal.classList.add('hidden');
         detailModal.classList.remove('flex');
         activeDetailRecord = null;
+      }
+
+      function openConfirmModal(title, message, onConfirm) {
+        confirmTitle.textContent = title;
+        confirmMessage.textContent = message;
+        pendingConfirmAction = onConfirm;
+        confirmModal.classList.remove('hidden');
+        confirmModal.classList.add('flex');
+      }
+
+      function closeConfirmModal() {
+        confirmModal.classList.add('hidden');
+        confirmModal.classList.remove('flex');
+        pendingConfirmAction = null;
       }
 
       // ===== 管理者權限與介面狀態控制 =====
@@ -1356,7 +1373,7 @@
           progressStatus: progressStatusSelect.value,
           courseSummary: courseSummaryInput.value.trim(),
           participationLevel: participationLevelSelect.value,
-          safetyIncident: safetySelect.value,
+          safetyIncident: safetyIncidentSelect.value,
           notes: notesInput.value.trim(),
           photoLink: photoLinkInput.value.trim(),
           syncStatus: '僅存本機'
@@ -1373,30 +1390,30 @@
           errors.push(label);
           if (!firstInvalidEl) firstInvalidEl = el;
           if (el === modulesGroup) {
-            el.classList.add('ring-2', 'ring-rose-300', 'bg-rose-50/50');
+            el.classList.add('ring-2', 'ring-rose-400', 'bg-rose-50/60');
           } else if (el) {
             el.classList.add('border-rose-500', 'ring-2', 'ring-rose-200');
           }
         }
 
-        if (!data.siteName) markInvalid(siteNameInput, '一、執行據點名稱');
-        if (!data.instructorName) markInvalid(instructorNameInput, '一、授課師資姓名');
+        if (!data.siteName) markInvalid(siteNameInput, '執行據點名稱');
+        if (!data.instructorName) markInvalid(instructorNameInput, '授課師資姓名');
         if (!data.instructorEmail) {
-          markInvalid(instructorEmailInput, '一、師資電子郵件');
+          markInvalid(instructorEmailInput, '師資電子郵件');
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.instructorEmail)) {
-          markInvalid(instructorEmailInput, '一、師資電子郵件（格式不正確）');
+          markInvalid(instructorEmailInput, '師資電子郵件（格式不正確）');
         }
-        if (!data.sessionDate) markInvalid(sessionDateInput, '二、授課日期');
-        if (!data.weekNumber) markInvalid(weekNumberSelect, '二、授課週次');
+        if (!data.sessionDate) markInvalid(sessionDateInput, '授課日期');
+        if (!data.weekNumber) markInvalid(weekNumberSelect, '授課週次');
         if (!data.studentCount || Number(data.studentCount) < 1) {
-          markInvalid(studentCountInput, '二、上課人數（請輸入大於 0 的數字）');
+          markInvalid(studentCountInput, '上課人數（須為大於 0 的數字）');
         }
         if (!data.completedModules || data.completedModules.length === 0) {
-          markInvalid(modulesGroup, '三、本次執行課程單元（請至少勾選一項）');
+          markInvalid(modulesGroup, '本次執行課程單元（請至少勾選一項）');
         }
-        if (!data.courseSummary) markInvalid(courseSummaryInput, '三、授課內容簡述與進度說明');
+        if (!data.courseSummary) markInvalid(courseSummaryInput, '授課內容簡述與進度說明');
         if (data.photoLink && !/^https?:\/\/.+/i.test(data.photoLink)) {
-          markInvalid(photoLinkInput, '四、課堂紀錄照片雲端連結（請輸入 http:// 或 https:// 開頭之網址）');
+          markInvalid(photoLinkInput, '課堂紀錄照片雲端連結（請輸入 http:// 或 https:// 開頭網址）');
         }
 
         return { errors, firstInvalidEl };
@@ -1408,7 +1425,7 @@
         const data = getFormData();
         const { errors, firstInvalidEl } = validateForm(data);
 
-        // 1. 驗證失敗：顯示紅色錯誤橫幅並捲動聚焦至第一個漏填欄位
+        // 1. 驗證失敗：顯示紅色錯誤橫幅並捲動聚焦
         if (errors.length > 0) {
           showStatus(
             'error',
@@ -1434,17 +1451,22 @@
         // 2. 進入提交狀態
         submitBtn.disabled = true;
         submitSpinner.classList.remove('hidden');
-        submitBtnText.textContent = GAS_URL.trim() ? '資料傳送至雲端中...' : '正在儲存至本機...';
-        showStatus('info', '⏳ 正在處理您的 Form4 授課進度回報，請稍候...');
+        submitBtnText.textContent = '資料傳送至雲端中...';
+        showStatus('info', '⏳ 正在傳送 Form4 授課進度回報至雲端試算表，請稍候...');
 
-        // 3. 若已設定 GAS_URL 則送往雲端並存本機，否則儲存於本機紀錄
+        // 3. 送往雲端 Google Apps Script 並同步保存於本機
         const targetUrl = GAS_URL.trim();
         if (targetUrl) {
           try {
+            const payload = {
+              ...data,
+              spreadsheetId: TARGET_SPREADSHEET_ID,
+              sheetGid: TARGET_SHEET_GID
+            };
             const response = await fetch(targetUrl, {
               method: 'POST',
               headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-              body: JSON.stringify(data)
+              body: JSON.stringify(payload)
             });
 
             let result = null;
@@ -1461,9 +1483,9 @@
               renderRecords();
               showStatus(
                 'success',
-                '✅ <strong>回報已成功送出！</strong>資料已寫入 Google 試算表並寄送確認信，同時妥善保存於本機。'
+                '✅ <strong>Form4 進度回報已成功送出！</strong>資料已寫入 Google 試算表並寄送確認信至您的信箱，同時妥善保存於本機。'
               );
-              showToast('回報已成功送出！', 'success');
+              showToast('已同步至雲端試算表並寄出確認信', 'success');
               resetFormAfterSubmit();
             } else {
               data.syncStatus = '雲端失敗(已存本機)';
@@ -1472,7 +1494,7 @@
               renderRecords();
               showStatus(
                 'warning',
-                `⚠️ <strong>雲端寫入回傳異常：</strong>${escapeHtml(result?.message || '未知錯誤')}。系統已先將此筆回報妥善備份於本機。`
+                `⚠️ <strong>雲端寫入回傳異常：</strong>${escapeHtml(result?.message || '未知錯誤')}。為避免資料遺失，系統已自動將此筆回報妥善備份於本機。`
               );
               showToast('雲端傳送失敗，已自動備份於本機', 'error');
             }
@@ -1483,7 +1505,7 @@
             renderRecords();
             showStatus(
               'warning',
-              '⚠️ <strong>無法連線至雲端伺服器</strong>，請確認網路狀態。系統已自動將此筆回報妥善備份於本機。'
+              '⚠️ <strong>無法連線至 Apps Script 雲端</strong>（請檢查網路或確認部署權限是否設為「所有人」）。系統已自動將此筆資料妥善備份於本機。'
             );
             showToast('雲端連線失敗，已自動備份於本機', 'error');
           }
@@ -1492,11 +1514,8 @@
           records.unshift(data);
           saveRecords();
           renderRecords();
-          showStatus(
-            'success',
-            '✅ <strong>回報已成功送出並妥善保存！</strong>管理者可點選頁面底部「🔒 管理者檢視紀錄」查閱或匯出資料。'
-          );
-          showToast('回報已成功送出！', 'success');
+          showStatus('success', '✅ <strong>Form4 進度回報已妥善保存於本機！</strong>');
+          showToast('回報已儲存於本機', 'success');
           resetFormAfterSubmit();
         }
 
@@ -1509,8 +1528,8 @@
       function resetFormAfterSubmit() {
         form.reset();
         setTodayDate();
+        syncSafetyAlert();
         clearFieldErrors();
-        safetyAlertBox.classList.add('hidden');
       }
 
       // ===== 渲染本機回報紀錄列表 =====
@@ -1544,8 +1563,8 @@
         const rowsHtml = records.map(rec => {
           const statusBadge = getSyncBadgeHtml(rec.syncStatus);
           const safetyBadge = rec.safetyIncident === '無異常'
-            ? '<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700">無異常</span>'
-            : `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700">${escapeHtml(rec.safetyIncident)}</span>`;
+            ? '<span class="text-xs text-emerald-700 font-medium">無異常</span>'
+            : `<span class="text-xs text-amber-700 font-bold">⚠️ ${escapeHtml(rec.safetyIncident)}</span>`;
 
           return `
             <tr class="hover:bg-slate-50/80 transition border-b border-slate-100 last:border-b-0">
@@ -1553,11 +1572,18 @@
                 <div class="font-medium text-slate-700">${escapeHtml(rec.createdAt)}</div>
                 <div class="text-[11px] text-slate-400">授課日：${escapeHtml(rec.sessionDate)}</div>
               </td>
-              <td class="py-3.5 px-3 text-sm font-semibold text-slate-800">${escapeHtml(rec.siteName)}</td>
-              <td class="py-3.5 px-3 text-sm text-slate-700 whitespace-nowrap">${escapeHtml(rec.instructorName)}</td>
-              <td class="py-3.5 px-3 text-xs font-semibold text-blue-700 whitespace-nowrap">${escapeHtml(rec.weekNumber)}</td>
-              <td class="py-3.5 px-3 text-sm font-semibold text-slate-800 whitespace-nowrap">${escapeHtml(rec.studentCount)} 人</td>
-              <td class="py-3.5 px-3 whitespace-nowrap">${safetyBadge}</td>
+              <td class="py-3.5 px-3 text-sm">
+                <div class="font-semibold text-slate-800">${escapeHtml(rec.siteName)}</div>
+                <div class="text-xs text-slate-500">師資：${escapeHtml(rec.instructorName)}</div>
+              </td>
+              <td class="py-3.5 px-3 text-sm whitespace-nowrap">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-semibold bg-blue-50 text-blue-700">${escapeHtml(rec.weekNumber)}</span>
+                <span class="ml-1.5 font-bold text-slate-700">${escapeHtml(rec.studentCount)} 人</span>
+              </td>
+              <td class="py-3.5 px-3 text-xs whitespace-nowrap">
+                <div class="font-medium text-slate-700">${escapeHtml(rec.progressStatus)}</div>
+                <div>${safetyBadge}</div>
+              </td>
               <td class="py-3.5 px-3 whitespace-nowrap">${statusBadge}</td>
               <td class="py-3.5 px-3 text-right whitespace-nowrap">
                 <div class="inline-flex items-center gap-1.5">
@@ -1581,15 +1607,13 @@
 
         recordsContainer.innerHTML = `
           <div class="overflow-x-auto -mx-5 sm:mx-0">
-            <table class="w-full text-left border-collapse min-w-[820px]">
+            <table class="w-full text-left border-collapse min-w-[780px]">
               <thead>
                 <tr class="border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50/60">
                   <th class="py-3 px-3">填報時間</th>
-                  <th class="py-3 px-3">執行據點</th>
-                  <th class="py-3 px-3">授課師資</th>
-                  <th class="py-3 px-3">週次</th>
-                  <th class="py-3 px-3">上課人數</th>
-                  <th class="py-3 px-3">安全回報</th>
+                  <th class="py-3 px-3">據點／師資</th>
+                  <th class="py-3 px-3">週次／人數</th>
+                  <th class="py-3 px-3">進度／安全</th>
                   <th class="py-3 px-3">同步狀態</th>
                   <th class="py-3 px-3 text-right">操作</th>
                 </tr>
@@ -1632,17 +1656,17 @@
           '【CL-14-0028 Form4 執行方案內容授課內容及進度回報表】',
           '方案：長者適性運動－增力穩行尿防漏、健康老化快樂過',
           '────────────────────',
-          `📍 執行據點：${d.siteName || '（未填寫）'}`,
+          `📍 據點名稱：${d.siteName || '（未填寫）'}`,
           `👩‍🏫 授課師資：${d.instructorName || '（未填寫）'}${d.assistantName ? `（協同：${d.assistantName}）` : ''}`,
-          `📅 授課日期：${d.sessionDate || '（未填寫）'}（${d.weekNumber || '未選擇週次'}）`,
-          `👥 上課人數：${d.studentCount ? d.studentCount + ' 人' : '（未填寫）'}`,
-          `🏷️ 執行單元：${modules}`,
-          `📊 進度狀態：${d.progressStatus || '（未選擇）'}`,
+          `📅 授課日期：${d.sessionDate || '（未填寫）'}（${d.weekNumber || '未選週次'}）`,
+          `👥 上課人數：${d.studentCount ? `${d.studentCount} 人` : '（未填寫）'}`,
+          `🏋️ 執行單元：${modules}`,
+          `📈 進度狀態：${d.progressStatus || '（未選擇）'}`,
           `📝 授課簡述：${d.courseSummary || '（未填寫）'}`,
-          `👏 長者參與度：${d.participationLevel || '（未選擇）'}`,
-          `🛡️ 安全回報：${d.safetyIncident || '（未選擇）'}`,
+          `😊 參與度：${d.participationLevel || '（未選擇）'}`,
+          `🛡️ 安全回報：${d.safetyIncident || '無異常'}`,
           d.notes ? `💬 備註說明：${d.notes}` : null,
-          d.photoLink ? `📷 照片連結：${d.photoLink}` : null
+          d.photoLink ? `📷 課堂照片：${d.photoLink}` : null
         ].filter(Boolean).join('\n');
       }
 
