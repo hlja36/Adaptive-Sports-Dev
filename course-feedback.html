@@ -18,13 +18,19 @@
    flex-direction: column;
    justify-content: space-between;
   }
-  /* 卡片底部：左側按鈕、右側 QR Code */
+/* 卡片底部：左側按鈕、右側 QR Code */
   .kpi-card-footer {
    display: flex;
    justify-content: space-between;
    align-items: flex-end;
    gap: 12px;
    margin-top: auto;
+   position: relative;
+   z-index: 5;
+  }
+  .kpi-card-footer .btn {
+   position: relative;
+   z-index: 6;
   }
   .qr-box {
    display: flex;
@@ -37,24 +43,8 @@
    cursor: pointer;
    transition: transform 0.2s ease, box-shadow 0.2s ease;
    flex-shrink: 0;
-  }
-  .kpi-card.accent .qr-box {
-   border-color: #fde68a;
-  }
-  .qr-box:hover {
-   transform: scale(1.05);
-   box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-  }
-  .qr-box img {
-   width: 76px;
-   height: 76px;
-   display: block;
-  }
-  .qr-box span {
-   font-size: 0.72rem;
-   color: #64748b;
-   margin-top: 4px;
-   font-weight: 600;
+   position: relative;
+   z-index: 6;
   }
   /* QR Code 放大燈箱 */
   .qr-modal {
@@ -293,3 +283,57 @@
  let currentQrUrl = '';
 
  function loadFeedbackForm(url, title, height = '1800px') {
+  const container = document.getElementById('feedback-embed-container');
+  const iframe = document.getElementById('feedback-iframe');
+  const titleEl = document.getElementById('feedback-embed-title');
+
+  titleEl.textContent = title;
+  iframe.setAttribute('height', height);
+  iframe.style.setProperty('height', height, 'important');
+  iframe.style.setProperty('max-height', 'none', 'important');
+  iframe.src = url;
+
+  container.style.display = 'block';
+  setTimeout(function() {
+   container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+ }
+
+ function closeFeedbackForm() {
+  const container = document.getElementById('feedback-embed-container');
+  const iframe = document.getElementById('feedback-iframe');
+  container.style.display = 'none';
+  iframe.src = '';
+ }
+
+ function openQrModal(url, title) {
+  currentQrUrl = url;
+  document.getElementById('qr-modal-title').textContent = title;
+  document.getElementById('qr-modal-url').textContent = url;
+  document.getElementById('qr-modal-img').src =
+   'https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=' + encodeURIComponent(url);
+  document.getElementById('qr-modal').classList.add('show');
+ }
+
+ function closeQrModal() {
+  document.getElementById('qr-modal').classList.remove('show');
+ }
+
+ function copyQrUrl() {
+  if (!currentQrUrl) return;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+   navigator.clipboard.writeText(currentQrUrl).then(function() {
+    alert('已複製表單連結！');
+   });
+  } else {
+   prompt('請手動複製以下連結：', currentQrUrl);
+  }
+ }
+
+ document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeQrModal();
+ });
+ </script>
+</body>
+</html>
+
