@@ -532,9 +532,9 @@
           <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">Google Forms 官方備份填報表單（前後測體型、血壓與體適能紀錄）。</p>
         </div>
         <div class="kpi-card-footer">
-          <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://hlja36.github.io/Adaptive-Sports-Dev/record-form1.html', '體型測量及體能測驗-前後測紀錄表', '1800px')" class="btn">前往填寫表單 ⬇</a>
-          <div class="qr-box" onclick="openQrModal('https://hlja36.github.io/Adaptive-Sports-Dev/record-form1.html', 'CL-14-0028-1 體型測量及體能測驗-前後測紀錄表')" title="點擊放大 QR Code">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fhlja36.github.io%2FAdaptive-Sports-Dev%2Frecord-form1.html" alt="CL-14-0028-1 QR Code">
+          <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://./Adaptive-Sports-Dev/record-form1.html', '體型測量及體能測驗-前後測紀錄表', '1800px')" class="btn">前往填寫表單 ⬇</a>
+          <div class="qr-box" onclick="openQrModal('https://./Adaptive-Sports-Dev/record-form1.html', 'CL-14-0028-1 體型測量及體能測驗-前後測紀錄表')" title="點擊放大 QR Code">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fadaptive-sports-dev.vercel.app%2Frecord-form1.html" alt="CL-14-0028-1 QR Code">
             <span>掃碼填寫</span>
           </div>
         </div>
@@ -548,9 +548,9 @@
           <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">15 題簡易排尿頻率、尿勢、自主停尿與生活影響評估問卷。</p>
         </div>
         <div class="kpi-card-footer">
-          <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://hlja36.github.io/Adaptive-Sports-Dev/record-form2.html', '預防改善尿失禁問卷調查', '2000px')" class="btn">前往填寫問卷 ⬇</a>
-          <div class="qr-box" onclick="openQrModal('https://hlja36.github.io/Adaptive-Sports-Dev/record-form2.html', 'CL-14-0028-2 預防改善尿失禁問卷調查')" title="點擊放大 QR Code">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fhlja36.github.io%2FAdaptive-Sports-Dev%2Frecord-form2.html" alt="CL-14-0028-2 QR Code">
+          <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://./Adaptive-Sports-Dev/record-form2.html', '預防改善尿失禁問卷調查', '2000px')" class="btn">前往填寫問卷 ⬇</a>
+          <div class="qr-box" onclick="openQrModal('https://./Adaptive-Sports-Dev/record-form2.html', 'CL-14-0028-2 預防改善尿失禁問卷調查')" title="點擊放大 QR Code">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fadaptive-sports-dev.vercel.app%2Frecord-form2.html" alt="CL-14-0028-2 QR Code">
             <span>掃碼填寫</span>
           </div>
         </div>
@@ -564,8 +564,8 @@
           <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">21 題特定高齡者（虛弱、跌倒、尿失禁、低營養、輕度認知障礙）篩檢。</p>
         </div>
         <div class="kpi-card-footer">
-          <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form3.html', '健康達人 21 篩檢問卷', '3000px')" class="btn">前往填寫問卷 ⬇</a>
-          <div class="qr-box" onclick="openQrModal('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form3.html', 'CL-14-0028-3 健康達人 21 篩檢問卷')" title="點擊放大 QR Code">
+          <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://./Adaptive-Sports-Dev/cl_14_0028_form3.html', '健康達人 21 篩檢問卷', '3000px')" class="btn">前往填寫問卷 ⬇</a>
+          <div class="qr-box" onclick="openQrModal('https://./cl_14_0028_form3.html', 'CL-14-0028-3 健康達人 21 篩檢問卷')" title="點擊放大 QR Code">
             <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fhlja36.github.io%2FAdaptive-Sports-Dev%2Fcl_14_0028_form3.html" alt="CL-14-0028-3 QR Code">
             <span>掃碼填寫</span>
           </div>
@@ -861,6 +861,27 @@ document.addEventListener("DOMContentLoaded", () => {
   </div>
 </div>
 
+<script>
+
+// 依目前網站位置自動產生完整表單網址及 QR Code。
+function resolveFormUrl(path) {
+  return new URL(path, window.location.href).href;
+}
+
+function buildQrImageUrl(url, size) {
+  return 'https://api.qrserver.com/v1/create-qr-code/?size=' +
+    size + 'x' + size + '&data=' + encodeURIComponent(url);
+}
+
+document.querySelectorAll('img[data-qr-form]').forEach(function(img) {
+  img.src = buildQrImageUrl(
+    resolveFormUrl(img.dataset.qrForm), 160
+  );
+});
+
+// 以下接續原本的程式碼
+window._currentQrUrl = '';
+  
 <script>
 window._currentQrUrl = '';
 
