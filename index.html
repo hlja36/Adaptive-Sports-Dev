@@ -6,55 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>首頁與公告訊息 | CL-14-0028 長者適性運動-增力穩行尿防漏、健康老化快樂過</title>
   <link rel="stylesheet" href="assets/css/style.css">
-<style>
-  /* 身分狀態列 */
-  .auth-bar {
-    background: #f1f5f9; border-bottom: 1px solid #cbd5e1;
-    padding: 8px 20px; display: flex; justify-content: space-between;
-    align-items: center; flex-wrap: wrap; gap: 10px; font-size: 0.9rem;
-  }
-  .auth-status { display: flex; align-items: center; gap: 8px; color: #334155; font-weight: 600; }
-  .auth-badge-guest { background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 99px; font-size: 0.8rem; }
-  .auth-badge-user { background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 99px; font-size: 0.8rem; }
-  .auth-bar-actions { display: flex; gap: 8px; }
-  .auth-top-btn {
-    padding: 5px 12px; border-radius: 6px; border: none; font-size: 0.85rem;
-    font-weight: 600; cursor: pointer; background: var(--primary, #0f766e); color: #fff;
-  }
-  .auth-top-btn.secondary { background: #475569; }
-  .auth-top-btn.danger { background: #dc2626; }
-
-  /* 訪客模式：按鈕鎖定樣式 */
-  a.is-locked {
-    background: #94a3b8 !important; color: #f8fafc !important;
-    opacity: 0.85; cursor: not-allowed;
-  }
-
-  /* 彈窗樣式 */
-  .auth-overlay {
-    display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.6);
-    z-index: 9999; justify-content: center; align-items: center; padding: 16px;
-  }
-  .auth-overlay.show { display: flex; }
-  .auth-modal {
-    background: #fff; padding: 24px; border-radius: 12px; width: 100%;
-    max-width: 400px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
-  }
-  .auth-modal h3 { margin: 0 0 8px; color: #0f172a; }
-  .auth-modal p { margin: 0 0 16px; color: #475569; font-size: 0.9rem; }
-  .auth-modal input {
-    width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1;
-    border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; font-size: 0.95rem;
-  }
-  .auth-error { color: #dc2626; font-size: 0.85rem; min-height: 20px; margin-bottom: 10px; }
-  .auth-actions { display: flex; gap: 10px; justify-content: flex-end; }
-  .auth-btn { padding: 8px 16px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
-  .auth-btn-cancel { background: #e2e8f0; color: #334155; }
-  .auth-btn-primary { background: var(--secondary, #0f766e); color: #fff; }
-  .user-list { max-height: 180px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 12px; }
-  .user-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-bottom: 1px solid #f1f5f9; font-size: 0.88rem; }
-</style>
-  
+ 
 </head>
 <body>
   <div class="top-bar">
@@ -62,16 +14,6 @@
     <span>指導單位：花蓮縣衛生局｜研發單位：慈濟學校財團法人慈濟大學體育教學中心</span>
   </div>
 
-  <div class="auth-bar">
-    <div class="auth-status" id="authStatusDisplay">
-      <span class="auth-badge-guest">👤 訪客模式（免登入瀏覽）</span>
-      <span>「資料填報與評估」功能已鎖定</span>
-    </div>
-    <div class="auth-bar-actions" id="authBarActions">
-      <button type="button" class="auth-top-btn" onclick="openLoginModal()">🔑 師資／指導員登入</button>
-    </div>
-  </div>
-  
   <header>
     <div class="nav-container">
       <a href="index.html" class="brand" style="text-decoration:none;">
@@ -93,7 +35,7 @@
           <li><a href="outcomes.html" class="">方案成效</a></li>
           <li><a href="course-feedback.html" class="" style="background:#7dd3fc;color:#0c4a6e;">課程回報與滿意度調查</a></li>
           <li><a href="downloads.html" class="" style="background:#fecaca;color:#7f1d1d;">表單下載</a></li>
-          <li><a href="data-upload.html" id="navDataUpload" class="protected-link is-locked" style="background:var(--secondary);color:#fff;">🔒 資料填報與評估（鎖定）</a></li>
+          <li><a href="data-upload.html" class="" style="background:var(--secondary);color:#fff;">資料填報與評估</a></li>
         </ul>
       </nav>
     </div>
@@ -111,10 +53,6 @@
     </div>
     <h2>長者適性運動－增力穩行尿防漏、健康老化快樂過</h2>
     <p>針對健康、衰弱前期、衰弱、輕度失能及排尿生理失能高危險群長者設計之 12 週實證運動介入方案。結合「健康達人 21」精準篩檢、三階段漸進式肌力與骨盆底肌訓練、方塊踏步認知刺激及居家 6 張處方紀錄卡，落實在地健康老化。</p>
-    <div class="hero-actions">
-      <a href="data-upload.html" id="heroDataUpload" class="btn btn-secondary protected-link is-locked">🔒 進入體能評估與前後測雷達圖（需師資登入）</a>
-      <a href="program-content.html" class="btn btn-outline" style="background:#fff;color:var(--primary-dark);">📖 瀏覽 12 週課程教案</a>
-    </div>
   </div>
 </section>
 
@@ -239,172 +177,13 @@
       </div>
       <div>
         <h4>快速連結</h4>
-        <p><a href="data-upload.html" id="footerDataUpload" class="protected-link">→ 🔒 檢測問卷填報與雷達圖評估（功能鎖定）</a></p>
+        <p><a href="data-upload.html">→ 檢測問卷填報與雷達圖評估</a></p>
         <p><a href="downloads.html">→ 表單與居家運動處方下載</a></p>
         <p><a href="https://moodle.tcu.edu.tw/login/index.php?loginredirect=1" target="_blank">→ 慈濟大學 Moodle 師資補訓平台</a></p>
       </div>
     </div>
   </footer>
   <script src="assets/js/main.js"></script>
- <!-- 訪客鎖定提示視窗 -->
-  <div id="lockedModal" class="auth-overlay">
-    <div class="auth-modal">
-      <h3>🔒 功能已鎖定</h3>
-      <p>您目前為「訪客模式」，可瀏覽網站所有公開資訊。如需進入「資料填報與評估」進行資料登錄，請先以師資／指導員身分登入。</p>
-      <div class="auth-actions">
-        <button type="button" class="auth-btn auth-btn-cancel" onclick="closeModal('lockedModal')">繼續以訪客瀏覽</button>
-        <button type="button" class="auth-btn auth-btn-primary" onclick="closeModal('lockedModal'); openLoginModal();">前往師資登入</button>
-      </div>
-    </div>
-  </div>
 
-  <!-- 師資／指導員登入視窗 -->
-  <div id="loginModal" class="auth-overlay">
-    <div class="auth-modal">
-      <h3>🔑 師資／指導員登入</h3>
-      <p>請輸入授權通行密碼以解鎖「資料填報與評估」功能。</p>
-      <input type="password" id="loginPassInput" placeholder="請輸入通行密碼" autocomplete="off">
-      <div id="loginError" class="auth-error"></div>
-      <div class="auth-actions">
-        <button type="button" class="auth-btn auth-btn-cancel" onclick="closeModal('loginModal')">取消</button>
-        <button type="button" class="auth-btn auth-btn-primary" onclick="handleLogin()">確認登入</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 管理員密碼維護視窗 -->
-  <div id="adminModal" class="auth-overlay">
-    <div class="auth-modal">
-      <h3>⚙️ 多人密碼維護</h3>
-      <p>新增或刪除人員密碼後，請點擊「複製設定檔」更新 <code>assets/js/auth-config.js</code>。</p>
-      <div id="adminUserList" class="user-list"></div>
-      <input type="text" id="newUserName" placeholder="人員／據點名稱（例如：宜蘭據點師資）">
-      <input type="text" id="newUserPass" placeholder="設定通行密碼">
-      <div class="auth-actions" style="margin-bottom:10px;">
-        <button type="button" class="auth-btn auth-btn-primary" onclick="addUser()">＋ 新增密碼</button>
-        <button type="button" class="auth-btn auth-btn-cancel" onclick="copyConfigCode()">📋 複製設定檔</button>
-      </div>
-      <div class="auth-actions">
-        <button type="button" class="auth-btn auth-btn-cancel" onclick="closeModal('adminModal')">關閉</button>
-      </div>
-    </div>
-  </div>
-
-  <script src="assets/js/auth-config.js"></script>
-  <script>
-    const STORAGE_KEY = 'cl140028_users_local';
-    let users = JSON.parse(localStorage.getItem(STORAGE_KEY)) || (typeof AUTH_CONFIG !== 'undefined' ? AUTH_CONFIG.users : [
-      { name: "總部管理員", pass: "CL140028admin", role: "admin" },
-      { name: "花蓮據點師資", pass: "hualien2026", role: "instructor" }
-    ]);
-
-    function getSession() {
-      const data = sessionStorage.getItem('cl140028_session');
-      return data ? JSON.parse(data) : null;
-    }
-
-    function updateUI() {
-      const session = getSession();
-      const statusEl = document.getElementById('authStatusDisplay');
-      const actionsEl = document.getElementById('authBarActions');
-      const navLink = document.getElementById('navDataUpload');
-      const heroLink = document.getElementById('heroDataUpload');
-      const footerLink = document.getElementById('footerDataUpload');
-
-      if (session) {
-        statusEl.innerHTML = `<span class="auth-badge-user">✅ 已登入：${session.name}（師資／指導員）</span><span>已解鎖「資料填報與評估」</span>`;
-        actionsEl.innerHTML = (session.role === 'admin' ? `<button type="button" class="auth-top-btn secondary" onclick="openAdminModal()">⚙️ 密碼維護</button>` : '') +
-          `<button type="button" class="auth-top-btn danger" onclick="handleLogout()">🚪 登出</button>`;
-        navLink.classList.remove('is-locked');
-        navLink.textContent = '📊 資料填報與評估';
-        heroLink.classList.remove('is-locked');
-        heroLink.textContent = '📊 進入體能評估與前後測雷達圖';
-        footerLink.textContent = '→ 📊 檢測問卷填報與雷達圖評估';
-      } else {
-        statusEl.innerHTML = `<span class="auth-badge-guest">👤 訪客模式（免登入瀏覽）</span><span>「資料填報與評估」功能已鎖定</span>`;
-        actionsEl.innerHTML = `<button type="button" class="auth-top-btn" onclick="openLoginModal()">🔑 師資／指導員登入</button>`;
-        navLink.classList.add('is-locked');
-        navLink.textContent = '🔒 資料填報與評估（鎖定）';
-        heroLink.classList.add('is-locked');
-        heroLink.textContent = '🔒 進入體能評估與前後測雷達圖（需師資登入）';
-        footerLink.textContent = '→ 🔒 檢測問卷填報與雷達圖評估（功能鎖定）';
-      }
-    }
-
-    // 攔截未登入點擊
-    document.querySelectorAll('.protected-link').forEach(el => {
-      el.addEventListener('click', function(e) {
-        if (!getSession()) {
-          e.preventDefault();
-          document.getElementById('lockedModal').classList.add('show');
-        }
-      });
-    });
-
-    function openLoginModal() {
-      document.getElementById('loginPassInput').value = '';
-      document.getElementById('loginError').textContent = '';
-      document.getElementById('loginModal').classList.add('show');
-      setTimeout(() => document.getElementById('loginPassInput').focus(), 100);
-    }
-
-    function closeModal(id) { document.getElementById(id).classList.remove('show'); }
-
-    function handleLogin() {
-      const pass = document.getElementById('loginPassInput').value.trim();
-      const matched = users.find(u => u.pass === pass);
-      if (matched) {
-        sessionStorage.setItem('cl140028_session', JSON.stringify(matched));
-        closeModal('loginModal');
-        updateUI();
-      } else {
-        document.getElementById('loginError').textContent = '密碼錯誤，請重新輸入或聯繫專案聯絡人。';
-      }
-    }
-
-    function handleLogout() {
-      sessionStorage.removeItem('cl140028_session');
-      updateUI();
-    }
-
-    function openAdminModal() {
-      renderUserList();
-      document.getElementById('adminModal').classList.add('show');
-    }
-
-    function renderUserList() {
-      document.getElementById('adminUserList').innerHTML = users.map((u, i) => `
-        <div class="user-item">
-          <span><strong>${u.name}</strong>（<code>${u.pass}</code>）</span>
-          ${u.role === 'admin' ? '<small>管理員</small>' : `<button type="button" onclick="deleteUser(${i})" style="color:#dc2626;border:none;background:none;cursor:pointer;">刪除</button>`}
-        </div>
-      `).join('');
-    }
-
-    function addUser() {
-      const name = document.getElementById('newUserName').value.trim();
-      const pass = document.getElementById('newUserPass').value.trim();
-      if (!name || !pass) return alert('請輸入名稱與密碼');
-      users.push({ name, pass, role: 'instructor' });
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
-      document.getElementById('newUserName').value = '';
-      document.getElementById('newUserPass').value = '';
-      renderUserList();
-    }
-
-    function deleteUser(idx) {
-      users.splice(idx, 1);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
-      renderUserList();
-    }
-
-    function copyConfigCode() {
-      const code = `const AUTH_CONFIG = {\n  users: ${JSON.stringify(users, null, 2)}\n};`;
-      navigator.clipboard.writeText(code).then(() => alert('已複製設定檔內容！請貼上至 assets/js/auth-config.js'));
-    }
-
-    document.getElementById('loginPassInput').addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
-    updateUI();
-  </script> 
 </body>
 </html>
