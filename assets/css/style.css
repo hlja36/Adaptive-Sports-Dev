@@ -430,3 +430,93 @@ footer a { color: #a7f3d0; }
     height: 0 !important;
   }
 }
+
+/* ===== 手機版下拉選單按鈕（電腦版預設隱藏） ===== */
+.mobile-menu-toggle {
+  display: none;
+  background-color: #166534;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.mobile-menu-toggle:active {
+  opacity: 0.85;
+}
+
+// ===== 手機版「≡ 選單」自動生成與收合控制 =====
+document.addEventListener('DOMContentLoaded', function () {
+  const nav = document.querySelector('header nav, .nav-links, .main-nav');
+  if (!nav) return;
+
+  // 若頁面上還沒有「≡ 選單」按鈕，自動建立並插在導覽列上方
+  let toggleBtn = document.querySelector('.mobile-menu-toggle');
+  if (!toggleBtn) {
+    toggleBtn = document.createElement('button');
+    toggleBtn.type = 'button';
+    toggleBtn.className = 'mobile-menu-toggle';
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    toggleBtn.textContent = '≡ 選單';
+    nav.parentNode.insertBefore(toggleBtn, nav);
+  }
+
+  // 點擊切換展開 / 收合
+  toggleBtn.addEventListener('click', function () {
+    const isOpen = nav.classList.toggle('mobile-open');
+    toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+
+  // 點選任一分頁連結後自動收合
+  nav.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      nav.classList.remove('mobile-open');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+});
+
+/* ===== 手機版響應式切換（螢幕寬度 <= 900px） ===== */
+@media (max-width: 900px) {
+  .mobile-menu-toggle {
+    display: inline-flex;
+  }
+
+  /* 預設隱藏所有分頁連結，保持頁面可視面積最大 */
+  header nav,
+  .nav-links,
+  .main-nav {
+    display: none !important;
+    width: 100%;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    margin-top: 12px !important;
+    padding-top: 8px;
+  }
+
+  /* 點擊「≡ 選單」後展開為垂直滿版清單 */
+  header nav.mobile-open,
+  .nav-links.mobile-open,
+  .main-nav.mobile-open {
+    display: flex !important;
+  }
+
+  /* 讓每個分頁項目在展開時滿版對齊 */
+  header nav.mobile-open a,
+  .nav-links.mobile-open a,
+  .main-nav.mobile-open a {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px 14px;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+}
