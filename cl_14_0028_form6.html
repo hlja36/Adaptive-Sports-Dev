@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CL-14-0028 Form6 長者適性運動回饋問卷（學員版）</title>
+  <!-- 載入 Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 載入 Google Fonts: Inter 與 Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Noto Sans TC"', 'Inter', '"Microsoft JhengHei"', 'sans-serif'],
+          },
+          boxShadow: {
+            'soft': '0 2px 14px -2px rgba(15, 23, 42, 0.07), 0 1px 4px -1px rgba(15, 23, 42, 0.04)',
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col text-base">
+
+  <!-- =========================================================
+       頂部工具列 (Header & Action Bar)
+  ========================================================== -->
+  <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-3.5">
+      <!-- 圖示與標題 -->
+      <div class="flex items-start sm:items-center gap-3.5">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-50 to-amber-50 border border-indigo-200/80 flex items-center justify-center shrink-0 shadow-sm">
+          <svg class="w-7 h-7 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          </svg>
+        </div>
+        <div class="min-w-0">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-100 text-indigo-800 border border-indigo-200">
+              方案編號：CL-14-0028｜Form6
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              已連結雲端
+            </span>
+          </div>
+          <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight leading-snug">
+            長者適性運動回饋問卷（學員版）
+          </h1>
+          <p class="text-sm text-slate-600 mt-0.5">
+            增肌好行尿防漏、健康老化快樂過 — 請協助填寫本問卷，您的寶貴意見將有助於我們持續改進課程品質。
+          </p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       主要內容區塊 (問卷卡片 + 本機回饋紀錄列表)
+  ========================================================== -->
+  <main class="max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 flex-1">
+
+    <!-- 方案歡迎與說明橫幅 -->
+    <div class="bg-gradient-to-r from-indigo-600 via-indigo-600 to-blue-600 rounded-2xl p-5 sm:p-6 text-white shadow-soft flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-xs sm:text-sm font-semibold mb-2">
+          <span>📌 方案編號：CL-14-0028｜Form6</span>
+          <span>•</span>
+          <span>學員回饋問卷</span>
+        </div>
+        <h2 class="text-lg sm:text-xl font-bold leading-snug">
+          長者適性運動回饋問卷－增肌好行尿防漏、健康老化快樂過
+        </h2>
+        <p class="text-sm text-indigo-100 mt-1.5 leading-relaxed">
+          感謝您參與本次課程！標示 <span class="text-amber-300 font-bold">*</span> 為必填項目，姓名與電子郵件可依個人意願選填。
+        </p>
+      </div>
+      <div class="shrink-0 bg-white/15 rounded-2xl px-5 py-3 border border-white/25 text-center sm:text-right">
+        <div class="text-xs sm:text-sm text-indigo-100">本機累計回饋</div>
+        <div class="text-3xl font-bold leading-tight mt-0.5"><span id="headerRecordCount">0</span> <span class="text-sm font-normal">筆</span></div>
+      </div>
+    </div>
+
+    <!-- Form6 主表單（使用 novalidate 交由自訂 JS 驗證，提供清晰醒目提示） -->
+    <form id="form6" novalidate class="space-y-6">
+
+      <!-- 卡片一：一、基本資料 -->
+      <section class="bg-white rounded-2xl border border-slate-200/90 shadow-soft overflow-hidden">
+        <div class="px-5 sm:px-6 py-4 bg-slate-50/90 border-b border-slate-200/70 flex items-center gap-3">
+          <span class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 font-bold text-base flex items-center justify-center shrink-0">1</span>
+          <h3 class="text-lg font-bold text-slate-900">一、基本資料</h3>
+        </div>
+
+        <div class="p-5 sm:p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- 1. 填寫日期 -->
+          <div>
+            <label for="fillDate" class="block text-base font-semibold text-slate-800 mb-2">
+              1. 填寫日期 <span class="text-rose-600 font-bold">*</span>
+            </label>
+            <input type="date" id="fillDate" name="fillDate"
+              class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-600 transition">
+          </div>
+
+          <!-- 2. 填寫人姓名（選填） -->
+          <div>
+            <label for="respondentName" class="block text-base font-semibold text-slate-800 mb-2">
+              2. 填寫人姓名 <span class="text-sm font-normal text-slate-500">（選填）</span>
+            </label>
+            <input type="text" id="respondentName" name="respondentName"
+              placeholder="可留空以匿名填寫"
+              class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white text-base text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-600 transition">
+          </div>
+
+          <!-- 3. 參加活動據點 -->
+          <div>
+            <label for="siteName" class="block text-base font-semibold text-slate-800 mb-2">
+              3. 參加活動據點 <span class="text-rose-600 font-bold">*</span>
+            </label>
+            <input type="text" id="siteName" name="siteName"
+              placeholder="例如：○○社區關懷據點"
+              class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white text-base text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-600 transition">
+          </div>
+
+          <!-- 電子郵件（選填） -->
+          <div>
+            <label for="respondentEmail" class="block text-base font-semibold text-slate-800 mb-2">
+              電子郵件 <span class="text-sm font-normal text-slate-500">（選填）</span>
+            </label>
+            <input type="email" id="respondentEmail" name="respondentEmail"
+              placeholder="選填，若填寫系統將自動寄送回饋確認信"
+              class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white text-base text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-600 transition">
+          </div>
+        </div>
+      </section>
+
+      <!-- 卡片二：二、回饋事項與具體內容 -->
+      <section class="bg-white rounded-2xl border border-slate-200/90 shadow-soft overflow-hidden">
+        <div class="px-5 sm:px-6 py-4 bg-slate-50/90 border-b border-slate-200/70 flex items-center gap-3">
+          <span class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 font-bold text-base flex items-center justify-center shrink-0">2</span>
+          <h3 class="text-lg font-bold text-slate-900">二、回饋事項與具體內容</h3>
+        </div>
+
+        <div class="p-5 sm:p-6 space-y-6">
+          <!-- 4. 回饋事項（可複選） -->
+          <div>
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <label class="block text-base font-semibold text-slate-800">
+                4. 回饋事項（可複選，請至少勾選一項） <span class="text-rose-600 font-bold">*</span>
+              </label>
+              <button type="button" id="toggleAllTopicsBtn"
+                class="text-sm font-semibold text-indigo-600 hover:text-indigo-800 px-2.5 py-1 rounded-lg hover:bg-indigo-50 transition cursor-pointer">
+                全選 / 取消全選
+              </button>
+            </div>
+
+            <div id="topicsGroup" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 p-1 rounded-2xl transition">
+              <label class="cursor-pointer select-none">
+                <input type="checkbox" name="feedbackTopics" value="課程內容建議" class="peer sr-only">
+                <span class="flex items-center gap-3 px-4 py-3.5 rounded-xl border-2 border-slate-200 bg-slate-50 text-base text-slate-800 font-medium peer-checked:bg-indigo-50 peer-checked:border-indigo-600 peer-checked:text-indigo-900 peer-checked:[&_.check-box]:bg-indigo-600 peer-checked:[&_.check-box]:border-indigo-600 peer-checked:[&_.check-box]:text-white hover:bg-slate-100 transition">
+                  <span class="check-box w-5 h-5 rounded-md border-2 border-slate-300 bg-white text-transparent flex items-center justify-center text-xs font-bold shrink-0 transition">✓</span>
+                  <span>課程內容建議</span>
+                </span>
+              </label>
+
+              <label class="cursor-pointer select-none">
+                <input type="checkbox" name="feedbackTopics" value="師資教學方式" class="peer sr-only">
+                <span class="flex items-center gap-3 px-4 py-3.5 rounded-xl border-2 border-slate-200 bg-slate-50 text-base text-slate-800 font-medium peer-checked:bg-indigo-50 peer-checked:border-indigo-600 peer-checked:text-indigo-900 peer-checked:[&_.check-box]:bg-indigo-600 peer-checked:[&_.check-box]:border-indigo-600 peer-checked:[&_.check-box]:text-white hover:bg-slate-100 transition">
+                  <span class="check-box w-5 h-5 rounded-md border-2 border-slate-300 bg-white text-transparent flex items-center justify-center text-xs font-bold shrink-0 transition">✓</span>
+                  <span>師資教學方式</span>
+                </span>
+              </label>
+
+              <label class="cursor-pointer select-none">
+                <input type="checkbox" name="feedbackTopics" value="活動時間安排" class="peer sr-only">
+                <span class="flex items-center gap-3 px-4 py-3.5 rounded-xl border-2 border-slate-200 bg-slate-50 text-base text-slate-800 font-medium peer-checked:bg-indigo-50 peer-checked:border-indigo-600 peer-checked:text-indigo-900 peer-checked:[&_.check-box]:bg-indigo-600 peer-checked:[&_.check-box]:border-indigo-600 peer-checked:[&_.check-box]:text-white hover:bg-slate-100 transition">
+                  <span class="check-box w-5 h-5 rounded-md border-2 border-slate-300 bg-white text-transparent flex items-center justify-center text-xs font-bold shrink-0 transition">✓</span>
+                  <span>活動時間安排</span>
+                </span>
+              </label>
+
+              <label class="cursor-pointer select-none">
+                <input type="checkbox" name="feedbackTopics" value="環境與設備" class="peer sr-only">
+                <span class="flex items-center gap-3 px-4 py-3.5 rounded-xl border-2 border-slate-200 bg-slate-50 text-base text-slate-800 font-medium peer-checked:bg-indigo-50 peer-checked:border-indigo-600 peer-checked:text-indigo-900 peer-checked:[&_.check-box]:bg-indigo-600 peer-checked:[&_.check-box]:border-indigo-600 peer-checked:[&_.check-box]:text-white hover:bg-slate-100 transition">
+                  <span class="check-box w-5 h-5 rounded-md border-2 border-slate-300 bg-white text-transparent flex items-center justify-center text-xs font-bold shrink-0 transition">✓</span>
+                  <span>環境與設備</span>
+                </span>
+              </label>
+
+              <label class="cursor-pointer select-none">
+                <input type="checkbox" name="feedbackTopics" value="自身學習成效與感受" class="peer sr-only">
+                <span class="flex items-center gap-3 px-4 py-3.5 rounded-xl border-2 border-slate-200 bg-slate-50 text-base text-slate-800 font-medium peer-checked:bg-indigo-50 peer-checked:border-indigo-600 peer-checked:text-indigo-900 peer-checked:[&_.check-box]:bg-indigo-600 peer-checked:[&_.check-box]:border-indigo-600 peer-checked:[&_.check-box]:text-white hover:bg-slate-100 transition">
+                  <span class="check-box w-5 h-5 rounded-md border-2 border-slate-300 bg-white text-transparent flex items-center justify-center text-xs font-bold shrink-0 transition">✓</span>
+                  <span>自身學習成效與感受</span>
+                </span>
+              </label>
+
+              <label class="cursor-pointer select-none">
+                <input type="checkbox" id="otherTopicCheckbox" name="feedbackTopics" value="其他（請說明）" class="peer sr-only">
+                <span class="flex items-center gap-3 px-4 py-3.5 rounded-xl border-2 border-slate-200 bg-slate-50 text-base text-slate-800 font-medium peer-checked:bg-indigo-50 peer-checked:border-indigo-600 peer-checked:text-indigo-900 peer-checked:[&_.check-box]:bg-indigo-600 peer-checked:[&_.check-box]:border-indigo-600 peer-checked:[&_.check-box]:text-white hover:bg-slate-100 transition">
+                  <span class="check-box w-5 h-5 rounded-md border-2 border-slate-300 bg-white text-transparent flex items-center justify-center text-xs font-bold shrink-0 transition">✓</span>
+                  <span>其他（請說明）</span>
+                </span>
+              </label>
+            </div>
+
+            <!-- 動態展開的「其他回饋事項說明」欄位 -->
+            <div id="otherTopicContainer" class="hidden mt-3.5 p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
+              <label for="otherTopicDetail" class="block text-base font-semibold text-indigo-900 mb-2">
+                其他回饋事項說明 <span class="text-rose-600 font-bold">*</span>
+              </label>
+              <input type="text" id="otherTopicDetail" name="otherTopicDetail"
+                placeholder="請簡述您想回饋的其他項目..."
+                class="w-full px-4 py-3 rounded-xl border border-indigo-300 bg-white text-base text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-600 transition">
+            </div>
+          </div>
+
+          <!-- 5. 回饋內容（請具體填寫） -->
+          <div>
+            <label for="feedbackContent" class="block text-base font-semibold text-slate-800 mb-2">
+              5. 回饋內容（請具體填寫） <span class="text-rose-600 font-bold">*</span>
+            </label>
+            <textarea id="feedbackContent" name="feedbackContent" rows="4"
+              placeholder="請分享您參加課程後的感受、最喜歡的運動單元，或希望課程可以調整的地方..."
+              class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white text-base text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-600 transition resize-y leading-relaxed"></textarea>
+          </div>
+
+          <!-- 6. 備註（選填） -->
+          <div>
+            <label for="notes" class="block text-base font-semibold text-slate-800 mb-2">
+              6. 備註（如需特別說明，請填寫） <span class="text-sm font-normal text-slate-500">（選填）</span>
+            </label>
+            <textarea id="notes" name="notes" rows="3"
+              placeholder="若有任何補充事項或想對老師說的話，歡迎填寫於此（可留空）"
+              class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-white text-base text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-600 transition resize-y leading-relaxed"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- 卡片三：三、成果報告引用同意 -->
+      <section class="bg-white rounded-2xl border border-slate-200/90 shadow-soft overflow-hidden">
+        <div class="px-5 sm:px-6 py-4 bg-slate-50/90 border-b border-slate-200/70 flex items-center gap-3">
+          <span class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 font-bold text-base flex items-center justify-center shrink-0">3</span>
+          <h3 class="text-lg font-bold text-slate-900">三、成果報告引用同意</h3>
+        </div>
+
+        <div class="p-5 sm:p-6">
+          <label class="block text-base font-semibold text-slate-800 mb-3.5">
+            7. 您是否同意將本次回饋內容匿名引用於成果報告中？ <span class="text-rose-600 font-bold">*</span>
+          </label>
+
+          <div id="consentGroup" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 p-1 rounded-2xl transition">
+            <label class="cursor-pointer select-none">
+              <input type="radio" name="quoteConsent" value="我同意引用（將以匿名方式呈現）" class="peer sr-only">
+              <div class="p-4 sm:p-5 rounded-xl border-2 border-slate-200 bg-slate-50 peer-checked:bg-indigo-50 peer-checked:border-indigo-600 peer-checked:ring-2 peer-checked:ring-indigo-500/20 peer-checked:[&_.radio-ring]:border-indigo-600 peer-checked:[&_.radio-dot]:opacity-100 hover:bg-slate-100 transition flex items-start gap-3.5 h-full">
+                <span class="radio-ring w-6 h-6 mt-0.5 rounded-full border-2 border-slate-400 bg-white flex items-center justify-center shrink-0 transition">
+                  <span class="radio-dot w-3 h-3 rounded-full bg-indigo-600 opacity-0 transition"></span>
+                </span>
+                <div>
+                  <div class="text-base font-bold text-slate-900">我同意引用（將以匿名方式呈現）</div>
+                  <div class="text-sm text-slate-600 mt-1">同意方案團隊以不具名方式分享於成果報告中</div>
+                </div>
+              </div>
+            </label>
+
+            <label class="cursor-pointer select-none">
+              <input type="radio" name="quoteConsent" value="我不同意引用" class="peer sr-only">
+              <div class="p-4 sm:p-5 rounded-xl border-2 border-slate-200 bg-slate-50 peer-checked:bg-slate-100 peer-checked:border-slate-600 peer-checked:ring-2 peer-checked:ring-slate-400/20 peer-checked:[&_.radio-ring]:border-slate-700 peer-checked:[&_.radio-dot]:opacity-100 hover:bg-slate-100 transition flex items-start gap-3.5 h-full">
+                <span class="radio-ring w-6 h-6 mt-0.5 rounded-full border-2 border-slate-400 bg-white flex items-center justify-center shrink-0 transition">
+                  <span class="radio-dot w-3 h-3 rounded-full bg-slate-700 opacity-0 transition"></span>
+                </span>
+                <div>
+                  <div class="text-base font-bold text-slate-900">我不同意引用</div>
+                  <div class="text-sm text-slate-600 mt-1">僅供方案團隊內部改善參考，不對外引用</div>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- 狀態提示橫幅 -->
+      <div id="statusMsg" role="alert" class="hidden rounded-2xl px-5 py-4 text-base font-medium border shadow-sm leading-relaxed"></div>
+
+      <!-- 底部操作按鈕列 -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 pt-1">
+        <button type="button" id="resetFormBtn"
+          class="px-6 py-3.5 rounded-xl text-base font-semibold text-slate-700 bg-white border-2 border-slate-300 hover:bg-slate-100 active:scale-[0.98] transition cursor-pointer">
+          清空重填
+        </button>
+        <button type="submit" id="submitBtn"
+          class="px-8 py-3.5 rounded-xl text-base font-bold text-white bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] transition shadow-md shadow-indigo-600/25 flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
+          <svg id="submitSpinner" class="hidden animate-spin w-5 h-5 text-white" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+          </svg>
+          <span id="submitBtnText">提交 Form6 學員回饋</span>
+        </button>
+      </div>
+    </form>
+
+    <!-- =========================================================
+         頁面底部居中功能列：管理者檢視紀錄、複製回饋摘要
+    ========================================================== -->
+    <div class="pt-4 border-t border-slate-200/80 flex flex-wrap items-center justify-center gap-3">
+      <button type="button" id="adminToggleBtn"
+        class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold bg-indigo-50 text-indigo-900 border border-indigo-300 hover:bg-indigo-100 active:scale-[0.98] transition cursor-pointer">
+        <span id="adminToggleIcon" aria-hidden="true">🔒</span>
+        <span id="adminToggleText">管理者檢視紀錄</span>
+      </button>
+
+      <button type="button" id="copySummaryBtn"
+        class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 hover:border-slate-400 active:scale-[0.98] transition cursor-pointer">
+        <span aria-hidden="true">📋</span>
+        <span>複製回饋摘要</span>
+      </button>
+    </div>
+
+    <!-- =========================================================
+         本機回饋紀錄列表 (預設隱藏，需通過管理者密碼驗證才展開)
+    ========================================================== -->
+    <section id="adminRecordsSection" class="hidden bg-white rounded-2xl border border-emerald-200 shadow-soft overflow-hidden mt-6">
+      <div class="px-5 sm:px-6 py-4 bg-emerald-50/70 border-b border-emerald-200/70 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-2.5">
+          <span class="text-xl" aria-hidden="true">📋</span>
+          <h3 class="text-lg font-bold text-slate-900">本機回饋紀錄列表</h3>
+          <span id="tableCountBadge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-100 text-indigo-800">0 筆</span>
+          <span id="adminViewerBadge" class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
+            🔓 目前檢視者：--
+          </span>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button type="button" id="openAdminManageBtn"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-indigo-50 text-indigo-800 border border-indigo-200 hover:bg-indigo-100 active:scale-[0.98] transition cursor-pointer">
+            <span aria-hidden="true">🔐</span>
+            <span>管理者密碼維護</span>
+          </button>
+          <button type="button" id="exportCsvBtn"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 active:scale-[0.98] transition cursor-pointer">
+            <span aria-hidden="true">📥</span>
+            <span>匯出 CSV</span>
+          </button>
+          <button type="button" id="clearAllRecordsBtn"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-rose-600 border border-rose-200 hover:bg-rose-50 active:scale-[0.98] transition cursor-pointer hidden">
+            <span aria-hidden="true">🗑️</span>
+            <span>清空全部紀錄</span>
+          </button>
+          <button type="button" id="lockAdminBtn"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800 text-white hover:bg-slate-900 active:scale-[0.98] transition cursor-pointer">
+            <span aria-hidden="true">🔒</span>
+            <span>鎖定並隱藏</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 紀錄內容區 -->
+      <div id="recordsContainer" class="p-5 sm:p-6"></div>
+    </section>
+
+  </main>
+
+  <footer class="text-center text-sm text-slate-500 py-6 px-4">
+    CL-14-0028 長者適性運動－增肌好行尿防漏、健康老化快樂過 ｜ Form6 學員回饋問卷系統
+  </footer>
+
+  <!-- =========================================================
+       Modal 1: 檢視單筆回饋紀錄詳情視窗
+  ========================================================== -->
+  <div id="detailModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-xl max-h-[85vh] flex flex-col overflow-hidden">
+      <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/90">
+        <h3 class="text-base font-bold text-slate-900">📄 學員回饋紀錄詳情</h3>
+        <button type="button" id="closeDetailModalBtn" class="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/70 flex items-center justify-center cursor-pointer transition">
+          ✕
+        </button>
+      </div>
+      <div id="detailModalBody" class="p-6 overflow-y-auto space-y-3 text-sm text-slate-700"></div>
+      <div class="px-6 py-3.5 border-t border-slate-100 bg-slate-50/80 flex justify-end gap-2">
+        <button type="button" id="detailCopyBtn"
+          class="px-4 py-2 rounded-xl text-sm font-semibold text-indigo-700 bg-indigo-50 border border-indigo-200 hover:bg-indigo-100 transition cursor-pointer">
+          📋 複製此筆摘要
+        </button>
+        <button type="button" id="closeDetailModalFooterBtn"
+          class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-100 transition cursor-pointer">
+          關閉
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       Modal 3: 自訂確認對話框 (取代 confirm())
+  ========================================================== -->
+  <div id="confirmModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-sm p-6 space-y-4">
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 text-lg">⚠️</div>
+        <div>
+          <h3 id="confirmTitle" class="text-base font-bold text-slate-900">確認操作</h3>
+          <p id="confirmMessage" class="text-sm text-slate-600 mt-1">您確定要執行此操作嗎？</p>
+        </div>
+      </div>
+      <div class="flex justify-end gap-2.5 pt-2">
+        <button type="button" id="confirmCancelBtn"
+          class="px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition cursor-pointer">
+          取消
+        </button>
+        <button type="button" id="confirmOkBtn"
+          class="px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-rose-600 hover:bg-rose-700 transition cursor-pointer">
+          確定執行
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       Modal 4: 管理者密碼驗證登入視窗
+  ========================================================== -->
+  <div id="adminLoginModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-md overflow-hidden">
+      <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-indigo-50/70">
+        <div class="flex items-center gap-2.5">
+          <span class="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-800 flex items-center justify-center text-lg">🔒</span>
+          <div>
+            <h3 class="text-base font-bold text-slate-900">管理者身分驗證</h3>
+            <p class="text-xs text-slate-500">請輸入管理者專屬密碼以檢視本機回饋紀錄</p>
+          </div>
+        </div>
+        <button type="button" id="closeAdminLoginBtn" class="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/70 flex items-center justify-center cursor-pointer transition">
+          ✕
+        </button>
+      </div>
+
+      <form id="adminLoginForm" novalidate class="p-6 space-y-4">
+        <div>
+          <label for="adminPasswordInput" class="block text-sm font-semibold text-slate-700 mb-1.5">
+            管理者密碼
+          </label>
+          <div class="relative">
+            <input type="password" id="adminPasswordInput" autocomplete="current-password"
+              placeholder="請輸入專屬密碼"
+              class="w-full pl-4 pr-11 py-3 rounded-xl border border-slate-300 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-600 transition">
+            <button type="button" id="toggleLoginPwdBtn" aria-label="顯示或隱藏密碼"
+              class="absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 flex items-center justify-center cursor-pointer transition">
+              👁️
+            </button>
+          </div>
+        </div>
+
+        <div id="adminLoginError" class="hidden rounded-xl bg-rose-50 border border-rose-200 px-3.5 py-2.5 text-sm font-medium text-rose-700"></div>
+
+        <div class="flex justify-end gap-2.5 pt-1">
+          <button type="button" id="cancelAdminLoginBtn"
+            class="px-4 py-2.5 rounded-xl text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition cursor-pointer">
+            取消
+          </button>
+          <button type="submit"
+            class="px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] transition cursor-pointer">
+            驗證並檢視
+          </button>
+        </div>
+
+        <p class="text-xs text-slate-500 pt-2 border-t border-slate-100 leading-relaxed">
+          💡 預設主管理者初始密碼為 <code class="px-1.5 py-0.5 rounded bg-slate-100 font-mono text-slate-700">0028</code>，登入後可於「管理者密碼維護」修改並新增多位管理者。
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       Modal 5: 多人管理者密碼維護視窗
+  ========================================================== -->
+  <div id="adminManageModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
+      <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-indigo-50/70">
+        <div class="flex items-center gap-2.5">
+          <span class="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-lg">🔐</span>
+          <div>
+            <h3 class="text-base font-bold text-slate-900">管理者密碼維護（支援多人使用）</h3>
+            <p class="text-xs text-slate-500">管理可檢視本機回饋紀錄之師資、督導或行政人員密碼</p>
+          </div>
+        </div>
+        <button type="button" id="closeAdminManageBtn" class="w-9 h-9 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-200/70 flex items-center justify-center cursor-pointer transition">
+          ✕
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-6">
+        <!-- 現有管理者清單 -->
+        <div>
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <h4 class="text-sm font-bold text-slate-800">現有管理者清單（<span id="adminListCount">0</span> 位）</h4>
+            <button type="button" id="resetDefaultAdminsBtn"
+              class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-amber-800 bg-amber-50 border border-amber-200 hover:bg-amber-100 transition cursor-pointer">
+              🔄 還原預設密碼
+            </button>
+          </div>
+          <div id="adminListContainer" class="space-y-2.5"></div>
+        </div>
+
+        <!-- 新增管理者表單 -->
+        <div class="border-t border-slate-200 pt-5">
+          <h4 class="text-sm font-bold text-slate-800 mb-3">➕ 新增管理者</h4>
+          <form id="addAdminForm" novalidate class="bg-slate-50 rounded-2xl border border-slate-200 p-4 space-y-3.5">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label for="newAdminName" class="block text-xs font-semibold text-slate-700 mb-1">
+                  管理者姓名／稱謂 <span class="text-rose-600">*</span>
+                </label>
+                <input type="text" id="newAdminName" placeholder="例：王老師、據點督導"
+                  class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500">
+              </div>
+
+              <div>
+                <label for="newAdminRole" class="block text-xs font-semibold text-slate-700 mb-1">
+                  角色權限
+                </label>
+                <select id="newAdminRole"
+                  class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500">
+                  <option value="staff">協同管理者（一般管理者）</option>
+                  <option value="master">主管理者</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="newAdminPassword" class="block text-xs font-semibold text-slate-700 mb-1">
+                  設定專屬密碼（至少 4 碼） <span class="text-rose-600">*</span>
+                </label>
+                <input type="text" id="newAdminPassword" placeholder="不可與現有密碼重複"
+                  class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500">
+              </div>
+            </div>
+
+            <div id="addAdminError" class="hidden rounded-xl bg-rose-50 border border-rose-200 px-3 py-2 text-xs font-medium text-rose-700"></div>
+
+            <div class="flex justify-end">
+              <button type="submit"
+                class="px-4 py-2 rounded-xl text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 active:scale-[0.98] transition cursor-pointer">
+                新增管理者
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="rounded-xl bg-blue-50/80 border border-blue-200/80 p-3.5 text-xs text-slate-700 leading-relaxed">
+          <strong>📌 儲存說明：</strong>此管理者密碼設定儲存在<strong>本機瀏覽器</strong>（<code>localStorage</code>）中。若需讓多位師資在不同電腦或手機共用同一組密碼清單，亦可直接修改網頁原始碼頂端的 <code>DEFAULT_ADMINS</code> 陣列後重新上傳。
+        </div>
+      </div>
+
+      <div class="px-6 py-3.5 border-t border-slate-100 bg-slate-50/80 flex justify-end">
+        <button type="button" id="closeAdminManageFooterBtn"
+          class="px-5 py-2 rounded-xl text-sm font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-100 transition cursor-pointer">
+          完成並關閉
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       Toast 通知容器
+  ========================================================== -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 max-w-sm w-[calc(100%-2.5rem)] pointer-events-none"></div>
+
+  <!-- =========================================================
+       JavaScript 核心邏輯
+  ========================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      // ===== 預設多人管理者設定（若需跨裝置共用，可直接修改此陣列） =====
+      const DEFAULT_ADMINS = [
+        { id: 'master-1', name: '主管理者', role: 'master', password: '0028', active: true }
+      ];
+
+      // ===== 雲端串接設定：已綁定 CL-14-0028 Form6 Google Apps Script 部署網址 =====
+      const GAS_URL = 'https://script.google.com/macros/s/AKfycbwToiJJoT9xWW48OJELIg8UWvHCNZKuoXx_NZf6gCYJ3byubFG1LzKH4eMlF6AhveoWhA/exec';
+      const TARGET_SPREADSHEET_ID = '1woQkEEeJxh_K0Njs2nnAstB258WTOTuCwx3ffXU4wcg';
+      const TARGET_SHEET_GID = 1331030422;
+
+      // ===== 常數與儲存鍵值 =====
+      const STORAGE_KEY_RECORDS = 'cl140028_form6_records_v1';
+      const STORAGE_KEY_ADMINS = 'cl14_0028_form6_admins';
+
+      // ===== 記憶體狀態（含 localStorage 無法存取時之備援） =====
+      let records = [];
+      let admins = [];
+      let currentAdmin = null;
+      let editingAdminId = null;
+      const revealedAdminPasswords = new Set();
+      let pendingConfirmAction = null;
+      let activeDetailRecord = null;
+
+      // ===== 安全的 localStorage 讀寫封裝 =====
+      function safeGetItem(key, fallback) {
+        try {
+          const val = window.localStorage.getItem(key);
+          return val !== null ? val : fallback;
+        } catch (e) {
+          return fallback;
+        }
+      }
+
+      function safeSetItem(key, value) {
+        try {
+          window.localStorage.setItem(key, value);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }
+
+      // ===== DOM 元素參照 =====
+      const form = document.getElementById('form6');
+      const fillDateInput = document.getElementById('fillDate');
+      const respondentNameInput = document.getElementById('respondentName');
+      const siteNameInput = document.getElementById('siteName');
+      const respondentEmailInput = document.getElementById('respondentEmail');
+      const topicsGroup = document.getElementById('topicsGroup');
+      const otherTopicCheckbox = document.getElementById('otherTopicCheckbox');
+      const otherTopicContainer = document.getElementById('otherTopicContainer');
+      const otherTopicDetailInput = document.getElementById('otherTopicDetail');
+      const feedbackContentInput = document.getElementById('feedbackContent');
+      const notesInput = document.getElementById('notes');
+      const consentGroup = document.getElementById('consentGroup');
+
+      const statusMsg = document.getElementById('statusMsg');
+      const submitBtn = document.getElementById('submitBtn');
+      const submitSpinner = document.getElementById('submitSpinner');
+      const submitBtnText = document.getElementById('submitBtnText');
+      const headerRecordCount = document.getElementById('headerRecordCount');
+      const tableCountBadge = document.getElementById('tableCountBadge');
+      const recordsContainer = document.getElementById('recordsContainer');
+      const clearAllRecordsBtn = document.getElementById('clearAllRecordsBtn');
+
+      // 管理者權限與隱藏控制元素
+      const adminToggleBtn = document.getElementById('adminToggleBtn');
+      const adminToggleIcon = document.getElementById('adminToggleIcon');
+      const adminToggleText = document.getElementById('adminToggleText');
+      const adminRecordsSection = document.getElementById('adminRecordsSection');
+      const adminViewerBadge = document.getElementById('adminViewerBadge');
+
+      // Modal 元素
+      const detailModal = document.getElementById('detailModal');
+      const detailModalBody = document.getElementById('detailModalBody');
+      const confirmModal = document.getElementById('confirmModal');
+      const confirmTitle = document.getElementById('confirmTitle');
+      const confirmMessage = document.getElementById('confirmMessage');
+
+      // 管理者登入與密碼維護 Modal 元素
+      const adminLoginModal = document.getElementById('adminLoginModal');
+      const adminLoginForm = document.getElementById('adminLoginForm');
+      const adminPasswordInput = document.getElementById('adminPasswordInput');
+      const toggleLoginPwdBtn = document.getElementById('toggleLoginPwdBtn');
+      const adminLoginError = document.getElementById('adminLoginError');
+
+      const adminManageModal = document.getElementById('adminManageModal');
+      const adminListCount = document.getElementById('adminListCount');
+      const adminListContainer = document.getElementById('adminListContainer');
+      const addAdminForm = document.getElementById('addAdminForm');
+      const newAdminNameInput = document.getElementById('newAdminName');
+      const newAdminRoleSelect = document.getElementById('newAdminRole');
+      const newAdminPasswordInput = document.getElementById('newAdminPassword');
+      const addAdminError = document.getElementById('addAdminError');
+
+      // ===== 初始化 =====
+      function init() {
+        loadFromStorage();
+        setTodayDate();
+        updateAdminUiState();
+        renderRecords();
+        bindEvents();
+      }
+
+      function cloneDefaultAdmins() {
+        return DEFAULT_ADMINS.map(a => ({ ...a }));
+      }
+
+      function loadFromStorage() {
+        const rawRecords = safeGetItem(STORAGE_KEY_RECORDS, '[]');
+        try {
+          const parsed = JSON.parse(rawRecords);
+          records = Array.isArray(parsed) ? parsed : [];
+        } catch (e) {
+          records = [];
+        }
+
+        const rawAdmins = safeGetItem(STORAGE_KEY_ADMINS, '');
+        try {
+          const parsedAdmins = rawAdmins ? JSON.parse(rawAdmins) : null;
+          if (Array.isArray(parsedAdmins) && parsedAdmins.length > 0) {
+            admins = parsedAdmins;
+          } else {
+            admins = cloneDefaultAdmins();
+          }
+        } catch (e) {
+          admins = cloneDefaultAdmins();
+        }
+      }
+
+      function saveRecords() {
+        safeSetItem(STORAGE_KEY_RECORDS, JSON.stringify(records));
+      }
+
+      function saveAdmins() {
+        safeSetItem(STORAGE_KEY_ADMINS, JSON.stringify(admins));
+      }
+
+      function setTodayDate() {
+        const now = new Date();
+        const yyyy = now.getFullYear();
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        fillDateInput.value = `${yyyy}-${mm}-${dd}`;
+      }
+
+      function formatDateTime(date) {
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const dd = String(date.getDate()).padStart(2, '0');
+        const hh = String(date.getHours()).padStart(2, '0');
+        const mi = String(date.getMinutes()).padStart(2, '0');
+        const ss = String(date.getSeconds()).padStart(2, '0');
+        return `${yyyy}/${mm}/${dd} ${hh}:${mi}:${ss}`;
+      }
+
+      function escapeHtml(str) {
+        return String(str ?? '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      // ===== 狀態橫幅顯示 =====
+      function showStatus(type, htmlContent) {
+        statusMsg.classList.remove(
+          'hidden',
+          'bg-rose-50', 'text-rose-800', 'border-rose-300',
+          'bg-emerald-50', 'text-emerald-800', 'border-emerald-300',
+          'bg-blue-50', 'text-blue-800', 'border-blue-300',
+          'bg-amber-50', 'text-amber-800', 'border-amber-300'
+        );
+
+        if (type === 'error') {
+          statusMsg.classList.add('bg-rose-50', 'text-rose-800', 'border-rose-300');
+        } else if (type === 'success') {
+          statusMsg.classList.add('bg-emerald-50', 'text-emerald-800', 'border-emerald-300');
+        } else if (type === 'warning') {
+          statusMsg.classList.add('bg-amber-50', 'text-amber-800', 'border-amber-300');
+        } else {
+          statusMsg.classList.add('bg-blue-50', 'text-blue-800', 'border-blue-300');
+        }
+
+        statusMsg.innerHTML = htmlContent;
+      }
+
+      function hideStatus() {
+        statusMsg.classList.add('hidden');
+        statusMsg.innerHTML = '';
+      }
+
+      // ===== 清除欄位錯誤外框 =====
+      function clearFieldErrors() {
+        form.querySelectorAll('.border-rose-500').forEach(el => {
+          el.classList.remove('border-rose-500', 'ring-2', 'ring-rose-200');
+        });
+        topicsGroup.classList.remove('ring-2', 'ring-rose-400', 'bg-rose-50/60');
+        consentGroup.classList.remove('ring-2', 'ring-rose-400', 'bg-rose-50/60');
+      }
+
+      // ===== 動態顯示「其他說明」輸入框 =====
+      function syncOtherTopicVisibility() {
+        if (otherTopicCheckbox.checked) {
+          otherTopicContainer.classList.remove('hidden');
+        } else {
+          otherTopicContainer.classList.add('hidden');
+          otherTopicDetailInput.value = '';
+          otherTopicDetailInput.classList.remove('border-rose-500', 'ring-2', 'ring-rose-200');
+        }
+      }
+
+      // ===== 事件綁定 =====
+      function bindEvents() {
+        form.addEventListener('submit', handleFormSubmit);
+
+        // 勾選「其他（請說明）」時動態展開說明欄
+        otherTopicCheckbox.addEventListener('change', syncOtherTopicVisibility);
+
+        // 全選 / 取消全選回饋事項
+        document.getElementById('toggleAllTopicsBtn').addEventListener('click', () => {
+          const checkboxes = Array.from(document.querySelectorAll('input[name="feedbackTopics"]'));
+          const allChecked = checkboxes.every(cb => cb.checked);
+          checkboxes.forEach(cb => { cb.checked = !allChecked; });
+          syncOtherTopicVisibility();
+        });
+
+        // 清空重填
+        document.getElementById('resetFormBtn').addEventListener('click', () => {
+          openConfirmModal('清空問卷', '確定要清除目前已填寫的所有欄位內容嗎？', () => {
+            form.reset();
+            setTodayDate();
+            syncOtherTopicVisibility();
+            clearFieldErrors();
+            hideStatus();
+            showToast('問卷已清空重設', 'info');
+          });
+        });
+
+        // 管理者專區：匯出 CSV
+        document.getElementById('exportCsvBtn').addEventListener('click', exportRecordsToCsv);
+
+        // 底部居中：管理者檢視紀錄 / 鎖定切換
+        adminToggleBtn.addEventListener('click', () => {
+          if (currentAdmin) {
+            lockAdminPanel(true);
+          } else {
+            openAdminLoginModal();
+          }
+        });
+        document.getElementById('lockAdminBtn').addEventListener('click', () => lockAdminPanel(true));
+
+        // 管理者登入 Modal 事件
+        document.getElementById('closeAdminLoginBtn').addEventListener('click', closeAdminLoginModal);
+        document.getElementById('cancelAdminLoginBtn').addEventListener('click', closeAdminLoginModal);
+        adminLoginModal.addEventListener('click', (e) => {
+          if (e.target === adminLoginModal) closeAdminLoginModal();
+        });
+        toggleLoginPwdBtn.addEventListener('click', () => {
+          const isPwd = adminPasswordInput.type === 'password';
+          adminPasswordInput.type = isPwd ? 'text' : 'password';
+          toggleLoginPwdBtn.textContent = isPwd ? '🙈' : '👁️';
+        });
+        adminLoginForm.addEventListener('submit', handleAdminLogin);
+
+        // 管理者密碼維護 Modal 事件
+        document.getElementById('openAdminManageBtn').addEventListener('click', openAdminManageModal);
+        document.getElementById('closeAdminManageBtn').addEventListener('click', closeAdminManageModal);
+        document.getElementById('closeAdminManageFooterBtn').addEventListener('click', closeAdminManageModal);
+        adminManageModal.addEventListener('click', (e) => {
+          if (e.target === adminManageModal) closeAdminManageModal();
+        });
+        addAdminForm.addEventListener('submit', handleAddAdmin);
+        document.getElementById('resetDefaultAdminsBtn').addEventListener('click', () => {
+          openConfirmModal(
+            '還原預設管理者密碼',
+            '確定要將管理者清單還原為預設值（主管理者，密碼 0028）嗎？您自訂的其他管理者將被清除。',
+            handleResetDefaultAdmins
+          );
+        });
+
+        // 頂部工具列：複製回饋摘要（僅複製目前填寫中的表單，避免未解鎖時外洩他人紀錄）
+        document.getElementById('copySummaryBtn').addEventListener('click', () => {
+          const current = getFormData();
+          const hasCurrentInput = Boolean(
+            current.siteName ||
+            current.respondentName ||
+            (current.feedbackTopics && current.feedbackTopics.length > 0) ||
+            current.feedbackContent ||
+            current.notes ||
+            current.quoteConsent
+          );
+
+          if (hasCurrentInput) {
+            copyTextToClipboard(buildSummaryText(current), '已複製目前填寫中的學員回饋摘要！');
+          } else {
+            showToast('尚未填寫任何內容，請先填寫問卷後再複製摘要', 'info');
+          }
+        });
+
+        // 清空全部本機紀錄
+        clearAllRecordsBtn.addEventListener('click', () => {
+          openConfirmModal('清空全部紀錄', `確定要刪除本機儲存的所有 ${records.length} 筆回饋紀錄嗎？此動作無法復原。`, () => {
+            records = [];
+            saveRecords();
+            renderRecords();
+            showToast('已清空所有本機回饋紀錄', 'info');
+          });
+        });
+
+        // 詳情視窗
+        document.getElementById('closeDetailModalBtn').addEventListener('click', closeDetailModal);
+        document.getElementById('closeDetailModalFooterBtn').addEventListener('click', closeDetailModal);
+        detailModal.addEventListener('click', (e) => {
+          if (e.target === detailModal) closeDetailModal();
+        });
+        document.getElementById('detailCopyBtn').addEventListener('click', () => {
+          if (activeDetailRecord) {
+            copyTextToClipboard(buildSummaryText(activeDetailRecord), '已複製該筆學員回饋摘要！');
+          }
+        });
+
+        // 確認對話框
+        document.getElementById('confirmCancelBtn').addEventListener('click', closeConfirmModal);
+        confirmModal.addEventListener('click', (e) => {
+          if (e.target === confirmModal) closeConfirmModal();
+        });
+        document.getElementById('confirmOkBtn').addEventListener('click', () => {
+          if (typeof pendingConfirmAction === 'function') {
+            pendingConfirmAction();
+          }
+          closeConfirmModal();
+        });
+      }
+
+      // ===== Modal 控制 =====
+      function openDetailModal(rec) {
+        activeDetailRecord = rec;
+        const topicsText = Array.isArray(rec.feedbackTopics) && rec.feedbackTopics.length > 0
+          ? rec.feedbackTopics.join('、')
+          : '未勾選';
+
+        detailModalBody.innerHTML = `
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200/80">
+            <div><span class="text-xs text-slate-500 block">填報時間</span><span class="font-semibold text-slate-800">${escapeHtml(rec.createdAt)}</span></div>
+            <div><span class="text-xs text-slate-500 block">填寫日期</span><span class="font-semibold text-slate-800">${escapeHtml(rec.fillDate || '未填寫')}</span></div>
+            <div><span class="text-xs text-slate-500 block">參加活動據點</span><span class="font-semibold text-slate-800">${escapeHtml(rec.siteName || '未填寫')}</span></div>
+            <div><span class="text-xs text-slate-500 block">填寫人姓名</span><span class="font-semibold text-slate-800">${escapeHtml(rec.respondentName || '匿名')}</span></div>
+            <div class="sm:col-span-2"><span class="text-xs text-slate-500 block">電子郵件</span><span class="font-medium text-slate-800">${escapeHtml(rec.respondentEmail || '未填寫')}</span></div>
+          </div>
+
+          <div>
+            <div class="text-xs font-semibold text-slate-500 mb-1">4. 回饋事項</div>
+            <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200 text-indigo-900 font-medium">
+              ${escapeHtml(topicsText)}
+              ${rec.otherTopicDetail ? `<div class="mt-1 text-xs text-indigo-700">其他說明：${escapeHtml(rec.otherTopicDetail)}</div>` : ''}
+            </div>
+          </div>
+
+          <div>
+            <div class="text-xs font-semibold text-slate-500 mb-1">5. 回饋內容</div>
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 whitespace-pre-wrap leading-relaxed">${escapeHtml(rec.feedbackContent || '無')}</div>
+          </div>
+
+          <div>
+            <div class="text-xs font-semibold text-slate-500 mb-1">6. 備註</div>
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 whitespace-pre-wrap leading-relaxed">${escapeHtml(rec.notes || '無')}</div>
+          </div>
+
+          <div>
+            <div class="text-xs font-semibold text-slate-500 mb-1">7. 成果報告匿名引用同意</div>
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 font-semibold text-slate-800">${escapeHtml(rec.quoteConsent || '未選擇')}</div>
+          </div>
+        `;
+        detailModal.classList.remove('hidden');
+        detailModal.classList.add('flex');
+      }
+
+      function closeDetailModal() {
+        detailModal.classList.add('hidden');
+        detailModal.classList.remove('flex');
+        activeDetailRecord = null;
+      }
+
+      function openConfirmModal(title, message, onConfirm) {
+        confirmTitle.textContent = title;
+        confirmMessage.textContent = message;
+        pendingConfirmAction = onConfirm;
+        confirmModal.classList.remove('hidden');
+        confirmModal.classList.add('flex');
+      }
+
+      function closeConfirmModal() {
+        confirmModal.classList.add('hidden');
+        confirmModal.classList.remove('flex');
+        pendingConfirmAction = null;
+      }
+
+      // ===== 管理者權限與介面狀態控制 =====
+      function getRoleLabel(role) {
+        return role === 'master' ? '主管理者' : '協同管理者';
+      }
+
+      function updateAdminUiState() {
+        if (currentAdmin) {
+          adminToggleBtn.className = 'inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold bg-emerald-600 text-white border border-emerald-700 hover:bg-emerald-700 active:scale-[0.98] transition cursor-pointer shadow-sm';
+          adminToggleIcon.textContent = '🔓';
+          adminToggleText.textContent = `已解鎖（${currentAdmin.name}）｜點此鎖定`;
+
+          adminViewerBadge.textContent = `🔓 目前檢視者：${currentAdmin.name}（${getRoleLabel(currentAdmin.role)}）`;
+          adminRecordsSection.classList.remove('hidden');
+        } else {
+          adminToggleBtn.className = 'inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold bg-indigo-50 text-indigo-900 border border-indigo-300 hover:bg-indigo-100 active:scale-[0.98] transition cursor-pointer';
+          adminToggleIcon.textContent = '🔒';
+          adminToggleText.textContent = '管理者檢視紀錄';
+
+          adminRecordsSection.classList.add('hidden');
+        }
+      }
+
+      function lockAdminPanel(showNotification) {
+        currentAdmin = null;
+        editingAdminId = null;
+        revealedAdminPasswords.clear();
+        closeAdminManageModal();
+        closeDetailModal();
+        updateAdminUiState();
+        if (showNotification) {
+          showToast('已鎖定並隱藏本機回饋紀錄列表', 'info');
+        }
+      }
+
+      // ===== 管理者登入驗證 Modal =====
+      function openAdminLoginModal() {
+        adminPasswordInput.value = '';
+        adminPasswordInput.type = 'password';
+        toggleLoginPwdBtn.textContent = '👁️';
+        adminLoginError.classList.add('hidden');
+        adminLoginError.textContent = '';
+        adminLoginModal.classList.remove('hidden');
+        adminLoginModal.classList.add('flex');
+        setTimeout(() => adminPasswordInput.focus(), 100);
+      }
+
+      function closeAdminLoginModal() {
+        adminLoginModal.classList.add('hidden');
+        adminLoginModal.classList.remove('flex');
+      }
+
+      function handleAdminLogin(e) {
+        e.preventDefault();
+        const inputPwd = adminPasswordInput.value.trim();
+
+        if (!inputPwd) {
+          adminLoginError.textContent = '請輸入管理者密碼。';
+          adminLoginError.classList.remove('hidden');
+          adminPasswordInput.focus();
+          return;
+        }
+
+        const matchedAdmin = admins.find(a => a.password === inputPwd);
+        if (!matchedAdmin) {
+          adminLoginError.textContent = '密碼錯誤，請重新輸入或聯繫主管理者確認。';
+          adminLoginError.classList.remove('hidden');
+          adminPasswordInput.select();
+          return;
+        }
+
+        if (!matchedAdmin.active) {
+          adminLoginError.textContent = `帳號「${matchedAdmin.name}」目前已停用，無法檢視紀錄。`;
+          adminLoginError.classList.remove('hidden');
+          return;
+        }
+
+        currentAdmin = { ...matchedAdmin };
+        closeAdminLoginModal();
+        updateAdminUiState();
+        renderRecords();
+        showToast(`歡迎 ${currentAdmin.name}，已解鎖本機回饋紀錄列表`, 'success');
+        setTimeout(() => {
+          adminRecordsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 120);
+      }
+
+      // ===== 多人管理者密碼維護 Modal =====
+      function openAdminManageModal() {
+        if (!currentAdmin) {
+          openAdminLoginModal();
+          return;
+        }
+        editingAdminId = null;
+        addAdminError.classList.add('hidden');
+        addAdminForm.reset();
+        renderAdminList();
+        adminManageModal.classList.remove('hidden');
+        adminManageModal.classList.add('flex');
+      }
+
+      function closeAdminManageModal() {
+        adminManageModal.classList.add('hidden');
+        adminManageModal.classList.remove('flex');
+        editingAdminId = null;
+      }
+
+      function countActiveMasters(excludeId) {
+        return admins.filter(a => a.role === 'master' && a.active && a.id !== excludeId).length;
+      }
+
+      function renderAdminList() {
+        adminListCount.textContent = admins.length;
+
+        adminListContainer.innerHTML = admins.map(admin => {
+          const isMaster = admin.role === 'master';
+          const roleBadge = isMaster
+            ? '<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-indigo-100 text-indigo-800">主管理者</span>'
+            : '<span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700">協同管理者</span>';
+
+          const statusBadge = admin.active
+            ? '<span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">啟用</span>'
+            : '<span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">已停用</span>';
+
+          const isCurrent = currentAdmin && currentAdmin.id === admin.id;
+          const isRevealed = revealedAdminPasswords.has(admin.id);
+          const pwdDisplay = isRevealed ? escapeHtml(admin.password) : '•'.repeat(Math.max(4, admin.password.length));
+          const isEditing = editingAdminId === admin.id;
+
+          const editBlock = isEditing ? `
+            <div class="mt-3 pt-3 border-t border-slate-200 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+              <input type="text" data-pwd-input="${escapeHtml(admin.id)}" value="${escapeHtml(admin.password)}"
+                placeholder="輸入新密碼（至少 4 碼）"
+                class="flex-1 px-3 py-1.5 rounded-lg border border-indigo-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/30">
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button type="button" data-admin-action="savePwd" data-id="${escapeHtml(admin.id)}"
+                  class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white hover:bg-indigo-700 cursor-pointer transition">
+                  儲存新密碼
+                </button>
+                <button type="button" data-admin-action="cancelEdit" data-id="${escapeHtml(admin.id)}"
+                  class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 cursor-pointer transition">
+                  取消
+                </button>
+              </div>
+            </div>
+          ` : '';
+
+          return `
+            <div class="p-3.5 rounded-xl border ${admin.active ? 'border-slate-200 bg-white' : 'border-slate-200 bg-slate-50/80 opacity-80'}">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                <div class="space-y-1">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="font-bold text-slate-900 text-sm">${escapeHtml(admin.name)}</span>
+                    ${roleBadge}
+                    ${statusBadge}
+                    ${isCurrent ? '<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-800">目前登入</span>' : ''}
+                  </div>
+                  <div class="flex items-center gap-2 text-xs text-slate-600">
+                    <span>密碼：</span>
+                    <code class="px-2 py-0.5 rounded bg-slate-100 font-mono text-slate-800">${pwdDisplay}</code>
+                    <button type="button" data-admin-action="toggleEye" data-id="${escapeHtml(admin.id)}"
+                      class="px-1.5 py-0.5 rounded hover:bg-slate-200/70 transition cursor-pointer" title="顯示或隱藏密碼">
+                      ${isRevealed ? '🙈' : '👁️'}
+                    </button>
+                  </div>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-1.5 shrink-0">
+                  <button type="button" data-admin-action="editPwd" data-id="${escapeHtml(admin.id)}"
+                    class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition cursor-pointer">
+                    修改密碼
+                  </button>
+                  <button type="button" data-admin-action="toggleActive" data-id="${escapeHtml(admin.id)}"
+                    class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">
+                    ${admin.active ? '停用' : '啟用'}
+                  </button>
+                  <button type="button" data-admin-action="delete" data-id="${escapeHtml(admin.id)}"
+                    class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-rose-50 text-rose-600 hover:bg-rose-100 transition cursor-pointer">
+                    刪除
+                  </button>
+                </div>
+              </div>
+              ${editBlock}
+            </div>
+          `;
+        }).join('');
+
+        adminListContainer.querySelectorAll('button[data-admin-action]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            const action = btn.getAttribute('data-admin-action');
+            const target = admins.find(a => a.id === id);
+            if (!target) return;
+
+            if (action === 'toggleEye') {
+              if (revealedAdminPasswords.has(id)) {
+                revealedAdminPasswords.delete(id);
+              } else {
+                revealedAdminPasswords.add(id);
+              }
+              renderAdminList();
+            } else if (action === 'editPwd') {
+              editingAdminId = id;
+              renderAdminList();
+            } else if (action === 'cancelEdit') {
+              editingAdminId = null;
+              renderAdminList();
+            } else if (action === 'savePwd') {
+              const inputEl = adminListContainer.querySelector(`input[data-pwd-input="${id}"]`);
+              const newPwd = inputEl ? inputEl.value.trim() : '';
+              if (newPwd.length < 4) {
+                showToast('密碼長度至少需為 4 碼', 'error');
+                return;
+              }
+              if (admins.some(a => a.id !== id && a.password === newPwd)) {
+                showToast('此密碼已被其他管理者使用，請設定不同密碼', 'error');
+                return;
+              }
+              target.password = newPwd;
+              if (currentAdmin && currentAdmin.id === id) {
+                currentAdmin.password = newPwd;
+              }
+              editingAdminId = null;
+              saveAdmins();
+              renderAdminList();
+              showToast(`已更新「${target.name}」的密碼`, 'success');
+            } else if (action === 'toggleActive') {
+              if (target.active && target.role === 'master' && countActiveMasters(target.id) === 0) {
+                showToast('系統至少需保留一位啟用中的「主管理者」，無法停用', 'error');
+                return;
+              }
+              target.active = !target.active;
+              saveAdmins();
+              if (!target.active && currentAdmin && currentAdmin.id === target.id) {
+                showToast(`已停用目前登入帳號「${target.name}」，系統自動鎖定`, 'info');
+                lockAdminPanel(false);
+                return;
+              }
+              renderAdminList();
+              showToast(`已${target.active ? '啟用' : '停用'}管理者「${target.name}」`, 'info');
+            } else if (action === 'delete') {
+              if (target.role === 'master' && target.active && countActiveMasters(target.id) === 0) {
+                showToast('不可刪除最後一位啟用中的「主管理者」', 'error');
+                return;
+              }
+              openConfirmModal('刪除管理者', `確定要刪除管理者「${target.name}」嗎？`, () => {
+                admins = admins.filter(a => a.id !== id);
+                saveAdmins();
+                if (currentAdmin && currentAdmin.id === id) {
+                  lockAdminPanel(false);
+                  showToast(`已刪除「${target.name}」並自動鎖定紀錄區`, 'info');
+                } else {
+                  renderAdminList();
+                  showToast(`已刪除管理者「${target.name}」`, 'info');
+                }
+              });
+            }
+          });
+        });
+      }
+
+      function handleAddAdmin(e) {
+        e.preventDefault();
+        const name = newAdminNameInput.value.trim();
+        const role = newAdminRoleSelect.value;
+        const password = newAdminPasswordInput.value.trim();
+
+        addAdminError.classList.add('hidden');
+        addAdminError.textContent = '';
+
+        if (!name) {
+          addAdminError.textContent = '請輸入管理者姓名或稱謂。';
+          addAdminError.classList.remove('hidden');
+          newAdminNameInput.focus();
+          return;
+        }
+
+        if (password.length < 4) {
+          addAdminError.textContent = '專屬密碼長度至少需為 4 碼。';
+          addAdminError.classList.remove('hidden');
+          newAdminPasswordInput.focus();
+          return;
+        }
+
+        if (admins.some(a => a.password === password)) {
+          addAdminError.textContent = '此密碼已被其他管理者使用，請設定專屬不重複的密碼。';
+          addAdminError.classList.remove('hidden');
+          newAdminPasswordInput.focus();
+          return;
+        }
+
+        admins.push({
+          id: 'adm_' + Date.now(),
+          name,
+          role,
+          password,
+          active: true
+        });
+        saveAdmins();
+        addAdminForm.reset();
+        renderAdminList();
+        showToast(`已新增管理者「${name}」`, 'success');
+      }
+
+      function handleResetDefaultAdmins() {
+        admins = cloneDefaultAdmins();
+        saveAdmins();
+        currentAdmin = { ...admins[0] };
+        editingAdminId = null;
+        revealedAdminPasswords.clear();
+        updateAdminUiState();
+        renderAdminList();
+        showToast('已還原為預設主管理者（密碼：0028）', 'success');
+      }
+
+      // ===== 取得表單資料 =====
+      function getFormData() {
+        const checkedTopics = Array.from(document.querySelectorAll('input[name="feedbackTopics"]:checked'))
+          .map(cb => cb.value);
+        const selectedConsent = document.querySelector('input[name="quoteConsent"]:checked');
+
+        return {
+          id: 'f6_' + Date.now(),
+          createdAt: formatDateTime(new Date()),
+          fillDate: fillDateInput.value,
+          respondentName: respondentNameInput.value.trim(),
+          siteName: siteNameInput.value.trim(),
+          respondentEmail: respondentEmailInput.value.trim(),
+          feedbackTopics: checkedTopics,
+          otherTopicDetail: otherTopicCheckbox.checked ? otherTopicDetailInput.value.trim() : '',
+          feedbackContent: feedbackContentInput.value.trim(),
+          notes: notesInput.value.trim(),
+          quoteConsent: selectedConsent ? selectedConsent.value : '',
+          syncStatus: '本機模式'
+        };
+      }
+
+      // ===== 自訂表單驗證 =====
+      function validateForm(data) {
+        clearFieldErrors();
+        const errors = [];
+        let firstInvalidEl = null;
+
+        function markInvalid(el, label) {
+          errors.push(label);
+          if (!firstInvalidEl) firstInvalidEl = el;
+          if (el === topicsGroup || el === consentGroup) {
+            el.classList.add('ring-2', 'ring-rose-400', 'bg-rose-50/60');
+          } else if (el) {
+            el.classList.add('border-rose-500', 'ring-2', 'ring-rose-200');
+          }
+        }
+
+        if (!data.fillDate) markInvalid(fillDateInput, '1. 填寫日期');
+        if (!data.siteName) markInvalid(siteNameInput, '3. 參加活動據點');
+        if (data.respondentEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.respondentEmail)) {
+          markInvalid(respondentEmailInput, '電子郵件（格式不正確）');
+        }
+        if (!data.feedbackTopics || data.feedbackTopics.length === 0) {
+          markInvalid(topicsGroup, '4. 回饋事項（請至少勾選一項）');
+        }
+        if (otherTopicCheckbox.checked && !data.otherTopicDetail) {
+          markInvalid(otherTopicDetailInput, '4. 其他回饋事項說明（已勾選其他時必填）');
+        }
+        if (!data.feedbackContent) markInvalid(feedbackContentInput, '5. 回饋內容（請具體填寫）');
+        if (!data.quoteConsent) markInvalid(consentGroup, '7. 是否同意將本次回饋內容匿名引用於成果報告中');
+
+        return { errors, firstInvalidEl };
+      }
+
+      // ===== 表單提交流程 =====
+      async function handleFormSubmit(e) {
+        e.preventDefault();
+        const data = getFormData();
+        const { errors, firstInvalidEl } = validateForm(data);
+
+        // 1. 驗證失敗：立即顯示紅色錯誤橫幅並自動捲動聚焦
+        if (errors.length > 0) {
+          showStatus(
+            'error',
+            `<div class="flex items-start gap-3">
+              <span class="text-xl leading-none">❌</span>
+              <div>
+                <div class="font-bold">尚有必填項目未完成或格式有誤，請檢查以下欄位：</div>
+                <div class="mt-1.5 text-rose-700">${errors.map(err => `• ${escapeHtml(err)}`).join('<br>')}</div>
+              </div>
+            </div>`
+          );
+          showToast(`尚有 ${errors.length} 項欄位需要填寫或修正`, 'error');
+
+          if (firstInvalidEl) {
+            firstInvalidEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (typeof firstInvalidEl.focus === 'function') {
+              setTimeout(() => firstInvalidEl.focus(), 260);
+            }
+          }
+          return;
+        }
+
+        // 2. 進入提交狀態
+        submitBtn.disabled = true;
+        submitSpinner.classList.remove('hidden');
+        submitBtnText.textContent = '問卷傳送至雲端中...';
+        showStatus('info', '⏳ 正在傳送您的 Form6 學員回饋問卷至雲端試算表，請稍候...');
+
+        // 3. 送往雲端 Google Apps Script 並同步保存於本機
+        const targetUrl = GAS_URL.trim();
+        if (targetUrl) {
+          try {
+            const payload = {
+              ...data,
+              spreadsheetId: TARGET_SPREADSHEET_ID,
+              sheetGid: TARGET_SHEET_GID
+            };
+            const response = await fetch(targetUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+              body: JSON.stringify(payload)
+            });
+
+            let result = null;
+            try {
+              result = await response.json();
+            } catch (parseErr) {
+              result = { status: response.ok ? 'success' : 'error', message: response.statusText };
+            }
+
+            if (result && result.status === 'success') {
+              data.syncStatus = '已同步雲端';
+              records.unshift(data);
+              saveRecords();
+              renderRecords();
+              showStatus(
+                'success',
+                '✅ <strong>感謝您的回饋！問卷已成功送出！</strong>資料已寫入 Google 試算表並寄送通知信，同時妥善保存於本機。'
+              );
+              showToast('已同步至雲端並妥善保存', 'success');
+              resetFormAfterSubmit();
+            } else {
+              data.syncStatus = '雲端失敗(已存本機)';
+              records.unshift(data);
+              saveRecords();
+              renderRecords();
+              showStatus(
+                'warning',
+                `⚠️ <strong>雲端寫入回傳異常：</strong>${escapeHtml(result?.message || '未知錯誤')}。為避免資料遺失，系統已自動將此筆回饋妥善備份於本機。`
+              );
+              showToast('雲端傳送失敗，已自動備份於本機', 'error');
+            }
+          } catch (err) {
+            data.syncStatus = '雲端失敗(已存本機)';
+            records.unshift(data);
+            saveRecords();
+            renderRecords();
+            showStatus(
+              'warning',
+              '⚠️ <strong>無法連線至 Apps Script 雲端</strong>（請檢查網路或確認部署權限是否設為「所有人」）。系統已自動將此筆資料妥善備份於本機。'
+            );
+            showToast('雲端連線失敗，已自動備份於本機', 'error');
+          }
+        } else {
+          data.syncStatus = '僅存本機';
+          records.unshift(data);
+          saveRecords();
+          renderRecords();
+          showStatus(
+            'success',
+            '✅ <strong>感謝您的回饋！問卷已成功送出並妥善保存！</strong>'
+          );
+          showToast('感謝填寫，問卷已成功送出！', 'success');
+          resetFormAfterSubmit();
+        }
+
+        // 4. 還原按鈕狀態
+        submitBtn.disabled = false;
+        submitSpinner.classList.add('hidden');
+        submitBtnText.textContent = '提交 Form6 學員回饋';
+      }
+
+      function resetFormAfterSubmit() {
+        form.reset();
+        setTodayDate();
+        syncOtherTopicVisibility();
+        clearFieldErrors();
+      }
+
+      // ===== 渲染本機回饋紀錄列表 =====
+      function getSyncBadgeHtml(status) {
+        if (status === '已同步雲端') {
+          return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">已同步雲端</span>';
+        }
+        if (status && status.includes('失敗')) {
+          return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">雲端失敗(存本機)</span>';
+        }
+        return '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">僅存本機</span>';
+      }
+
+      function renderRecords() {
+        headerRecordCount.textContent = records.length;
+        tableCountBadge.textContent = `${records.length} 筆`;
+
+        if (records.length === 0) {
+          clearAllRecordsBtn.classList.add('hidden');
+          recordsContainer.innerHTML = `
+            <div class="text-center py-10 text-slate-400">
+              <div class="text-4xl mb-2">📭</div>
+              <p class="text-base font-medium text-slate-500">目前尚無本機回饋紀錄</p>
+              <p class="text-sm mt-1">填寫上方問卷並點擊「提交 Form6 學員回饋」後，紀錄將自動顯示於此處。</p>
+            </div>
+          `;
+          return;
+        }
+
+        clearAllRecordsBtn.classList.remove('hidden');
+
+        const rowsHtml = records.map(rec => {
+          const statusBadge = getSyncBadgeHtml(rec.syncStatus);
+          const displayName = rec.respondentName
+            ? escapeHtml(rec.respondentName)
+            : '<span class="text-slate-400">匿名</span>';
+          const topicsList = Array.isArray(rec.feedbackTopics) ? rec.feedbackTopics.join('、') : '';
+          const consentShort = rec.quoteConsent && rec.quoteConsent.includes('不同意')
+            ? '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600">不同意引用</span>'
+            : '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700">同意匿名引用</span>';
+
+          return `
+            <tr class="hover:bg-slate-50/90 transition border-b border-slate-100 last:border-b-0">
+              <td class="py-3.5 px-3 text-xs text-slate-500 whitespace-nowrap">
+                <div class="font-medium text-slate-700">${escapeHtml(rec.createdAt)}</div>
+                <div class="text-[11px] text-slate-400">填寫日：${escapeHtml(rec.fillDate)}</div>
+              </td>
+              <td class="py-3.5 px-3 text-sm font-semibold text-slate-800">${escapeHtml(rec.siteName)}</td>
+              <td class="py-3.5 px-3 text-sm text-slate-700 whitespace-nowrap">${displayName}</td>
+              <td class="py-3.5 px-3 text-xs text-slate-600 max-w-[220px]">
+                <div class="line-clamp-2" title="${escapeHtml(topicsList)}">${escapeHtml(topicsList)}</div>
+                ${rec.otherTopicDetail ? `<div class="text-indigo-700 mt-0.5">其他：${escapeHtml(rec.otherTopicDetail)}</div>` : ''}
+              </td>
+              <td class="py-3.5 px-3 whitespace-nowrap">${consentShort}</td>
+              <td class="py-3.5 px-3 whitespace-nowrap">${statusBadge}</td>
+              <td class="py-3.5 px-3 text-right whitespace-nowrap">
+                <div class="inline-flex items-center gap-1.5">
+                  <button type="button" data-action="view" data-id="${escapeHtml(rec.id)}"
+                    class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition cursor-pointer">
+                    檢視
+                  </button>
+                  <button type="button" data-action="copy" data-id="${escapeHtml(rec.id)}"
+                    class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition cursor-pointer">
+                    複製摘要
+                  </button>
+                  <button type="button" data-action="delete" data-id="${escapeHtml(rec.id)}"
+                    class="px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-rose-600 hover:bg-rose-50 transition cursor-pointer">
+                    刪除
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+        recordsContainer.innerHTML = `
+          <div class="overflow-x-auto -mx-5 sm:mx-0">
+            <table class="w-full text-left border-collapse min-w-[800px]">
+              <thead>
+                <tr class="border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50/70">
+                  <th class="py-3 px-3">填報時間</th>
+                  <th class="py-3 px-3">參加據點</th>
+                  <th class="py-3 px-3">填寫人</th>
+                  <th class="py-3 px-3">回饋事項</th>
+                  <th class="py-3 px-3">引用同意</th>
+                  <th class="py-3 px-3">同步狀態</th>
+                  <th class="py-3 px-3 text-right">操作</th>
+                </tr>
+              </thead>
+              <tbody>${rowsHtml}</tbody>
+            </table>
+          </div>
+        `;
+
+        recordsContainer.querySelectorAll('button[data-action]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            const action = btn.getAttribute('data-action');
+            const target = records.find(r => r.id === id);
+            if (!target) return;
+
+            if (action === 'view') {
+              openDetailModal(target);
+            } else if (action === 'copy') {
+              copyTextToClipboard(buildSummaryText(target), '已複製該筆學員回饋摘要！');
+            } else if (action === 'delete') {
+              openConfirmModal('刪除紀錄', `確定要刪除「${target.siteName}（${target.respondentName || '匿名'}）」這筆回饋紀錄嗎？`, () => {
+                records = records.filter(r => r.id !== id);
+                saveRecords();
+                renderRecords();
+                showToast('已刪除該筆回饋紀錄', 'info');
+              });
+            }
+          });
+        });
+      }
+
+      // ===== 組合純文字摘要 (LINE / Email) =====
+      function buildSummaryText(d) {
+        const topics = (d.feedbackTopics && d.feedbackTopics.length > 0)
+          ? d.feedbackTopics.join('、')
+          : '（尚未勾選）';
+
+        return [
+          '【CL-14-0028 Form6 長者適性運動回饋問卷（學員版）】',
+          '方案：增肌好行尿防漏、健康老化快樂過',
+          '────────────────────',
+          `📅 填寫日期：${d.fillDate || '（未填寫）'}`,
+          `👤 填寫人姓名：${d.respondentName || '匿名'}`,
+          `📍 參加活動據點：${d.siteName || '（未填寫）'}`,
+          `🏷️ 回饋事項：${topics}`,
+          d.otherTopicDetail ? `📌 其他說明：${d.otherTopicDetail}` : null,
+          `📝 回饋內容：${d.feedbackContent || '（未填寫）'}`,
+          d.notes ? `💬 備註：${d.notes}` : null,
+          `✅ 成果報告引用：${d.quoteConsent || '（未選擇）'}`
+        ].filter(Boolean).join('\n');
+      }
+
+      // ===== 匯出 UTF-8 BOM CSV (10 欄，與 Google Sheets 完全對齊) =====
+      function exportRecordsToCsv() {
+        if (records.length === 0) {
+          showToast('目前尚無本機紀錄可匯出', 'error');
+          return;
+        }
+
+        const headers = [
+          '填報時間', '填寫日期', '填寫人姓名', '參加活動據點', '電子郵件',
+          '回饋事項', '其他說明', '回饋內容', '備註', '同意匿名引用'
+        ];
+
+        const escapeCsv = (val) => `"${String(val ?? '').replace(/"/g, '""')}"`;
+
+        const rows = records.map(r => [
+          r.createdAt,
+          r.fillDate,
+          r.respondentName || '匿名',
+          r.siteName,
+          r.respondentEmail,
+          Array.isArray(r.feedbackTopics) ? r.feedbackTopics.join('、') : '',
+          r.otherTopicDetail,
+          r.feedbackContent,
+          r.notes,
+          r.quoteConsent
+        ].map(escapeCsv).join(','));
+
+        const csvContent = '\uFEFF' + [headers.map(escapeCsv).join(','), ...rows].join('\r\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        const today = new Date().toISOString().slice(0, 10);
+        link.href = url;
+        link.download = `CL-14-0028_Form6_學員回饋問卷_${today}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        showToast(`已匯出 ${records.length} 筆學員回饋紀錄為 CSV 檔案`, 'success');
+      }
+
+      // ===== 剪貼簿複製（相容 iframe 沙盒環境） =====
+      function copyTextToClipboard(text, successMessage) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        let copied = false;
+        try {
+          copied = document.execCommand('copy');
+        } catch (err) {
+          copied = false;
+        }
+        document.body.removeChild(textarea);
+
+        if (copied) {
+          showToast(successMessage, 'success');
+        } else {
+          showToast('複製失敗，請手動選取內容複製', 'error');
+        }
+      }
+
+      // ===== Toast 通知 =====
+      function showToast(message, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        const colorMap = {
+          success: 'bg-emerald-600 text-white',
+          error: 'bg-rose-600 text-white',
+          info: 'bg-slate-800 text-white'
+        };
+        const iconMap = { success: '✅', error: '⚠️', info: 'ℹ️' };
+
+        toast.className = `pointer-events-auto flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg text-sm font-medium transition-all duration-300 ${colorMap[type] || colorMap.info}`;
+        toast.innerHTML = `<span>${iconMap[type] || 'ℹ️'}</span><span>${escapeHtml(message)}</span>`;
+        container.appendChild(toast);
+
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(8px)';
+          setTimeout(() => toast.remove(), 300);
+        }, 3200);
+      }
+
+      // 啟動應用程式
+      init();
+    })();
+  </script>
+</body>
+</html>
