@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>課程進度回報與學員滿意度調查 | CL-14-0028 長者適性運動</title>
-  <!-- 載入 Tailwind CSS 與字型 -->
+  <!-- 載入 Tailwind CSS 與 Noto Sans TC 字型 -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* 基礎色彩變數與全域樣式 */
+    /* 基礎變數與字型設定 */
     :root {
-      --primary: #166534;
-      --primary-dark: #14532d;
+      --primary: #14532d;
+      --primary-light: #166534;
       --secondary: #0d9488;
       --accent: #d97706;
       --text-main: #1e293b;
@@ -21,12 +21,8 @@
       --bg-page: #f8fafc;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
     body {
-      font-family: 'Inter', 'Noto Sans TC', 'Microsoft JhengHei', system-ui, -apple-system, sans-serif;
+      font-family: 'Noto Sans TC', 'Microsoft JhengHei', system-ui, -apple-system, sans-serif;
       background-color: var(--bg-page);
       color: var(--text-main);
       margin: 0;
@@ -50,7 +46,7 @@
     /* 導覽列容器 */
     .nav-container {
       background-color: #ffffff;
-      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
       padding: 12px 24px;
       display: flex;
       justify-content: space-between;
@@ -133,7 +129,7 @@
 
     nav ul li a.active {
       font-weight: 700;
-      box-shadow: 0 2px 4px rgba(12, 74, 110, 0.14);
+      box-shadow: 0 2px 4px rgba(12, 74, 110, 0.12);
     }
 
     /* 主內容區塊 */
@@ -162,7 +158,7 @@
       margin: 0;
     }
 
-    /* 填寫提醒資訊框 */
+    /* 提醒資訊框 */
     .alert-info {
       background-color: #e0f2fe;
       border-left: 4px solid #0284c7;
@@ -174,13 +170,13 @@
       box-shadow: 0 1px 3px rgba(2, 132, 199, 0.08);
     }
 
-    /* 兩大分類區塊卡片 */
+    /* 大區塊卡片容器 */
     .card {
       background-color: #ffffff;
       border: 1px solid #e2e8f0;
       border-radius: 14px;
       padding: 24px;
-      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
       margin-bottom: 24px;
     }
 
@@ -194,18 +190,18 @@
       gap: 8px;
     }
 
-    /* 固定兩欄網格（桌面版兩欄、手機版 <= 768px 單欄） */
+    /* 固定兩欄網格（電腦版左右兩張，手機版上下單欄） */
     .feedback-grid-2 {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 20px;
     }
 
-    /* 個別表單卡片 */
+    /* 個別表單 KPI 卡片 */
     .kpi-card {
       background-color: #ffffff;
       border: 1px solid #f1f5f9;
-      border-left: 4px solid var(--primary);
+      border-left: 4px solid #166534;
       border-radius: 12px;
       padding: 20px;
       box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
@@ -221,7 +217,7 @@
     }
 
     .kpi-card.accent {
-      border-left-color: var(--accent);
+      border-left-color: #d97706;
     }
 
     .kpi-card h4 {
@@ -234,19 +230,11 @@
     .kpi-card p {
       font-size: 0.9rem;
       color: var(--text-muted);
-      margin: 0;
+      margin: 0 0 16px 0;
+      flex-grow: 1;
     }
 
-    /* 卡片底部列：左側表單按鈕、右側 QR Code */
-    .kpi-card-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    /* 身分徽章 */
+    /* 標籤徽章 */
     .badge {
       display: inline-block;
       font-size: 0.78rem;
@@ -258,7 +246,7 @@
 
     .badge-green {
       background-color: #dcfce7;
-      color: var(--primary);
+      color: #166534;
     }
 
     .badge-orange {
@@ -273,23 +261,22 @@
       justify-content: center;
       gap: 6px;
       width: fit-content;
-      padding: 9px 16px;
+      padding: 8px 16px;
       border-radius: 8px;
       font-size: 0.92rem;
       font-weight: 700;
-      color: var(--primary);
+      color: #166534;
       background-color: #f0fdf4;
       border: 1px solid #bbf7d0;
       text-decoration: none;
       cursor: pointer;
       transition: all 0.2s ease;
-      white-space: nowrap;
     }
 
     .btn:hover {
-      background-color: var(--primary);
+      background-color: #166534;
       color: #ffffff;
-      border-color: var(--primary);
+      border-color: #166534;
     }
 
     .kpi-card.accent .btn {
@@ -299,218 +286,14 @@
     }
 
     .kpi-card.accent .btn:hover {
-      background-color: var(--accent);
+      background-color: #d97706;
       color: #ffffff;
-      border-color: var(--accent);
+      border-color: #d97706;
     }
 
-    /* 右下角可點擊 QR Code 盒 */
-    .qr-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background-color: #ffffff;
-      border: 1px solid #bbf7d0;
-      border-radius: 8px;
-      padding: 6px;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      flex-shrink: 0;
-      appearance: none;
-    }
-
-    .qr-box:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 12px rgba(22, 101, 52, 0.16);
-      border-color: var(--primary);
-    }
-
-    .kpi-card.accent .qr-box {
-      border-color: #fde68a;
-    }
-
-    .kpi-card.accent .qr-box:hover {
-      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.18);
-      border-color: var(--accent);
-    }
-
-    .qr-box img {
-      width: 76px;
-      height: 76px;
-      display: block;
-      border-radius: 4px;
-    }
-
-    .qr-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--primary);
-      margin-top: 4px;
-      line-height: 1.2;
-      letter-spacing: 0.3px;
-    }
-
-    .kpi-card.accent .qr-label {
-      color: #b45309;
-    }
-
-    /* QR Code 放大燈箱 Modal */
-    .qr-modal-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background-color: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(4px);
-      z-index: 100;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      animation: fadeIn 0.2s ease-out;
-    }
-
-    .qr-modal-backdrop.open {
-      display: flex;
-    }
-
-    .qr-modal-dialog {
-      background-color: #ffffff;
-      border-radius: 16px;
-      max-width: 440px;
-      width: 100%;
-      padding: 24px;
-      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.25);
-      text-align: center;
-      position: relative;
-      animation: scaleIn 0.2s ease-out;
-    }
-
-    .qr-modal-close-icon {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      width: 32px;
-      height: 32px;
-      border-radius: 9999px;
-      border: none;
-      background-color: #f1f5f9;
-      color: #475569;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background-color 0.2s, color 0.2s;
-    }
-
-    .qr-modal-close-icon:hover {
-      background-color: #e2e8f0;
-      color: #0f172a;
-    }
-
-    .qr-modal-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #0f172a;
-      margin: 8px 24px 16px 24px;
-      line-height: 1.4;
-    }
-
-    .qr-modal-image-wrap {
-      display: inline-flex;
-      padding: 12px;
-      background-color: #ffffff;
-      border: 2px solid #e2e8f0;
-      border-radius: 14px;
-      margin-bottom: 14px;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
-    }
-
-    .qr-modal-image-wrap img {
-      width: 240px;
-      height: 240px;
-      display: block;
-    }
-
-    .qr-modal-url {
-      display: inline-block;
-      font-size: 0.84rem;
-      color: #0369a1;
-      background-color: #f0f9ff;
-      border: 1px solid #bae6fd;
-      padding: 8px 12px;
-      border-radius: 8px;
-      text-decoration: none;
-      word-break: break-all;
-      margin-bottom: 18px;
-      transition: background-color 0.2s;
-      max-width: 100%;
-    }
-
-    .qr-modal-url:hover {
-      background-color: #e0f2fe;
-      text-decoration: underline;
-    }
-
-    .qr-modal-actions {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .qr-modal-btn-copy {
-      background-color: #f1f5f9;
-      color: #334155;
-      border: 1px solid #cbd5e1;
-      padding: 9px 16px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .qr-modal-btn-copy:hover {
-      background-color: #e2e8f0;
-    }
-
-    .qr-modal-btn-copy.copied {
-      background-color: #dcfce7;
-      color: var(--primary);
-      border-color: #86efac;
-    }
-
-    .qr-modal-btn-close {
-      background-color: var(--primary);
-      color: #ffffff;
-      border: none;
-      padding: 9px 22px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-
-    .qr-modal-btn-close:hover {
-      background-color: var(--primary-dark);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes scaleIn {
-      from { opacity: 0; transform: scale(0.94); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    /* 頁尾 3 欄排版 */
+    /* 頁尾 */
     footer {
-      background-color: var(--primary-dark);
+      background-color: #14532d;
       color: #e2e8f0;
       padding: 40px 24px;
       margin-top: 24px;
@@ -600,14 +383,14 @@
       <span>指導單位：花蓮縣衛生局｜研發單位：慈濟學校財團法人慈濟大學體育教學中心</span>
     </div>
     <div class="nav-container">
-      <a href="index.html" class="brand" onclick="handlePreviewNav(event, '首頁與公告')">
+      <a href="#top" class="brand" onclick="handlePreviewNav(event, '首頁與公告')">
         <span class="brand-badge">CL-14-0028</span>
         <div class="brand-title">
           <h1>長者適性運動－增力穩行尿防漏</h1>
           <span>健康老化快樂過｜社區推廣與師資管理平台</span>
         </div>
       </a>
-      <button type="button" class="menu-toggle" onclick="document.getElementById('mainNav').classList.toggle('open')" aria-label="切換選單">
+      <button class="menu-toggle" onclick="document.getElementById('mainNav').classList.toggle('open')" aria-label="切換選單">
         ☰ 選單
       </button>
       <nav id="mainNav">
@@ -638,113 +421,85 @@
       <strong>填寫提醒</strong>：請依表單適用對象選擇對應入口；課程進度回報於每週課後填寫，學員滿意度調查於第 12 週結業式完成。
     </div>
 
-    <!-- 區塊一（上方卡片）：專業師資 / 指導員專用 -->
+    <!-- 區塊一（上方第一行）：專業師資 / 指導員專用 -->
     <section class="card" aria-label="專業師資與指導員專用表單">
       <h3>🧑‍🏫 專業師資 / 指導員專用表單（CL-14-0028-4 至 5）</h3>
       <div class="feedback-grid-2">
-        <!-- 卡片 4 -->
         <div class="kpi-card">
           <div>
             <span class="badge badge-green">專業師資 / 指導員專用</span>
             <h4>CL-14-0028-4 授課內容及進度回報表</h4>
             <p>每週課後由指導員登錄授課進度與長輩活動觀察紀錄。</p>
           </div>
-          <div class="kpi-card-footer">
-            <a href="javascript:void(0)" onclick="loadFeedbackForm('https://forms.gle/R7DxnrYriqL2Qaf59', 'CL-14-0028-4 授課內容及進度回報表')" class="btn">
-              開啟進度回報表 ⬇
-            </a>
-            <button type="button" class="qr-box" title="點擊放大 QR Code" aria-label="放大 CL-14-0028-4 授課內容及進度回報表 QR Code" onclick="openQrModal('CL-14-0028-4 授課內容及進度回報表', 'https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form4.html')">
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fhlja36.github.io%2FAdaptive-Sports-Dev%2Fcl_14_0028_form4.html" alt="CL-14-0028-4 QR Code" loading="lazy" onerror="this.src='https://placehold.co/76x76/f0fdf4/166534?text=QR'">
-              <span class="qr-label">掃碼填寫</span>
-            </button>
-          </div>
+          <a href="javascript:void(0)" onclick="loadFeedbackForm('https://forms.gle/R7DxnrYriqL2Qaf59', 'CL-14-0028-4 授課內容及進度回報表')" class="btn">
+            開啟進度回報表 ⬇
+          </a>
         </div>
 
-        <!-- 卡片 5 -->
         <div class="kpi-card">
           <div>
             <span class="badge badge-green">專業師資 / 指導員專用</span>
             <h4>CL-14-0028-5 師資指導員授課回饋問卷</h4>
             <p>師資針對課程設計、輔具運用與據點合作之教學回饋。</p>
           </div>
-          <div class="kpi-card-footer">
-            <a href="javascript:void(0)" onclick="loadFeedbackForm('https://forms.gle/qNui6LUs4rwxqLxt9', 'CL-14-0028-5 師資指導員授課回饋問卷')" class="btn">
-              開啟師資回饋單 ⬇
-            </a>
-            <button type="button" class="qr-box" title="點擊放大 QR Code" aria-label="放大 CL-14-0028-5 師資指導員授課回饋問卷 QR Code" onclick="openQrModal('CL-14-0028-5 師資指導員授課回饋問卷', 'https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form5.html')">
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fhlja36.github.io%2FAdaptive-Sports-Dev%2Fcl_14_0028_form5.html" alt="CL-14-0028-5 QR Code" loading="lazy" onerror="this.src='https://placehold.co/76x76/f0fdf4/166534?text=QR'">
-              <span class="qr-label">掃碼填寫</span>
-            </button>
-          </div>
+          <a href="javascript:void(0)" onclick="loadFeedbackForm('https://forms.gle/qNui6LUs4rwxqLxt9', 'CL-14-0028-5 師資指導員授課回饋問卷')" class="btn">
+            開啟師資回饋單 ⬇
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- 區塊二（下方卡片）：社區長者學員專用 -->
+    <!-- 區塊二（下方第二行）：社區長者學員專用 -->
     <section class="card" aria-label="社區長者學員專用問卷">
       <h3>👴 社區長者學員專用問卷（CL-14-0028-6 至 7）</h3>
       <div class="feedback-grid-2">
-        <!-- 卡片 6 -->
         <div class="kpi-card accent">
           <div>
             <span class="badge badge-orange">社區長者學員專用</span>
             <h4>CL-14-0028-6 長者適性運動回饋問卷（學員版）</h4>
             <p>蒐集參與長者對身體機能改善、防漏尿及居家練習之主觀感受。</p>
           </div>
-          <div class="kpi-card-footer">
-            <a href="javascript:void(0)" onclick="loadFeedbackForm('https://forms.gle/MhG1M6qcmLvpYHio9', 'CL-14-0028-6 長者適性運動回饋問卷（學員版）')" class="btn">
-              開啟學員回饋單 ⬇
-            </a>
-            <button type="button" class="qr-box" title="點擊放大 QR Code" aria-label="放大 CL-14-0028-6 長者適性運動回饋問卷 QR Code" onclick="openQrModal('CL-14-0028-6 長者適性運動回饋問卷（學員版）', 'https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form6.html')">
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fhlja36.github.io%2FAdaptive-Sports-Dev%2Fcl_14_0028_form6.html" alt="CL-14-0028-6 QR Code" loading="lazy" onerror="this.src='https://placehold.co/76x76/fffbeb/b45309?text=QR'">
-              <span class="qr-label">掃碼填寫</span>
-            </button>
-          </div>
+          <a href="javascript:void(0)" onclick="loadFeedbackForm('https://forms.gle/MhG1M6qcmLvpYHio9', 'CL-14-0028-6 長者適性運動回饋問卷（學員版）')" class="btn">
+            開啟學員回饋單 ⬇
+          </a>
         </div>
 
-        <!-- 卡片 7 -->
         <div class="kpi-card accent">
           <div>
             <span class="badge badge-orange">社區長者學員專用</span>
             <h4>CL-14-0028-7 活動滿意度調查問卷</h4>
             <p>第 12 週結業式時填寫之課程主題、講師表達與整體滿意度評估。</p>
           </div>
-          <div class="kpi-card-footer">
-            <a href="javascript:void(0)" onclick="loadFeedbackForm('https://forms.gle/VdZw7YM87pXqEZXr7', 'CL-14-0028-7 活動滿意度調查問卷')" class="btn">
-              開啟滿意度問卷 ⬇
-            </a>
-            <button type="button" class="qr-box" title="點擊放大 QR Code" aria-label="放大 CL-14-0028-7 活動滿意度調查問卷 QR Code" onclick="openQrModal('CL-14-0028-7 活動滿意度調查問卷', 'https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form7.html')">
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fhlja36.github.io%2FAdaptive-Sports-Dev%2Fcl_14_0028_form7.html" alt="CL-14-0028-7 QR Code" loading="lazy" onerror="this.src='https://placehold.co/76x76/fffbeb/b45309?text=QR'">
-              <span class="qr-label">掃碼填寫</span>
-            </button>
-          </div>
+          <a href="javascript:void(0)" onclick="loadFeedbackForm('https://forms.gle/VdZw7YM87pXqEZXr7', 'CL-14-0028-7 活動滿意度調查問卷')" class="btn">
+            開啟滿意度問卷 ⬇
+          </a>
         </div>
       </div>
     </section>
 
     <!-- 回饋問卷專用的內嵌大區塊 (預設隱藏) -->
     <section id="feedback-embed-container" style="display: none; margin-top: 30px; padding: 20px; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); border: 1px solid #e2e8f0;">
-      <!-- 區塊頂部：動態標題、另開新視窗連結與關閉按鈕 -->
+      <!-- 區塊頂部：標題、另開視窗連結與關閉按鈕 -->
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 15px; border-bottom: 2px solid #e67e22; padding-bottom: 12px;">
         <h4 id="feedback-embed-title" style="margin: 0; color: #d35400; font-weight: 700; font-size: 1.1rem;">正在載入問卷...</h4>
         <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
           <a id="feedback-external-link" href="#" target="_blank" rel="noopener noreferrer" style="background: #f1f5f9; color: #0f172a; text-decoration: none; padding: 6px 14px; border-radius: 6px; font-size: 0.88rem; font-weight: 600; border: 1px solid #cbd5e1;">
             另開新視窗填寫 ↗
           </a>
-          <button type="button" onclick="closeFeedbackForm()" style="background: #dc3545; color: white; border: none; padding: 6px 15px; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 0.88rem;">
+          <button onclick="closeFeedbackForm()" style="background: #dc3545; color: white; border: none; padding: 6px 15px; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 0.88rem;">
             ✖ 關閉表單
           </button>
         </div>
       </div>
 
-      <!-- 實際載入外部問卷的 iframe -->
+      <!-- 實際載入外部網頁的 iframe -->
       <iframe id="feedback-iframe" src="" width="100%" height="850px" frameborder="0" style="border: none; border-radius: 8px; background: #f8fafc;">
         載入中...如果無法顯示，請確認您的瀏覽器支援 iframe，或點擊上方「另開新視窗填寫」。
       </iframe>
     </section>
   </main>
 
-  <!-- 頁尾 3 欄資訊 -->
+  <!-- 頁尾資訊 -->
   <footer>
     <div class="footer-inner">
       <div>
@@ -767,51 +522,15 @@
     </div>
   </footer>
 
-  <!-- QR Code 放大燈箱 Modal -->
-  <div id="qr-modal" class="qr-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="qr-modal-title" onclick="handleModalBackdropClick(event)">
-    <div class="qr-modal-dialog">
-      <button type="button" class="qr-modal-close-icon" onclick="closeQrModal()" aria-label="關閉視窗">✕</button>
-      <h4 id="qr-modal-title" class="qr-modal-title">表單 QR Code</h4>
-      <div class="qr-modal-image-wrap">
-        <img id="qr-modal-img" src="" alt="放大版 QR Code" onerror="this.src='https://placehold.co/240x240/f8fafc/1e293b?text=QR+Code'">
-      </div>
-      <div>
-        <a id="qr-modal-url" class="qr-modal-url" href="#" target="_blank" rel="noopener noreferrer"></a>
-      </div>
-      <div class="qr-modal-actions">
-        <button type="button" id="qr-copy-btn" class="qr-modal-btn-copy" onclick="copyQrModalUrl()">📋 複製連結</button>
-        <button type="button" class="qr-modal-btn-close" onclick="closeQrModal()">關閉</button>
-      </div>
-    </div>
-  </div>
+  <!-- 預覽模式提示訊息條（取代 alert） -->
+  <div id="preview-toast" style="display: none; position: fixed; bottom: 24px; right: 24px; background: #0f172a; color: #ffffff; padding: 12px 18px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); font-size: 0.9rem; z-index: 50;"></div>
 
-  <!-- 輕量提示訊息條（取代 alert） -->
-  <div id="preview-toast" style="display: none; position: fixed; bottom: 24px; right: 24px; background: #0f172a; color: #ffffff; padding: 12px 18px; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); font-size: 0.9rem; z-index: 120; max-width: 90vw;"></div>
-
-  <!-- 頁面互動控制腳本 -->
+  <!-- 控制回饋單內嵌與滾動的 Script -->
   <script>
     let toastTimer = null;
-    let copyBtnTimer = null;
-    let currentModalUrl = '';
 
     /**
-     * 顯示右下角輕量提示訊息
-     * @param {string} message - 提示內容
-     */
-    function showToast(message) {
-      const toast = document.getElementById('preview-toast');
-      if (!toast) return;
-      toast.textContent = message;
-      toast.style.display = 'block';
-
-      if (toastTimer) clearTimeout(toastTimer);
-      toastTimer = setTimeout(function () {
-        toast.style.display = 'none';
-      }, 3000);
-    }
-
-    /**
-     * 載入並展開對應的 Google 回饋表單內嵌區塊
+     * 載入並展開對應的回饋表單區塊
      * @param {string} url - 表單網址
      * @param {string} title - 表單標題
      */
@@ -822,12 +541,15 @@
         const titleEl = document.getElementById('feedback-embed-title');
         const externalLink = document.getElementById('feedback-external-link');
 
+        // 更新標題、iframe 網址與另開新視窗連結
         titleEl.textContent = title;
         iframe.src = url;
         externalLink.href = url;
 
+        // 顯示內嵌區塊
         container.style.display = 'block';
 
+        // 畫面平滑往下滾動到表單區塊的位置
         setTimeout(function () {
           container.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 100);
@@ -852,110 +574,18 @@
     }
 
     /**
-     * 開啟 QR Code 放大燈箱 Modal
-     * @param {string} title - 表單標題
-     * @param {string} url - QR Code 對應的完整網址
-     */
-    function openQrModal(title, url) {
-      try {
-        const modal = document.getElementById('qr-modal');
-        const titleEl = document.getElementById('qr-modal-title');
-        const imgEl = document.getElementById('qr-modal-img');
-        const urlEl = document.getElementById('qr-modal-url');
-        const copyBtn = document.getElementById('qr-copy-btn');
-
-        currentModalUrl = url;
-        titleEl.textContent = title;
-        imgEl.src = 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=' + encodeURIComponent(url);
-        urlEl.textContent = url;
-        urlEl.href = url;
-
-        // 重設複製按鈕狀態
-        if (copyBtn) {
-          copyBtn.textContent = '📋 複製連結';
-          copyBtn.classList.remove('copied');
-        }
-
-        modal.classList.add('open');
-        document.body.style.overflow = 'hidden';
-      } catch (error) {
-        console.error('開啟 QR Code 燈箱時發生錯誤：', error);
-      }
-    }
-
-    /**
-     * 關閉 QR Code 放大燈箱
-     */
-    function closeQrModal() {
-      try {
-        const modal = document.getElementById('qr-modal');
-        modal.classList.remove('open');
-        document.body.style.overflow = '';
-      } catch (error) {
-        console.error('關閉 QR Code 燈箱時發生錯誤：', error);
-      }
-    }
-
-    /**
-     * 點擊燈箱外部背景遮罩時關閉視窗
-     */
-    function handleModalBackdropClick(event) {
-      if (event.target && event.target.id === 'qr-modal') {
-        closeQrModal();
-      }
-    }
-
-    /**
-     * 複製目前燈箱中的網址並顯示已複製回饋
-     */
-    function copyQrModalUrl() {
-      if (!currentModalUrl) return;
-      try {
-        const tempInput = document.createElement('textarea');
-        tempInput.value = currentModalUrl;
-        tempInput.style.position = 'fixed';
-        tempInput.style.opacity = '0';
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        document.execCommand('copy');
-        document.body.removeChild(tempInput);
-
-        const copyBtn = document.getElementById('qr-copy-btn');
-        if (copyBtn) {
-          copyBtn.textContent = '✓ 已複製連結';
-          copyBtn.classList.add('copied');
-          if (copyBtnTimer) clearTimeout(copyBtnTimer);
-          copyBtnTimer = setTimeout(function () {
-            copyBtn.textContent = '📋 複製連結';
-            copyBtn.classList.remove('copied');
-          }, 2200);
-        }
-
-        showToast('已複製連結：' + currentModalUrl);
-      } catch (error) {
-        console.error('複製連結失敗：', error);
-        showToast('無法自動複製，請直接點擊上方連結開啟。');
-      }
-    }
-
-    /**
-     * 監聽 ESC 鍵關閉 QR Code 燈箱
-     */
-    document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape') {
-        const modal = document.getElementById('qr-modal');
-        if (modal && modal.classList.contains('open')) {
-          closeQrModal();
-        }
-      }
-    });
-
-    /**
-     * 單頁預覽時點擊站內導覽連結的提示
+     * 在單頁預覽模式中點擊站內其他頁面連結時的友善提示
      */
     function handlePreviewNav(event, pageName) {
       event.preventDefault();
-      showToast('目前為「課程回報與滿意度調查」預覽頁，實際部署後將前往：' + pageName);
+      const toast = document.getElementById('preview-toast');
+      toast.textContent = '目前為「課程回報與滿意度調查」單頁預覽，實際部署後將前往：' + pageName;
+      toast.style.display = 'block';
+
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () {
+        toast.style.display = 'none';
+      }, 3000);
     }
   </script>
 </body>
