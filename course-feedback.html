@@ -13,6 +13,105 @@
    gap: 20px;
    margin-top: 16px;
   }
+  .feedback-grid-2 .kpi-card {
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+  }
+  /* 卡片底部：左側按鈕、右側 QR Code */
+  .kpi-card-footer {
+   display: flex;
+   justify-content: space-between;
+   align-items: flex-end;
+   gap: 12px;
+   margin-top: auto;
+  }
+  .qr-box {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   background: #ffffff;
+   border: 1px solid #d1e7dd;
+   border-radius: 8px;
+   padding: 6px;
+   cursor: pointer;
+   transition: transform 0.2s ease, box-shadow 0.2s ease;
+   flex-shrink: 0;
+  }
+  .kpi-card.accent .qr-box {
+   border-color: #fde68a;
+  }
+  .qr-box:hover {
+   transform: scale(1.05);
+   box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+  }
+  .qr-box img {
+   width: 76px;
+   height: 76px;
+   display: block;
+  }
+  .qr-box span {
+   font-size: 0.72rem;
+   color: #64748b;
+   margin-top: 4px;
+   font-weight: 600;
+  }
+  /* QR Code 放大燈箱 */
+  .qr-modal {
+   display: none;
+   position: fixed;
+   inset: 0;
+   background: rgba(15, 23, 42, 0.65);
+   z-index: 9999;
+   justify-content: center;
+   align-items: center;
+   padding: 20px;
+  }
+  .qr-modal.show {
+   display: flex;
+  }
+  .qr-modal-content {
+   background: #ffffff;
+   border-radius: 14px;
+   padding: 24px 28px;
+   max-width: 360px;
+   width: 100%;
+   text-align: center;
+   box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+  }
+  .qr-modal-content h4 {
+   margin: 0 0 14px;
+   font-size: 1.05rem;
+   color: #1e293b;
+  }
+  .qr-modal-content img {
+   width: 240px;
+   height: 240px;
+   margin: 0 auto 12px;
+   display: block;
+   border: 1px solid #e2e8f0;
+   border-radius: 8px;
+   padding: 8px;
+  }
+  .qr-modal-url {
+   font-size: 0.78rem;
+   color: #64748b;
+   word-break: break-all;
+   margin-bottom: 16px;
+  }
+  .qr-modal-actions {
+   display: flex;
+   justify-content: center;
+   gap: 10px;
+  }
+  .qr-modal-actions button {
+   border: none;
+   padding: 8px 16px;
+   border-radius: 6px;
+   cursor: pointer;
+   font-weight: bold;
+   font-size: 0.88rem;
+  }
   @media (max-width: 768px) {
    .feedback-grid-2 {
     grid-template-columns: 1fr;
@@ -70,16 +169,33 @@
    <h3>🧑‍🏫 專業師資 / 指導員專用表單（CL-14-0028-4 至 5）</h3>
    <div class="feedback-grid-2">
      <div class="kpi-card" style="margin-bottom:0;">
-       <span class="badge badge-green">專業師資 / 指導員專用</span>
-       <h4 style="margin:8px 0;">CL-14-0028-4 授課內容及進度回報表</h4>
-       <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">每週課後由指導員登錄授課進度與長輩活動觀察紀錄。</p>
-       <a href="javascript:void(0)" onclick="loadFeedbackForm('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form4.html', 'CL-14-0028-4 授課內容及進度回報表', '2000px')" class="btn">開啟進度回報表 ⬇</a>
+       <div>
+         <span class="badge badge-green">專業師資 / 指導員專用</span>
+         <h4 style="margin:8px 0;">CL-14-0028-4 授課內容及進度回報表</h4>
+         <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">每週課後由指導員登錄授課進度與長輩活動觀察紀錄。</p>
+       </div>
+       <div class="kpi-card-footer">
+         <a href="javascript:void(0)" onclick="loadFeedbackForm('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form4.html', 'CL-14-0028-4 授課內容及進度回報表', '2000px')" class="btn">開啟進度回報表 ⬇</a>
+         <div class="qr-box" onclick="openQrModal('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form4.html', 'CL-14-0028-4 授課內容及進度回報表')" title="點擊放大 QR Code">
+           <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fhlja36.github.io%2FAdaptive-Sports-Dev%2Fcl_14_0028_form4.html" alt="Form 4 QR Code">
+           <span>掃碼填寫</span>
+         </div>
+       </div>
      </div>
+
      <div class="kpi-card" style="margin-bottom:0;">
-       <span class="badge badge-green">專業師資 / 指導員專用</span>
-       <h4 style="margin:8px 0;">CL-14-0028-5 師資指導員授課回饋問卷</h4>
-       <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">師資針對課程設計、輔具運用與據點合作之教學回饋。</p>
-       <a href="javascript:void(0)" onclick="loadFeedbackForm('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form5.html', 'CL-14-0028-5 師資指導員授課回饋問卷', '1800px')" class="btn">開啟師資回饋單 ⬇</a>
+       <div>
+         <span class="badge badge-green">專業師資 / 指導員專用</span>
+         <h4 style="margin:8px 0;">CL-14-0028-5 師資指導員授課回饋問卷</h4>
+         <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">師資針對課程設計、輔具運用與據點合作之教學回饋。</p>
+       </div>
+       <div class="kpi-card-footer">
+         <a href="javascript:void(0)" onclick="loadFeedbackForm('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form5.html', 'CL-14-0028-5 師資指導員授課回饋問卷', '1800px')" class="btn">開啟師資回饋單 ⬇</a>
+         <div class="qr-box" onclick="openQrModal('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form5.html', 'CL-14-0028-5 師資指導員授課回饋問卷')" title="點擊放大 QR Code">
+           <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fhlja36.github.io%2FAdaptive-Sports-Dev%2Fcl_14_0028_form5.html" alt="Form 5 QR Code">
+           <span>掃碼填寫</span>
+         </div>
+       </div>
      </div>
    </div>
  </div>
@@ -89,16 +205,33 @@
    <h3>👴 社區長者學員專用問卷（CL-14-0028-6 至 7）</h3>
    <div class="feedback-grid-2">
      <div class="kpi-card accent" style="margin-bottom:0;">
-       <span class="badge badge-orange">社區長者學員專用</span>
-       <h4 style="margin:8px 0;">CL-14-0028-6 長者適性運動回饋問卷（學員版）</h4>
-       <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">蒐集參與長者對身體機能改善、防漏尿及居家練習之主觀感受。</p>
-       <a href="javascript:void(0)" onclick="loadFeedbackForm('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form6.html', 'CL-14-0028-6 長者適性運動回饋問卷（學員版）', '2000px')" class="btn">開啟學員回饋單 ⬇</a>
+       <div>
+         <span class="badge badge-orange">社區長者學員專用</span>
+         <h4 style="margin:8px 0;">CL-14-0028-6 長者適性運動回饋問卷（學員版）</h4>
+         <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">蒐集參與長者對身體機能改善、防漏尿及居家練習之主觀感受。</p>
+       </div>
+       <div class="kpi-card-footer">
+         <a href="javascript:void(0)" onclick="loadFeedbackForm('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form6.html', 'CL-14-0028-6 長者適性運動回饋問卷（學員版）', '2000px')" class="btn">開啟學員回饋單 ⬇</a>
+         <div class="qr-box" onclick="openQrModal('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form6.html', 'CL-14-0028-6 長者適性運動回饋問卷（學員版）')" title="點擊放大 QR Code">
+           <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fhlja36.github.io%2FAdaptive-Sports-Dev%2Fcl_14_0028_form6.html" alt="Form 6 QR Code">
+           <span>掃碼填寫</span>
+         </div>
+       </div>
      </div>
+
      <div class="kpi-card accent" style="margin-bottom:0;">
-       <span class="badge badge-orange">社區長者學員專用</span>
-       <h4 style="margin:8px 0;">CL-14-0028-7 活動滿意度調查問卷</h4>
-       <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">第 12 週結業式時填寫之課程主題、講師表達與整體滿意度評估。</p>
-       <a href="javascript:void(0)" onclick="loadFeedbackForm('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form7.html', 'CL-14-0028-7 活動滿意度調查問卷', '5000px')" class="btn">開啟滿意度問卷 ⬇</a>
+       <div>
+         <span class="badge badge-orange">社區長者學員專用</span>
+         <h4 style="margin:8px 0;">CL-14-0028-7 活動滿意度調查問卷</h4>
+         <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">第 12 週結業式時填寫之課程主題、講師表達與整體滿意度評估。</p>
+       </div>
+       <div class="kpi-card-footer">
+         <a href="javascript:void(0)" onclick="loadFeedbackForm('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form7.html', 'CL-14-0028-7 活動滿意度調查問卷', '5000px')" class="btn">開啟滿意度問卷 ⬇</a>
+         <div class="qr-box" onclick="openQrModal('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form7.html', 'CL-14-0028-7 活動滿意度調查問卷')" title="點擊放大 QR Code">
+           <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fhlja36.github.io%2FAdaptive-Sports-Dev%2Fcl_14_0028_form7.html" alt="Form 7 QR Code">
+           <span>掃碼填寫</span>
+         </div>
+       </div>
      </div>
    </div>
  </div>
@@ -119,6 +252,19 @@
  </iframe>
  </div>
  </main>
+
+ <!-- QR Code 放大燈箱 -->
+ <div id="qr-modal" class="qr-modal" onclick="if(event.target === this) closeQrModal()">
+   <div class="qr-modal-content">
+     <h4 id="qr-modal-title">表單 QR Code</h4>
+     <img id="qr-modal-img" src="" alt="放大 QR Code">
+     <div id="qr-modal-url" class="qr-modal-url"></div>
+     <div class="qr-modal-actions">
+       <button onclick="copyQrUrl()" style="background:#0284c7;color:#fff;">📋 複製連結</button>
+       <button onclick="closeQrModal()" style="background:#e2e8f0;color:#334155;">關閉</button>
+     </div>
+   </div>
+ </div>
 
  <footer>
  <div class="footer-inner">
@@ -142,39 +288,8 @@
  </div>
  </footer>
  <script src="assets/js/main.js"></script>
- <!-- 控制回饋單內嵌與滾動的 Script -->
+ <!-- 控制回饋單內嵌、滾動與 QR Code 燈箱的 Script -->
  <script>
+ let currentQrUrl = '';
+
  function loadFeedbackForm(url, title, height = '1800px') {
-  const container = document.getElementById('feedback-embed-container');
-  const iframe = document.getElementById('feedback-iframe');
-  const titleEl = document.getElementById('feedback-embed-title');
-
-  // 更新標題與 iframe 網址
-  titleEl.textContent = title;
-  
-  // 強制套用指定高度，避免被其他 CSS 覆蓋
-  iframe.setAttribute('height', height);
-  iframe.style.setProperty('height', height, 'important');
-  iframe.style.setProperty('max-height', 'none', 'important');
-  iframe.src = url;
-
-  // 顯示內嵌區塊
-  container.style.display = 'block';
-
-  // 畫面平滑往下滾動到表單區塊的位置
-  setTimeout(function() {
-   container.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 100);
- }
-
- function closeFeedbackForm() {
-  const container = document.getElementById('feedback-embed-container');
-  const iframe = document.getElementById('feedback-iframe');
-  
-  // 隱藏區塊並清空網址
-  container.style.display = 'none';
-  iframe.src = ''; 
- }
- </script>
-</body>
-</html>
