@@ -132,12 +132,12 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.12);
     }
     .qr-box img {
-      width: 68px;
-      height: 68px;
+      width: 100px;
+      height: 100px;
       display: block;
     }
     .qr-box span {
-      font-size: 0.7rem;
+      font-size: 0.8rem;
       color: #64748b;
       margin-top: 3px;
       font-weight: 600;
@@ -160,7 +160,7 @@
       background: #ffffff;
       border-radius: 14px;
       padding: 24px 28px;
-      max-width: 360px;
+      max-width: 440px;  /* 原本 360px，配合圖片加大視窗寬度 */
       width: 100%;
       text-align: center;
       box-shadow: 0 12px 32px rgba(0,0,0,0.25);
@@ -171,8 +171,8 @@
       color: #1e293b;
     }
     .qr-modal-content img {
-      width: 240px;
-      height: 240px;
+      width: 320px;      /* 原本 240px */
+      height: 320px;     /* 原本 240px */
       margin: 0 auto 12px;
       display: block;
       border: 1px solid #e2e8f0;
@@ -869,7 +869,7 @@ window.openQrModal = function(url, title) {
   document.getElementById('qr-modal-title').textContent = title;
   document.getElementById('qr-modal-url').textContent = url;
   document.getElementById('qr-modal-img').src =
-    'https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=' + encodeURIComponent(url);
+    'https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=' + encodeURIComponent(url);
   document.getElementById('qr-modal').classList.add('show');
 };
 
