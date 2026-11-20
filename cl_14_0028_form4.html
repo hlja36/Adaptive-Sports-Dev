@@ -23,6 +23,84 @@
         }
       }
     };
+  // 儲存已壓縮的照片陣列：{ name, mimeType, base64 }
+  let uploadedPhotos = [];
+
+  const photoInput = document.getElementById('classPhotosInput');
+  const previewGrid = document.getElementById('photoPreviewGrid');
+  const countHint = document.getElementById('photoCountHint');
+
+  // 1. 圖片壓縮函式（避免手機原圖過大導致 Vercel / GAS 傳輸失敗）
+  function compressImage(file, maxWidth = 1200, quality = 0.75) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const scale = Math.min(1, maxWidth / img.width);
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        const dataUrl = canvas.toDataURL('image/jpeg', quality);
+        resolve({
+          name: file.name.replace(/\.[^.]+$/, '') + '.jpg',
+          mimeType: 'image/jpeg',
+          base64: dataUrl.split(',')[1],
+          previewUrl: dataUrl
+        });
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// 2. 更新預覽與張數狀態
+function renderPhotoPreviews() {
+  previewGrid.innerHTML = '';
+  uploadedPhotos.forEach((photo, idx) => {
+    const item = document.createElement('div');
+    item.style.cssText = 'position:relative; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden; aspect-ratio:1/1; background:#f1f5f9;';
+    item.innerHTML = `
+      <img src="${photo.previewUrl}" style="width:100%; height:100%; object-fit:cover; display:block;" />
+      <button type="button" onclick="removePhoto(${idx})" style="position:absolute; top:4px; right:4px; background:rgba(220,38,38,0.9); color:#fff; border:none; border-radius:50%; width:22px; height:22px; cursor:pointer; font-size:12px; line-height:22px; padding:0;">✕</button>
+    `;
+    previewGrid.appendChild(item);
+  });
+
+  const count = uploadedPhotos.length;
+  if (count < 3) {
+    countHint.textContent = `目前共 ${count} 張（還需至少 ${3 - count} 張）`;
+    countHint.style.color = '#dc2626';
+  } else {
+    countHint.textContent = `✅ 已選取 ${count} 張照片（符合至少 3 張規定）`;
+    countHint.style.color = '#059669';
+  }
+}
+
+window.removePhoto = function(idx) {
+  uploadedPhotos.splice(idx, 1);
+  renderPhotoPreviews();
+};
+
+// 3. 監聽選檔事件（支援分次補選照片）
+photoInput.addEventListener('change', async (e) => {
+  const files = Array.from(e.target.files);
+  for (const file of files) {
+    if (!file.type.startsWith('image/')) continue;
+    const compressed = await compressImage(file);
+    uploadedPhotos.push(compressed);
+  }
+  photoInput.value = ''; // 清空讓使用者可重複選檔
+  renderPhotoPreviews();
+});
+
+
+    
   </script>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
@@ -1009,9 +1087,25 @@
 
           ${rec.photoLink ? `
             <div>
-              <div class="text-xs font-semibold text-slate-500 mb-1">課堂紀錄照片雲端連結</div>
-              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 break-all">
-                <a href="${escapeHtml(rec.photoLink)}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">${escapeHtml(rec.photoLink)}</a>
+              <div class="photo-upload-section" style="margin-bottom: 16px;">
+                <label style="display:block; font-weight:700; margin-bottom:6px; color:#1e293b;">
+                  課堂紀錄照片上傳 <span style="color:#dc2626;">*（至少 3 張）</span>
+                </label>
+
+                <input
+                  type="file"
+                  id="classPhotosInput"
+                  accept="image/*"
+                  multiple
+                  style="display:block; width:100%; padding:10px; border:2px dashed #cbd5e1; border-radius:10px; background:#f8fafc; cursor:pointer;"
+                />
+
+                <div id="photoCountHint" style="font-size:0.85rem; color:#dc2626; margin-top:6px; font-weight:600;">
+                  目前共 0 張（還需至少 3 張）
+                </div>
+
+                <!-- 縮圖預覽區 -->
+                <div id="photoPreviewGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(96px, 1fr)); gap:10px; margin-top:12px;"></div>
               </div>
             </div>
           ` : ''}
