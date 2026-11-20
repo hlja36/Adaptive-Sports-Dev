@@ -82,11 +82,123 @@
   }
 }
 </style>
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>檢測問卷填報與雷達圖評估 | CL-14-0028 長者適性運動-增力穩行尿防漏、健康老化快樂過</title>
   <link rel="stylesheet" href="assets/css/style.css">
+<style>
+    #tabForms .grid-3 .kpi-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .kpi-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 10px;
+      margin-top: auto;
+      position: relative;
+      z-index: 5;
+    }
+    .kpi-card-footer .btn {
+      position: relative;
+      z-index: 6;
+    }
+    .qr-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #ffffff;
+      border: 1px solid #d1e7dd;
+      border-radius: 8px;
+      padding: 5px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 6;
+    }
+    .kpi-card.accent .qr-box {
+      border-color: #fde68a;
+    }
+    .kpi-card.blue .qr-box {
+      border-color: #bae6fd;
+    }
+    .qr-box:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+    .qr-box img {
+      width: 68px;
+      height: 68px;
+      display: block;
+    }
+    .qr-box span {
+      font-size: 0.7rem;
+      color: #64748b;
+      margin-top: 3px;
+      font-weight: 600;
+    }
+    /* QR Code 放大燈箱 */
+    .qr-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .qr-modal.show {
+      display: flex;
+    }
+    .qr-modal-content {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 24px 28px;
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+    }
+    .qr-modal-content h4 {
+      margin: 0 0 14px;
+      font-size: 1.05rem;
+      color: #1e293b;
+    }
+    .qr-modal-content img {
+      width: 240px;
+      height: 240px;
+      margin: 0 auto 12px;
+      display: block;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 8px;
+    }
+    .qr-modal-url {
+      font-size: 0.78rem;
+      color: #64748b;
+      word-break: break-all;
+      margin-bottom: 16px;
+    }
+    .qr-modal-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    .qr-modal-actions button {
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.88rem;
+    }
+  </style>   
   
 </head>
 
@@ -411,28 +523,56 @@
 <div id="tabForms" class="tab-panel active">
   <div class="card">
     <h3>📋 一、體型檢測及長者健康問卷調查（CL-14-0028-1 至 3）</h3>
-    <div class="grid-3">
+<div class="grid-3">
+      <!-- Card 1: CL-14-0028-1 -->
       <div class="kpi-card" style="margin-bottom:0;">
-        <span class="badge badge-green">CL-14-0028-1</span>
-        <h4 style="margin:8px 0;">體型測量及體能測驗-前後測紀錄表</h4>
-        <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">Google Forms 官方備份填報表單（前後測體型、血壓與體適能紀錄）。</p>
-        <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://hlja36.github.io/Adaptive-Sports-Dev/record-form1.html', '體型測量及體能測驗-前後測紀錄表', '1800px')" class="btn">前往填寫表單 ⬇</a>   
+        <div>
+          <span class="badge badge-green">CL-14-0028-1</span>
+          <h4 style="margin:8px 0;">體型測量及體能測驗-前後測紀錄表</h4>
+          <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">Google Forms 官方備份填報表單（前後測體型、血壓與體適能紀錄）。</p>
+        </div>
+        <div class="kpi-card-footer">
+          <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://hlja36.github.io/Adaptive-Sports-Dev/record-form1.html', '體型測量及體能測驗-前後測紀錄表', '1800px')" class="btn">前往填寫表單 ⬇</a>
+          <div class="qr-box" onclick="openQrModal('https://hlja36.github.io/Adaptive-Sports-Dev/record-form1.html', 'CL-14-0028-1 體型測量及體能測驗-前後測紀錄表')" title="點擊放大 QR Code">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fhlja36.github.io%2FAdaptive-Sports-Dev%2Frecord-form1.html" alt="CL-14-0028-1 QR Code">
+            <span>掃碼填寫</span>
+          </div>
+        </div>
       </div>
+
+      <!-- Card 2: CL-14-0028-2 -->
       <div class="kpi-card accent" style="margin-bottom:0;">
-        <span class="badge badge-orange">CL-14-0028-2</span>
-        <h4 style="margin:8px 0;">預防改善尿失禁問卷調查</h4>
-        <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">15 題簡易排尿頻率、尿勢、自主停尿與生活影響評估問卷。</p>
-        <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://hlja36.github.io/Adaptive-Sports-Dev/record-form2.html', '預防改善尿失禁問卷調查', '2000px')" class="btn">前往填寫問卷 ⬇</a>
+        <div>
+          <span class="badge badge-orange">CL-14-0028-2</span>
+          <h4 style="margin:8px 0;">預防改善尿失禁問卷調查</h4>
+          <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">15 題簡易排尿頻率、尿勢、自主停尿與生活影響評估問卷。</p>
+        </div>
+        <div class="kpi-card-footer">
+          <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://hlja36.github.io/Adaptive-Sports-Dev/record-form2.html', '預防改善尿失禁問卷調查', '2000px')" class="btn">前往填寫問卷 ⬇</a>
+          <div class="qr-box" onclick="openQrModal('https://hlja36.github.io/Adaptive-Sports-Dev/record-form2.html', 'CL-14-0028-2 預防改善尿失禁問卷調查')" title="點擊放大 QR Code">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fhlja36.github.io%2FAdaptive-Sports-Dev%2Frecord-form2.html" alt="CL-14-0028-2 QR Code">
+            <span>掃碼填寫</span>
+          </div>
+        </div>
       </div>
+
+      <!-- Card 3: CL-14-0028-3 -->
       <div class="kpi-card blue" style="margin-bottom:0;">
-        <span class="badge badge-blue">CL-14-0028-3</span>
-        <h4 style="margin:8px 0;">健康達人 21 篩檢問卷</h4>
-        <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">21 題特定高齡者（虛弱、跌倒、尿失禁、低營養、輕度認知障礙）篩檢。</p>
-        <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form3.html', '健康達人 21 篩檢問卷', '3000px')" class="btn">前往填寫問卷 ⬇</a>        
+        <div>
+          <span class="badge badge-blue">CL-14-0028-3</span>
+          <h4 style="margin:8px 0;">健康達人 21 篩檢問卷</h4>
+          <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">21 題特定高齡者（虛弱、跌倒、尿失禁、低營養、輕度認知障礙）篩檢。</p>
+        </div>
+        <div class="kpi-card-footer">
+          <a href="javascript:void(0)" onclick="loadEmbeddedForm('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form3.html', '健康達人 21 篩檢問卷', '3000px')" class="btn">前往填寫問卷 ⬇</a>
+          <div class="qr-box" onclick="openQrModal('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form3.html', 'CL-14-0028-3 健康達人 21 篩檢問卷')" title="點擊放大 QR Code">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https%3A%2F%2Fhlja36.github.io%2FAdaptive-Sports-Dev%2Fcl_14_0028_form3.html" alt="CL-14-0028-3 QR Code">
+            <span>掃碼填寫</span>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-
+    
   <!-- 新增的單一內嵌大區塊 (預設隱藏) -->
   <div id="form-embed-container" style="display: none; margin-top: 30px; padding: 20px; background: #ffffff; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #e0e0e0;">
     
@@ -705,6 +845,51 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   updateRadarIdentity();
+});
+</script>
+
+<!-- QR Code 放大燈箱 -->
+<div id="qr-modal" class="qr-modal" onclick="if(event.target === this) closeQrModal()">
+  <div class="qr-modal-content">
+    <h4 id="qr-modal-title">表單 QR Code</h4>
+    <img id="qr-modal-img" src="" alt="放大 QR Code">
+    <div id="qr-modal-url" class="qr-modal-url"></div>
+    <div class="qr-modal-actions">
+      <button type="button" onclick="copyQrUrl()" style="background:#0284c7;color:#fff;">📋 複製連結</button>
+      <button type="button" onclick="closeQrModal()" style="background:#e2e8f0;color:#334155;">關閉</button>
+    </div>
+  </div>
+</div>
+
+<script>
+window._currentQrUrl = '';
+
+window.openQrModal = function(url, title) {
+  window._currentQrUrl = url;
+  document.getElementById('qr-modal-title').textContent = title;
+  document.getElementById('qr-modal-url').textContent = url;
+  document.getElementById('qr-modal-img').src =
+    'https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=' + encodeURIComponent(url);
+  document.getElementById('qr-modal').classList.add('show');
+};
+
+window.closeQrModal = function() {
+  document.getElementById('qr-modal').classList.remove('show');
+};
+
+window.copyQrUrl = function() {
+  if (!window._currentQrUrl) return;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(window._currentQrUrl).then(function() {
+      alert('已複製表單連結！');
+    });
+  } else {
+    prompt('請手動複製以下連結：', window._currentQrUrl);
+  }
+};
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') window.closeQrModal();
 });
 </script>
   
