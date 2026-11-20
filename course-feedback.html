@@ -1,1 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>課程進度回報與學員滿意度調查 | CL-14-0028 長者適性運動</title>
+ <link rel="stylesheet" href="assets/css/style.css">
+ <style>
+  /* 確保每個區塊固定為左右兩欄，手機版自動換行 */
+  .feedback-grid-2 {
+   display: grid;
+   grid-template-columns: repeat(2, 1fr);
+   gap: 20px;
+   margin-top: 16px;
+  }
+  @media (max-width: 768px) {
+   .feedback-grid-2 {
+    grid-template-columns: 1fr;
+   }
+  }
+ </style>
+</head>
 
+<body>
+ <header>
+ <div class="top-bar">
+ <span>衛生福利部長者健康促進服務方案｜方案編號：<strong>CL-14-0028</strong></span>
+ <span>指導單位：花蓮縣衛生局｜研發單位：慈濟學校財團法人慈濟大學體育教學中心</span>
+ </div>
+ <div class="nav-container">
+ <a href="index.html" class="brand" style="text-decoration:none;">
+ <span class="brand-badge">CL-14-0028</span>
+ <div class="brand-title">
+ <h1>長者適性運動－增力穩行尿防漏</h1>
+ <span>健康老化快樂過｜社區推廣與師資管理平台</span>
+ </div>
+ </a>
+ <button class="menu-toggle" onclick="document.getElementById('mainNav').classList.toggle('open')">☰ 選單</button>
+ <nav id="mainNav"> 
+<ul>
+ <li><a href="index.html">首頁與公告</a></li>
+ <li><a href="program-content.html">方案內容</a></li>
+ <li><a href="community-analysis.html">社關網方案分析</a></li>
+ <li><a href="instructors.html">師資管理</a></li>
+ <li><a href="teaching-materials.html">授課參考資料</a></li>
+ <li><a href="gallery.html">活動照片</a></li>
+ <li><a href="outcomes.html">方案成效</a></li>
+ <li><a href="data-upload.html" class="" style="background:var(--secondary);color:#fff;">資料填報與評估</a></li>
+ <li><a href="course-feedback.html" class="active" style="background:#7dd3fc;color:#0c4a6e;">課程回報與滿意度調查</a></li>
+ <li><a href="downloads.html" class="" style="background:#fecaca;color:#7f1d1d;">表單下載</a></li>
+ </ul>
+ </nav>
+ </div>
+ </header>
+
+ <main class="container">
+ <div class="section-header">
+ <div>
+ <h2>🗣️ 課程進度回報與學員滿意度調查</h2>
+ <p>提供授課師資、指導員與社區長者使用的課程進度回報、教學回饋及學員滿意度調查表單。</p>
+ </div>
+ </div>
+
+ <div class="alert alert-info">
+ <strong>填寫提醒</strong>：請依表單適用對象選擇對應入口；課程進度回報於每週課後填寫，學員滿意度調查於第 12 週結業式完成。
+ </div>
+
+<!-- 區塊一：專業師資 / 指導員專用（上方第一行） -->
+ <div class="card" style="margin-bottom: 24px;">
+   <h3>🧑‍🏫 專業師資 / 指導員專用表單（CL-14-0028-4 至 5）</h3>
+   <div class="feedback-grid-2">
+     <div class="kpi-card" style="margin-bottom:0;">
+       <span class="badge badge-green">專業師資 / 指導員專用</span>
+       <h4 style="margin:8px 0;">CL-14-0028-4 授課內容及進度回報表</h4>
+       <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">每週課後由指導員登錄授課進度與長輩活動觀察紀錄。</p>
+       <a href="javascript:void(0)" onclick="loadFeedbackForm('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form4.html', 'CL-14-0028-4 授課內容及進度回報表', '2000px')" class="btn">開啟進度回報表 ⬇</a>
+     </div>
+     <div class="kpi-card" style="margin-bottom:0;">
+       <span class="badge badge-green">專業師資 / 指導員專用</span>
+       <h4 style="margin:8px 0;">CL-14-0028-5 師資指導員授課回饋問卷</h4>
+       <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">師資針對課程設計、輔具運用與據點合作之教學回饋。</p>
+       <a href="javascript:void(0)" onclick="loadFeedbackForm('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form5.html', 'CL-14-0028-5 師資指導員授課回饋問卷', '1800px')" class="btn">開啟師資回饋單 ⬇</a>
+     </div>
+   </div>
+ </div>
+
+ <!-- 區塊二：社區長者學員專用（下方第二行） -->
+ <div class="card">
+   <h3>👴 社區長者學員專用問卷（CL-14-0028-6 至 7）</h3>
+   <div class="feedback-grid-2">
+     <div class="kpi-card accent" style="margin-bottom:0;">
+       <span class="badge badge-orange">社區長者學員專用</span>
+       <h4 style="margin:8px 0;">CL-14-0028-6 長者適性運動回饋問卷（學員版）</h4>
+       <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">蒐集參與長者對身體機能改善、防漏尿及居家練習之主觀感受。</p>
+       <a href="javascript:void(0)" onclick="loadFeedbackForm('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form6.html', 'CL-14-0028-6 長者適性運動回饋問卷（學員版）', '2000px')" class="btn">開啟學員回饋單 ⬇</a>
+     </div>
+     <div class="kpi-card accent" style="margin-bottom:0;">
+       <span class="badge badge-orange">社區長者學員專用</span>
+       <h4 style="margin:8px 0;">CL-14-0028-7 活動滿意度調查問卷</h4>
+       <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">第 12 週結業式時填寫之課程主題、講師表達與整體滿意度評估。</p>
+       <a href="javascript:void(0)" onclick="loadFeedbackForm('https://hlja36.github.io/Adaptive-Sports-Dev/cl_14_0028_form7.html', 'CL-14-0028-7 活動滿意度調查問卷', '5000px')" class="btn">開啟滿意度問卷 ⬇</a>
+     </div>
+   </div>
+ </div>
+
+ <!-- 回饋問卷專用的內嵌大區塊 (預設隱藏) -->
+ <div id="feedback-embed-container" style="display: none; margin-top: 30px; padding: 20px; background: #ffffff; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #e0e0e0;">
+ <!-- 區塊頂部：標題與關閉按鈕 -->
+ <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px solid #e67e22; padding-bottom: 10px;">
+ <h4 id="feedback-embed-title" style="margin: 0; color: #d35400; font-weight: bold;">正在載入問卷...</h4>
+ <button onclick="closeFeedbackForm()" style="background: #dc3545; color: white; border: none; padding: 6px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+ ✖ 關閉表單
+ </button>
+ </div>
+
+ <!-- 實際載入外部網頁的 iframe -->
+ <iframe id="feedback-iframe" src="" width="100%" height="850px" frameborder="0" style="border: none; border-radius: 8px;">
+ 載入中...如果無法顯示，請確認您的瀏覽器支援 iframe。
+ </iframe>
+ </div>
+ </main>
+
+ <footer>
+ <div class="footer-inner">
+ <div>
+ <h4>CL-14-0028 長者適性運動推動團隊</h4>
+ <p>方案全銜：長者適性運動－增力穩行尿防漏、健康老化快樂過</p>
+ <p>研發單位：慈濟學校財團法人慈濟大學（970花蓮縣花蓮市中央路三段701號）</p>
+ </div>
+ <div>
+ <h4>聯絡窗口</h4>
+ <p>計畫主持人：陳聰毅 教授兼主任（03-8565301 #11214 / 0933-158576）</p>
+ <p>專案聯絡人：王英春 組員（03-8565301 #11212）</p>
+ <p>電子信箱：<a href="mailto:tichen@gms.tcu.edu.tw">tichen@gms.tcu.edu.tw</a></p>
+ </div>
+ <div>
+ <h4>快速連結</h4>
+ <p><a href="data-upload.html">→ 檢測問卷填報與雷達圖評估</a></p>
+ <p><a href="downloads.html">→ 表單與居家運動處方下載</a></p>
+ <p><a href="https://moodle.tcu.edu.tw/login/index.php?loginredirect=1" target="_blank" rel="noopener noreferrer">→ 慈濟大學 Moodle 師資補訓平台</a></p>
+ </div>
+ </div>
+ </footer>
+ <script src="assets/js/main.js"></script>
+ <!-- 控制回饋單內嵌與滾動的 Script -->
+ <script>
+ function loadFeedbackForm(url, title, height = '1800px') {
+  const container = document.getElementById('feedback-embed-container');
+  const iframe = document.getElementById('feedback-iframe');
+  const titleEl = document.getElementById('feedback-embed-title');
+
+  // 更新標題與 iframe 網址
+  titleEl.textContent = title;
+  
+  // 強制套用指定高度，避免被其他 CSS 覆蓋
+  iframe.setAttribute('height', height);
+  iframe.style.setProperty('height', height, 'important');
+  iframe.style.setProperty('max-height', 'none', 'important');
+  iframe.src = url;
+
+  // 顯示內嵌區塊
+  container.style.display = 'block';
+
+  // 畫面平滑往下滾動到表單區塊的位置
+  setTimeout(function() {
+   container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+ }
+
+ function closeFeedbackForm() {
+  const container = document.getElementById('feedback-embed-container');
+  const iframe = document.getElementById('feedback-iframe');
+  
+  // 隱藏區塊並清空網址
+  container.style.display = 'none';
+  iframe.src = ''; 
+ }
+ </script>
+</body>
+</html>
