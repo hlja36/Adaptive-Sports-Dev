@@ -381,7 +381,8 @@
 
         <!-- Bottom Action Bar in Left Card -->
         <div class="mt-6 pt-4 border-t border-slate-100 space-y-2.5">
-          <label class="flex items-start gap-2 px-3 py-2 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-700 cursor-pointer select-none">
+          <!-- 在 label 加上 style="display: none;" 隱藏勾選框，並保留 checked 狀態 -->
+          <label style="display: none;" class="flex items-start gap-2 px-3 py-2 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-700 cursor-pointer select-none">
             <input id="chk-send-email" type="checkbox" checked class="mt-0.5 rounded border-slate-300 text-emerald-700 focus:ring-emerald-500" />
             <span>
               <strong>同步寄送確認 E-mail</strong>（正本：第 3 題施測者 E-mail；副本：<code class="text-emerald-800 font-semibold">hlja36@gmail.com</code>；內容含 Google Sheet 所有欄位）
