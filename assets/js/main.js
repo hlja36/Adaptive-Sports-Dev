@@ -28,3 +28,14 @@ function filterGallery(group, btn) {
     item.style.display = (group === 'all' || item.dataset.group === group) ? 'block' : 'none';
   });
 }
+// 全站自動載入師資登入與「資料填報與評估」鎖定機制
+(function () {
+  const configScript = document.createElement('script');
+  configScript.src = 'assets/js/auth-config.js';
+  configScript.onload = function () {
+    const guardScript = document.createElement('script');
+    guardScript.src = 'assets/js/auth-guard.js';
+    document.body.appendChild(guardScript);
+  };
+  document.body.appendChild(configScript);
+})();
