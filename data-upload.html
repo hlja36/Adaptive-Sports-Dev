@@ -756,11 +756,11 @@ window.addEventListener('message', function(event) {
 
     if (forms) {
       forms.classList.remove('active');
-      forms.style.display = 'none';
+      forms.style.display = '';
     }
     if (radar) {
       radar.classList.add('active');
-      radar.style.display = 'block';
+      radar.style.display = '';
     }
 
     document.querySelectorAll('.tab-btn').forEach((b, i) => {
