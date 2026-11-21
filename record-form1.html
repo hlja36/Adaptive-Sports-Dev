@@ -189,7 +189,7 @@
     } else if (ageInfo.error) {
       ageEl.value = '日期有誤';
     } else {
-      ageEl.value = ageInfo.age + ' 歲 ' + ageInfo.remainMonths + ' 個月';
+      ageEl.value = (ageInfo.age + ageInfo.remainMonths / 12).toFixed(2) + ' 歲';
       if (window.parent !== window) {
         window.parent.postMessage({
           type: 'CL140028_SYNC_AGE',
