@@ -870,6 +870,7 @@ document.addEventListener("DOMContentLoaded", () => {
 window._currentQrUrl = '';
 
 window.openQrModal = function(url, title) {
+  url = new URL(url, window.location.href).href; // 👈 自動補上目前網站的 https:// 完整網址
   window._currentQrUrl = url;
   document.getElementById('qr-modal-title').textContent = title;
   document.getElementById('qr-modal-url').textContent = url;
