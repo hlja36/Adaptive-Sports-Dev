@@ -402,15 +402,13 @@
             <span>☁️</span>
             <span id="btn-cloud-save-label">確認送出目前階段紀錄至 Google Sheets 雲端</span>
           </button>
-          <button id="btn-switch-next-stage" type="button" class="w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition flex items-center justify-center gap-2">
+          <button id="btn-switch-next-stage" type="button" disabled class="w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition flex items-center justify-center gap-2">
             <span>➡️</span>
-            <span id="btn-switch-label">前往填寫「後測」資料進行對比</span>
-            <!-- 原本的切換按鈕（預設加上 disabled） -->
-            <button type="button" id="switchModeBtn" disabled>
-              ➡️ 前往填寫「後測」資料進行前後測對比
-            </button>
-            <!-- 👇 新增：防呆提醒訊息 -->
+            <span id="btn-switch-label">前往填寫「後測」資料進行前後測對比</span>
           </button>
+          <div id="switchModeHint" class="text-xs sm:text-sm font-semibold text-amber-700 text-center leading-relaxed">
+            ⚠️ 防呆提醒：請先按下上方「確認送出『前測』紀錄至 Google Sheets 雲端」，送出後才能前往填寫「後測」資料。
+          </div>
         </div>
       </section>
 
@@ -1790,7 +1788,7 @@ const radarPointValuePlugin = {
 
         el.btnClearStage.addEventListener('click', () => {
           state.stages[state.activeStage] = createEmptyStage(todayStr);
-          saveToLocalStorage();
+          saveToLocalStorage = false;
           syncFormFromState();
           showToast(`已清空${state.activeStage === 'pre' ? '前測' : '後測'}問卷資料`);
         });
