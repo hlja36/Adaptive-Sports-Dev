@@ -391,6 +391,21 @@
               <option value="90+">90 歲以上</option>
             </select>
           </div>
+          <div class="form-group" style="display:flex;align-items:flex-end;">
+            <div style="
+              background-color:#d32f2f;
+              color:#ffffff;
+              padding:10px 14px;
+              border-radius:8px;
+              font-weight:700;
+              font-size:0.95rem;
+              line-height:1.4;
+              width:100%;
+              box-sizing:border-box;
+            ">
+              請務必點選年齡層,才能獲取正確評估結果
+            </div>
+          </div>
         </div>
 
         <div style="margin-bottom:14px;">
@@ -734,10 +749,31 @@ window.addEventListener('message', function(event) {
     'https://hlja36.github.io'
   ];
   if (!allowedOrigins.includes(event.origin)) return;
-  if (!event.data || event.data.type !== 'CL140028_SHOW_RADAR') return;
+  if (!event.data || !event.data.type) return;
 
   const sourceFrame = document.getElementById('form-iframe');
   if (!sourceFrame || event.source !== sourceFrame.contentWindow) return;
+
+  // 接收「1. 官方線上問卷」計算出的年齡，自動連動切換年齡層
+  if (event.data.type === 'CL140028_SYNC_AGE') {
+    const age = Number(event.data.age);
+    if (!Number.isFinite(age)) return;
+    const targetGroup =
+      age < 70 ? '65-69' :
+      age >= 90 ? '90+' :
+      `${Math.floor(age / 5) * 5}-${Math.floor(age / 5) * 5 + 4}`;
+
+    const ageGroupEl = document.getElementById('ageGroup');
+    if (ageGroupEl && ageGroupEl.value !== targetGroup) {
+      ageGroupEl.value = targetGroup;
+      if (typeof recalculateAll === 'function') {
+        recalculateAll();
+      }
+    }
+    return;
+  }
+
+  if (event.data.type !== 'CL140028_SHOW_RADAR') return;
 
   try {
     const handoff = JSON.parse(event.data.handoff);
