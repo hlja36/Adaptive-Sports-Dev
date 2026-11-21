@@ -76,8 +76,9 @@
         </div>
         <div><label>性別：<span class="required">*</span></label><select id="gender" required><option value="">請選擇</option><option>男</option><option>女</option></select></div>
         <div><label>施測日期：<span class="required">*</span></label><input id="testDate" type="date" required></div>
-        <div><label style="display: flex; align-items: baseline;">出生年（民國）：<span class="required">*</span><small style="margin-left: 8px;">民國46年請填 46</small></label><input id="birthYearRoc" type="number" min="1" max="200" required></div>
+        <div style="grid-column: 1;"><label style="display: flex; align-items: baseline;">出生年（民國）：<span class="required">*</span><small style="margin-left: 8px;">民國46年請填 46</small></label><input id="birthYearRoc" type="number" min="1" max="200" required></div>
         <div><label>出生月：<span class="required">*</span></label><select id="birthMonth" required><option value="">請選擇</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></div>
+        <div><label style="display: flex; align-items: baseline;">年齡：<small style="margin-left: 8px;">依施測日期與出生年月自動計算</small></label><input id="calcAge" readonly style="cursor: not-allowed;" placeholder="自動計算"></div>
       </div>
 
       <h2>體型測量</h2>
@@ -162,7 +163,42 @@
     $('whr').value = waist > 0 && hip > 0 ? (waist / hip).toFixed(2) : '';
 
   }
+  function calcAgeInfo(testDateStr, rocYearStr, birthMonthStr) {
+    const rocYear = parseInt(rocYearStr, 10);
+    const birthMonth = parseInt(birthMonthStr, 10);
+    if (!testDateStr || isNaN(rocYear) || isNaN(birthMonth)) return null;
+    const parts = testDateStr.split('-');
+    const testYear = Number(parts[0]);
+    const testMonth = Number(parts[1]);
+    const birthYear = rocYear + 1911;
+    const totalMonths = (testYear - birthYear) * 12 + (testMonth - birthMonth);
+    if (totalMonths < 0) return { error: true };
+    const age = Math.floor(totalMonths / 12);
+    const remainMonths = totalMonths % 12;
+    const base = Math.floor(age / 5) * 5;
+    const ageGroup = age < 70 ? '65-69' : age >= 90 ? '90+' : (base + '-' + (base + 4));
+    return { age: age, remainMonths: remainMonths, ageGroup: ageGroup };
+  }
 
+  function updateAge() {
+    const ageEl = $('calcAge');
+    if (!ageEl) return;
+    const ageInfo = calcAgeInfo(value('testDate'), value('birthYearRoc'), value('birthMonth'));
+    if (!ageInfo) {
+      ageEl.value = '';
+    } else if (ageInfo.error) {
+      ageEl.value = '日期有誤';
+    } else {
+      ageEl.value = ageInfo.age + ' 歲 ' + ageInfo.remainMonths + ' 個月';
+      if (window.parent !== window) {
+        window.parent.postMessage({
+          type: 'CL140028_SYNC_AGE',
+          age: ageInfo.age,
+          ageGroup: ageInfo.ageGroup
+        }, location.origin);
+      }
+    }
+  }
 
 
   function makePayload() {
