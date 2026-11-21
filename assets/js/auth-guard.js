@@ -37,8 +37,13 @@
     .auth-badge-guest { background: #e2e8f0; color: #475569; padding: 2px 10px; border-radius: 99px; font-size: 0.8rem; }
     .auth-badge-user { background: #dcfce7; color: #166534; padding: 2px 10px; border-radius: 99px; font-size: 0.8rem; }
     .auth-bar-actions { display: flex; gap: 8px; }
+    /* 第一行衛生福利部...教學中心字體加大 1pt */
+  .top-bar span {
+    font-size: calc(1em + 1pt);
+  }
+    /* 師資／指導員登入按鈕字體加大 1pt */
     .auth-top-btn {
-      padding: 5px 12px; border-radius: 6px; border: none; font-size: 0.85rem;
+      padding: 5px 12px; border-radius: 6px; border: none; font-size: calc(0.85rem + 1pt);
       font-weight: 600; cursor: pointer; background: #0f766e; color: #fff;
     }
     .auth-top-btn.secondary { background: #475569; }
@@ -173,7 +178,7 @@
         link.textContent = link.dataset.origText;
       });
     } else {
-      statusEl.innerHTML = `<span class="auth-badge-guest">👤 訪客模式（免登入瀏覽）</span><span>「資料填報與評估」功能已鎖定</span>`;
+      statusEl.innerHTML = ``;
       actionsEl.innerHTML = `<button type="button" class="auth-top-btn" id="btnOpenLogin">🔑 師資／指導員登入</button>`;
       document.getElementById('btnOpenLogin').onclick = openLoginModal;
 
