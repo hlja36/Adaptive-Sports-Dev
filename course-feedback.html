@@ -306,14 +306,15 @@
   iframe.src = '';
  }
 
- function openQrModal(url, title) {
+function openQrModal(url, title) {
+  url = new URL(url, window.location.href).href; // 👈 自動補上目前網站的 https:// 完整網址
   currentQrUrl = url;
   document.getElementById('qr-modal-title').textContent = title;
   document.getElementById('qr-modal-url').textContent = url;
   document.getElementById('qr-modal-img').src =
-   'https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=' + encodeURIComponent(url);
+    'https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=' + encodeURIComponent(url);
   document.getElementById('qr-modal').classList.add('show');
- }
+}
 
  function closeQrModal() {
   document.getElementById('qr-modal').classList.remove('show');
