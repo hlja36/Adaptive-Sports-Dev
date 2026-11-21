@@ -6,7 +6,7 @@
   <title>CL-14-0028 體型測量及體能測驗</title>
   <style>
     :root { --green:#126b50; --blue:#0b75b5; --bg:#f4f8f6; --line:#d8e2df; --text:#18322a; }
-    * { box-sizing:border-box; }
+    * {box-sizing:border-box; }
     body { margin:0; background:var(--bg); color:var(--text); font-family:Arial,"Noto Sans TC",sans-serif; line-height:1.6; }
     main { max-width:1100px; margin:28px auto; padding:0 16px 48px; }
     .card { background:#fff; border:1px solid var(--line); border-radius:14px; padding:24px; box-shadow:0 4px 18px #164e3a12; }
@@ -250,7 +250,17 @@
 
 
   ['heightCm','weightKg','waistCm','hipCm'].forEach(id => $(id).addEventListener('input', updateDerived));
+  ['testDate','birthYearRoc','birthMonth'].forEach(function(id) {
+    const el = $(id);
+    if (el) {
+      el.addEventListener('input', updateAge);
+      el.addEventListener('change', updateAge);
+    }
+  });
 
+  $('fitnessForm').addEventListener('submit', async (event) => {
+
+    event.preventDefault(); 
   $('fitnessForm').addEventListener('submit', async (event) => {
 
     event.preventDefault();
@@ -301,13 +311,8 @@
         .map(k => Number(saved.fitness[k]));
       const stage = saved.testStage === '前測' ? 'pre' : 'post';
       const gender = saved.gender === '男' ? 'M' : 'F';
-      const date = new Date(saved.testDate + 'T12:00:00');
-      const birthYear = Number(saved.birthYearRoc) + 1911;
-      const birthMonth = Number(saved.birthMonth);
-      const age = date.getFullYear() - birthYear - (date.getMonth()+1 < birthMonth ? 1 : 0);
-      // 同月尚不知道出生日，不推定邊界年齡級距。
-      const ageGroup = date.getMonth()+1 === birthMonth || age < 65
-        ? '' : age >= 90 ? '90+' : Math.floor(age/5)*5 + '-' + (Math.floor(age/5)*5+4);
+      const ageInfo = calcAgeInfo(saved.testDate, saved.birthYearRoc, saved.birthMonth);
+      const ageGroup = ageInfo && !ageInfo.error ? ageInfo.ageGroup : '';
       try {
         sessionStorage.setItem('cl140028_radar_handoff', JSON.stringify({
           siteName:saved.siteName,studentId:saved.studentId,
